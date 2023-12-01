@@ -1,7 +1,9 @@
 ﻿public class Day1
 {
+    public int SumTheFile(IEnumerable<string> lines) => lines.Select(LineValue).Sum();
+    
     public char[] LineNumbers(string line) => line.Where(char.IsNumber).ToArray();
-
+    
     public int LineValue(string line)
     {
         var ln = LineNumbers(ReplaceAll(line));
@@ -12,7 +14,7 @@
     private char LastNumber(string line)
     {
         char? found = null;
-        for (int i = line.Length - 1; i > 0 && found is null; i--)
+        for (int i = line.Length - 1; i >= 0 && found is null; i--)
         {
             found = PosAsNum(line, i);
         }
@@ -23,7 +25,7 @@
     private char FirstNumber(string line)
     {
         char? found = null;
-        for (int i = 0; i < line.Length - 1 && found is null; i++)
+        for (int i = 0; i < line.Length && found is null; i++)
         {
             found = PosAsNum(line, i);
         }

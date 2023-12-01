@@ -32,8 +32,7 @@ public class DayOneTests
     public void CanHandleWrittenNumbers()
     {
         var fContent = File.ReadLines($"DataFiles\\Day1\\Test2.txt");
-        var fileTotal = fContent.Select(D1.LineValue).Sum();
-        Assert.That(fileTotal, Is.EqualTo(281));
+        Assert.That(D1.SumTheFile(fContent), Is.EqualTo(281));
     }
 
     [TestCase(0, '1')]
@@ -47,8 +46,15 @@ public class DayOneTests
     [Test]
     public void Solution2()
     {
-        var fContent = File.ReadLines($"DataFiles\\Day1\\RealValue2.txt");
-        var fileTotal = fContent.Select(D1.LineValue).Sum();
-        Assert.That(fileTotal, Is.EqualTo(53502));
+        // var fContent = File.ReadLines($"DataFiles\\Day1\\RealValue2.txt");
+        var fContent = File.ReadLines($"DataFiles\\Day1\\RealValue.txt");
+        Assert.That(D1.SumTheFile(fContent), Is.EqualTo(53502));
+    }
+    
+    [Test]
+    public void HomegrownTest3()
+    {
+        var fContent = File.ReadLines($"DataFiles\\Day1\\Test3.txt");
+        Assert.That(D1.SumTheFile(fContent), Is.EqualTo(231));
     }
 }
