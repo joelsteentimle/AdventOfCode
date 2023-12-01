@@ -1,42 +1,28 @@
-﻿public class Day1
+﻿namespace AoC2023;
+
+public class Day1
 {
-    public int SumTheFile(IEnumerable<string> lines) => lines.Select(LineValue).Sum();
-    
-    public char[] LineNumbers(string line) => line.Where(char.IsNumber).ToArray();
-    
-    public int LineValue(string line)
-    {
-        var ln = LineNumbers(ReplaceAll(line));
-        var sValue = new string(new[] { FirstNumber(line), LastNumber(line) });
-        return Convert.ToInt16(sValue);
-    }
+    public int SumTheFile(IEnumerable<string> lines) => 
+        lines.Select(LineValue).Sum();
 
-    private char LastNumber(string line)
-    {
-        char? found = null;
-        for (int i = line.Length - 1; i >= 0 && found is null; i--)
-        {
-            found = PosAsNum(line, i);
-        }
+    public static char[] LineNumbers(string line) => 
+        line.Where(char.IsNumber).ToArray();
 
-        return found ?? '0';
-    }
+    public int LineValue(string line) => 
+        Convert.ToInt16(new string(new[] { FirstNumber(line), LastNumber(line) }));
 
-    private char FirstNumber(string line)
-    {
-        char? found = null;
-        for (int i = 0; i < line.Length && found is null; i++)
-        {
-            found = PosAsNum(line, i);
-        }
+    private char LastNumber(string line) => 
+        FirstInRange(line, Enumerable.Range(0, line.Length).Reverse());
 
-        return found ?? '0';
-    }
+    private char FirstNumber(string line) => 
+        FirstInRange(line, Enumerable.Range(0, line.Length));
 
-    public char? PosAsNum(string line, int position)
-    {
-        var posLine = line[position..];
-        return posLine switch
+    private char FirstInRange(string line, IEnumerable<int> range) =>
+        range.Select(i => PosAsNum(line, i))
+            .FirstOrDefault(c => c is not null) ?? '0';
+
+    public static char? PosAsNum(string line, int position) =>
+        line[position..] switch
         {
             ['1', ..] or ['o', 'n', 'e', ..] => '1',
             ['2', ..] or ['t', 'w', 'o', ..] => '2',
@@ -49,18 +35,4 @@
             ['9', ..] or ['n', 'i', 'n', 'e', ..] => '9',
             _ => null
         };
-    }
-
-    public string ReplaceAll(string line)
-    {
-        return line.Replace("one", "1", StringComparison.InvariantCultureIgnoreCase)
-            .Replace("two", "2", StringComparison.InvariantCultureIgnoreCase)
-            .Replace("three", "3", StringComparison.InvariantCultureIgnoreCase)
-            .Replace("four", "4", StringComparison.InvariantCultureIgnoreCase)
-            .Replace("five", "5", StringComparison.InvariantCultureIgnoreCase)
-            .Replace("six", "6", StringComparison.InvariantCultureIgnoreCase)
-            .Replace("seven", "7", StringComparison.InvariantCultureIgnoreCase)
-            .Replace("eight", "8", StringComparison.InvariantCultureIgnoreCase)
-            .Replace("nine", "9", StringComparison.InvariantCultureIgnoreCase);
-    }
 }
