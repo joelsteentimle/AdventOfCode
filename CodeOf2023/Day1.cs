@@ -2,19 +2,19 @@
 
 public class Day1
 {
-    public int SumTheFile(IEnumerable<string> lines) => 
+    public int SumTheFile(IEnumerable<string> lines) =>
         lines.Select(LineValue).Sum();
 
-    public static char[] LineNumbers(string line) => 
+    public static char[] LineNumbers(string line) =>
         line.Where(char.IsNumber).ToArray();
 
-    public int LineValue(string line) => 
+    public int LineValue(string line) =>
         Convert.ToInt16(new string(new[] { FirstNumber(line), LastNumber(line) }));
 
-    private char LastNumber(string line) => 
+    private char LastNumber(string line) =>
         FirstInRange(line, Enumerable.Range(0, line.Length).Reverse());
 
-    private char FirstNumber(string line) => 
+    private char FirstNumber(string line) =>
         FirstInRange(line, Enumerable.Range(0, line.Length));
 
     private char FirstInRange(string line, IEnumerable<int> range) =>
