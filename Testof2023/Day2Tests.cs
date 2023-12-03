@@ -2,7 +2,7 @@
 
 namespace TestOf2023;
 
-internal class DayTwoTests
+internal class Day2Tests
 {
     private readonly Day2 _day2 = new();
 
@@ -41,7 +41,7 @@ internal class DayTwoTests
 
     private void AddFromFile(string filePath)
     {
-        var fContent = File.ReadLines(filePath);
+        var fContent = filePath.ReadFileAsLines();
         _day2.AddAllGames(fContent);
     }
 

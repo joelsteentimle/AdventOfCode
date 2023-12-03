@@ -2,7 +2,7 @@ using AoC2023;
 
 namespace TestOf2023;
 
-public class DayOneTests
+public class Day1Tests
 {
     private readonly Day1 _d1 = new();
 
