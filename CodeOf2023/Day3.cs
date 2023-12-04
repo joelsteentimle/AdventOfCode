@@ -9,7 +9,7 @@ public class Day3
     public readonly List<int> Numbers = [];
     public readonly List<int> Parts = [];
 
-    public Day3(string[] lines)
+    public Day3(IEnumerable<string> lines)
     {
         _inputField = lines.Select(l => l.ToArray()).ToArray();
         CalculateNumbersAndParts();
@@ -81,12 +81,14 @@ public class Day3
                         if (c == '*') AddPossibleGear();
                     }
 
+                    continue;
+
                     void AddPossibleGear()
                     {
                         if (_mightBeGears.TryGetValue((gearRow, gearColumn), out var numbers))
                             numbers.Add(number);
                         else
-                            _mightBeGears[(gearRow, gearColumn)] = new List<int> { number };
+                            _mightBeGears[(gearRow, gearColumn)] = [number];
                     }
                 }
             }
