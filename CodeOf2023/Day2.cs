@@ -44,12 +44,3 @@ public class Day2
     public int GamePower(int game) =>
         Games[game].Values.Aggregate(1, (i, j) => i * j);
 }
-
-public static class DictExtend
-{
-    public static void MaxToDictionary(this Dictionary<string, int> dictionary, string blue, int readValue)
-    {
-        dictionary.TryGetValue(blue, out var count);
-        dictionary[blue] = Math.Max(count, readValue);
-    }
-}

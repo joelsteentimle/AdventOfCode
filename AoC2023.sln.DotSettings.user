@@ -1,13 +1,27 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=8AB328D0_002D8C6A_002D4D34_002D9327_002D754B9544C0E0_002Ff_003AUnitTest1_002Ecs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Joel\AppData\Local\JetBrains\Rider2023.3\resharper-host\temp\Rider\vAny\CoverageData\_AoC2023.1769882778\Snapshot\snapshot.utdcvr</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=85c8be54_002D2aa4_002D4ed2_002D9302_002D28a96c3906b5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CanParsMyAndWinners" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1d6d283e_002Df997_002D487b_002Da859_002Dcc023a1fae9b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CanReadFirstLine" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day5Tests.CanReadFirstLine&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day5Tests.CanSplitToSections&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day5Tests.ValidateMap&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day5Tests.TestData&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day5Tests.TestStep&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day5Tests.Part1&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=85c8be54_002D2aa4_002D4ed2_002D9302_002D28a96c3906b5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CanParsMyAndWinners" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;And&gt;&#xD;
     &lt;Namespace&gt;TestOf2023&lt;/Namespace&gt;&#xD;
     &lt;Project Location="D:\code\AdventofCode\2023\AoC2023\TestOf2023" Presentation="&amp;lt;TestOf2023&amp;gt;" /&gt;&#xD;
   &lt;/And&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bc6095e4_002D1c0e_002D442c_002Db333_002D20bf3a092592/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="3" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9e7fa3dc_002Dbec2_002D4828_002Da835_002Daa007ba2e7bd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Part1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="D:\code\AdventofCode\2023\AoC2023\TestOf2023" Presentation="&amp;lt;TestOf2023&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bc6095e4_002D1c0e_002D442c_002Db333_002D20bf3a092592/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="3" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
