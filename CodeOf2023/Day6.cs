@@ -6,21 +6,14 @@ public class Day6
 
     public Day6(IList<string> input, bool isReal = false)
     {
-        string[] distances;
-        string[] times;
         if (isReal)
-        {
-            times = new[] { input.First()["Time: ".Length ..].Replace(" ", "") };
-            distances = new[] { input[1]["Distance: ".Length ..].Replace(" ", "") };
-        }
-        else
-        {
-            times = input.First()["Time: ".Length ..]
-                .Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            input = input.Select(s => s.Replace(" ", "")).ToList();
 
-            distances = input[1]["Distance: ".Length ..]
-                .Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-        }
+        var times = input.First()["Time:".Length ..]
+            .Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+        var distances = input[1]["Distance:".Length ..]
+            .Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
         Races = times.Zip(distances, (t, d) => (Convert.ToInt64(t), Convert.ToInt64(d))).ToList();
     }

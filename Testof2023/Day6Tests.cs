@@ -14,7 +14,6 @@ public class Day6Tests
     [Test]
     public void DoFirstRace()
     {
-        var d6 = new Day6("Day6".ReadTestLines());
         Assert.That(Day6.CalculateRace((7, 9)), Is.EqualTo(4));
     }
 
@@ -40,6 +39,7 @@ public class Day6Tests
     }
 
     [Test]
+    [Order(1)]
     public void Part2Test()
     {
         var d6 = new Day6("Day6".ReadTestLines(), true);
@@ -47,6 +47,7 @@ public class Day6Tests
     }
 
     [Test]
+    [Order(2)]
     public void Part2()
     {
         var d6 = new Day6("Day6".ReadRealLines(), true);
