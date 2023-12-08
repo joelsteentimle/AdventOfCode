@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using Open.Numeric.Primes;
 
 namespace AoC2023;
 
@@ -16,11 +17,29 @@ public class Day8
 
     public int StepsToNode(string endNodeName)
     {
-        List<DesertNode> startNodes = [ Nodes["AAA"]];
+        // List<DesertNode> startNodes = [ Nodes["AAA"]];
         
-        return Steps((n)=>n==endNodeName , startNodes);
+        return MultiStepsTo(n => n=="AAA",n=>n==endNodeName );
     }
-    
+
+    public int JustToZ(Func<string, bool> startNodeCondition, Func<string, bool> endNodeCondition)
+    {
+        List<DesertNode> startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
+        List<int> factors = [];
+        foreach (var startNode in startNodes)
+        {
+            var steps = Steps(endNodeCondition, [startNode]);
+            
+            // var factors = Prime.Factors(steps).Order().ToList();
+            //
+            // for (int i = 0; i < factors.Count; i++)
+            // {
+            //
+            // }
+        }
+        return Steps(endNodeCondition, startNodes);
+    }
+
     public int MultiStepsTo(Func<string,bool> startNodeCondition,Func<string,bool> endNodeCondition)
     {
         List<DesertNode> startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
@@ -37,37 +56,64 @@ public class Day8
         */
     }
 
+    public List<(int visited,int loop )> FindLoops(Func<string, bool> startNodeCondition)
+    {
+        var startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
+        var loopLengths = new List<(int,int)>(startNodes.Count);
+
+        foreach (var startNode in startNodes)
+        {
+            var visited = new List<(DesertNode,int)>();
+            var current = startNode;
+            // var steps = 0;
+            var ip = 0;
+            while (!visited.Contains((current,ip))){
+                visited.Add((current,ip));
+                current = SingleStep(MoveInstructions[ip], current);
+                ip = ++ip >= MoveInstructions.Length ? 0 : ip;
+                // steps++;
+            }// while (current.Name != startNode.Name);
+            ip = --ip < 0 ?  MoveInstructions.Length -1 : ip;
+            var loopLength = visited.Count - visited.IndexOf((current, ip));
+            
+            loopLengths.Add((visited.Count, loopLength));
+        }
+
+        return loopLengths;
+    }
+
     private int Steps(Func<string,bool> endCondition, IList<DesertNode> currentNode)
     {
         int ip = 0;
         int steps = 0;
 
-        while (currentNode.Any(n=>!endCondition(n.Name)))
+        while (currentNode.Any(n => !endCondition(n.Name)))
         {
             var currentInstruction = MoveInstructions[ip];
-            if (currentInstruction == 'L')
+
+            for (var i = 0; i < currentNode.Count; i++)
             {
-                for (int i = 0; i < currentNode.Count; i++)
-                {
-                    currentNode[i] = currentNode[i].Left.Value;
-                }
+                currentNode[i] = SingleStep(currentInstruction, currentNode[i]);
             }
-            else if (currentInstruction == 'R')
-            {
-                for (int i = 0; i < currentNode.Count; i++)
-                {
-                    currentNode[i] = currentNode[i].Right.Value;
-                }
-            }
+
             ip = ++ip >= MoveInstructions.Length ? 0 : ip;
             steps++;
         }
 
         return steps;
     }
-    
+
+    private static DesertNode SingleStep(char currentInstruction, DesertNode here)
+    {
+        return currentInstruction switch
+        {
+            'L' => here.Left.Value,
+            _ => here.Right.Value
+        };
+    }
+
     public Dictionary<string, DesertNode> Nodes { get; } = [];
-    public char[] MoveInstructions { get; set; }
+    public char[] MoveInstructions { get; }
 
     public struct DesertNode
     {
