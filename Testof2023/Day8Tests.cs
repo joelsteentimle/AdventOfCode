@@ -57,26 +57,34 @@ public class Day8Tests
         Assert.That(d8.MultiStepsTo(startNodeCondition, endNodeCondition), Is.EqualTo(16343));
     }
 
-
-    [Test]
-    public void FindLoops()
-    {
-        var d8 = new Day8("Day8".ReadRealLines().ToArray());
-        bool StartNodeCondition(string nodeName) => nodeName[2] == 'A';
-        
-        Assert.That(d8.FindLoops(StartNodeCondition),Is.EquivalentTo(new []{(1,2),(3,4),(5,6)}));
-        
-        // node loop:
-        //Assert.That(d8.FindLoops(StartNodeCondition),Is.EquivalentTo(new []{ (63, 59), (62, 61), (83, 79), (75, 73), (73, 71), (49, 47)}));
-        
-    }
-    
+    // soon??
     // [Test]
-    // public void Part2()
+    // public void FindLoops()
     // {
     //     var d8 = new Day8("Day8".ReadRealLines().ToArray());
     //     bool StartNodeCondition(string nodeName) => nodeName[2] == 'A';
-    //     bool EndNodeCondition(string nodeName) => nodeName[2] == 'Z';
-    //     Assert.That(d8.MultiStepsTo(StartNodeCondition, EndNodeCondition), Is.EqualTo(6));
+    //     
+    //     Assert.That(d8.FindLoops(StartNodeCondition),Is.EquivalentTo(new []{(1,2),(3,4),(5,6)}));
+    //     
+    //     // node loop:
+    //     //Assert.That(d8.FindLoops(StartNodeCondition),Is.EquivalentTo(new []{ (63, 59), (62, 61), (83, 79), (75, 73), (73, 71), (49, 47)}));
     // }
+
+    [Test]
+    public void JustToTest()
+    {
+        var d8 = new Day8("Day8".ReadTestLines("2").ToArray());
+        Func<string, bool> startNodeCondition = nodeName => nodeName[2] == 'A';
+        Func<string, bool> endNodeCondition = nodeName => nodeName[2] == 'Z';
+        Assert.That(d8.JustToZ(startNodeCondition, endNodeCondition), Is.EqualTo(6));
+    }
+
+    [Test]
+    public void Part2()
+    {
+        var d8 = new Day8("Day8".ReadRealLines().ToArray());
+        bool StartNodeCondition(string nodeName) => nodeName[2] == 'A';
+        bool EndNodeCondition(string nodeName) => nodeName[2] == 'Z';
+        Assert.That(d8.JustToZ(StartNodeCondition, EndNodeCondition), Is.EqualTo(19185263738117));
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using Open.Collections;
 using Open.Numeric.Primes;
 
 namespace AoC2023;
@@ -22,22 +23,35 @@ public class Day8
         return MultiStepsTo(n => n=="AAA",n=>n==endNodeName );
     }
 
-    public int JustToZ(Func<string, bool> startNodeCondition, Func<string, bool> endNodeCondition)
+    public long JustToZ(Func<string, bool> startNodeCondition, Func<string, bool> endNodeCondition)
     {
         List<DesertNode> startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
-        List<int> factors = [];
+        Dictionary<long,int> totalFactors = [];
         foreach (var startNode in startNodes)
         {
             var steps = Steps(endNodeCondition, [startNode]);
             
-            // var factors = Prime.Factors(steps).Order().ToList();
-            //
-            // for (int i = 0; i < factors.Count; i++)
-            // {
-            //
-            // }
+            var factors = Prime.Factors(steps).Order().ToList();
+            
+            for (int i = 0; i < factors.Count; i++)
+            {
+                var fac = factors[i];
+                var count = factors.Count(f => f == fac);
+                totalFactors.SetToSelectedValue(fac, count, Math.Max);
+            }
         }
-        return Steps(endNodeCondition, startNodes);
+
+        var repFact = new List<long>();
+
+        foreach (var key in totalFactors.Keys)
+        {
+            repFact.AddRange(Enumerable.Repeat(key, totalFactors[key]));
+        }
+
+        return repFact.Aggregate((i, j) => i * j);
+        
+        
+        // return Steps(endNodeCondition, startNodes);
     }
 
     public int MultiStepsTo(Func<string,bool> startNodeCondition,Func<string,bool> endNodeCondition)
