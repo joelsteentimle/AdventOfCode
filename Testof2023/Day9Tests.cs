@@ -44,7 +44,7 @@ public class Day9Tests
     {
         var d9 = new Day9("Day9".ReadRealLines());
 
-        Assert.That(d9.SumNexts().right, Is.EqualTo(114));
+        Assert.That(d9.SumNexts().right, Is.EqualTo(2174807968));
     }
 
     [Test]
@@ -58,6 +58,6 @@ public class Day9Tests
     public void Part2()
     {
         var d9 = new Day9("Day9".ReadRealLines());
-        Assert.That(d9.SumNexts().left, Is.EqualTo(114));
+        Assert.That(d9.SumNexts().left, Is.EqualTo(1208));
     }
 }
