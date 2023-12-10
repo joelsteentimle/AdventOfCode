@@ -10,7 +10,7 @@ public class Day10
         var positions=lines.Select(l => l.ToCharArray()).ToArray();
         
         Map = new Node[positions.Length, positions[0].Length];
-        Distances = new int[positions.Length, positions[0].Length];
+        Distances = new int?[positions.Length, positions[0].Length];
         
         for (int y = 0; y < positions.Length; y++)
         {
@@ -36,7 +36,8 @@ public class Day10
                 }
             }
         }
-        
+
+        throw new FormatException("No start");
     }
 
     public Node GetMapNode(int y, int x)
@@ -47,28 +48,32 @@ public class Day10
 
     private void UpdateStartNode(int y, int x)
     {
-        var yminus = Map[y-1, x].Connected.Select(n => n.yMove).Contains(1);
-        var yplus = Map[y+1, x].Connected.Select(n => n.yMove).Contains(-1);
-        var xminus = Map[y, x-1].Connected.Select(n => n.xMove).Contains(1);
-        var xplus = Map[y, x+1].Connected.Select(n => n.xMove).Contains(-1);
-        
-        (int y, int x)[] connected=[]; 
-        
-        if (yminus)
-        {
-            if (yplus)
-                connected = [(1, 0), (-1, 0)];
-            else 
-            {
-             if(xminus)
-                 connected = [(0, -1), (-1, 0)];
-             if(yminus)
-                 connected = [(0, 1), (-1, 0)];
-            }
 
-        }
+        var yminus = GetMapNode(y - 1, x).Connected.Select(n => n.yMove).Contains(1);
+        var yplus = GetMapNode(y + 1, x).Connected.Select(n => n.yMove).Contains(-1);
+        var xminus = GetMapNode(y, x - 1).Connected.Select(n => n.xMove).Contains(1);
+        var xplus = GetMapNode(y, x + 1).Connected.Select(n => n.xMove).Contains(-1);
+
+        List<(int y, int x)> connected = [];
+
+        if (yminus)
+            connected.Add((-1, 0));
+        if (yplus)
+            connected.Add((1, 0));
+        if (xminus)
+            connected.Add((0, -1));
+        if (xplus)
+            connected.Add((0, 1));
+
+        Map[y, x].Connected = connected.ToArray();
+        Distances[y, x] = 0;
+    }
+
+    public int GetMaxDistance(int y, int x)
+    {
         
     }
+    
 
     public (int y, int x) Current { get; set; }
 
@@ -88,9 +93,7 @@ public class Day10
     // }
 
     private Node[,] Map;
-    private int[,] Distances;
-    
-  
+    private int?[,] Distances;
     
     public class Node
     {
