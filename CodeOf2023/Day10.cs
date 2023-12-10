@@ -1,4 +1,5 @@
-﻿using Open.Numeric.Primes.Extensions;
+﻿using Microsoft.VisualBasic.CompilerServices;
+using Open.Numeric.Primes.Extensions;
 
 namespace AoC2023;
 
@@ -30,12 +31,35 @@ public class Day10
             {
                 if (Map[y, x].IsStart)
                 {
-                       
+                    UpdateStartNode(y, x);
+                    return (y, x);
                 }
             }
         }
         
-        throw new NotImplementedException();
+    }
+
+    public Node GetMapNode(int y, int x)
+    {
+        if(y <0 || x<0 || y >= Map.GetLength(0)||y >= Map.GetLength(0))
+    }
+
+    private void UpdateStartNode(int y, int x)
+    {
+        var yminus = Map[y-1, x].Connected.Select(n => n.yMove).Contains(1);
+        var yplus = Map[y+1, x].Connected.Select(n => n.yMove).Contains(-1);
+        var xminus = Map[y, x-1].Connected.Select(n => n.xMove).Contains(1);
+        var xplus = Map[y, x+1].Connected.Select(n => n.xMove).Contains(-1);
+        
+        (int y, int x)[] connected=[]; 
+        
+        if (yminus)
+        {
+            if (yplus)
+                connected = [(1, 0), (-1, 0)];
+
+        }
+        
     }
 
     public (int y, int x) Current { get; set; }
@@ -60,7 +84,7 @@ public class Day10
     
     public class Node
     {
-        (int yMove,int xMove)[] Connected;
+        public (int yMove,int xMove)[] Connected;
         public bool IsStart = false; 
         public Node(char mapTile)
         {
