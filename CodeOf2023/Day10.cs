@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic.CompilerServices;
+﻿using System.Collections;
+using Microsoft.VisualBasic.CompilerServices;
 using Open.Numeric.Primes.Extensions;
 
 namespace AoC2023;
@@ -16,7 +17,7 @@ public class Day10
         {
             for (int x = 0; x < positions[y].Length; x++)
             {
-                Map[x,y] = new Node(positions[y][x]);
+                Map[y,x] = new Node(positions[y][x]);
             }
         }
 
@@ -40,19 +41,24 @@ public class Day10
         throw new FormatException("No start");
     }
 
-    public Node GetMapNode(int y, int x)
+    private bool IsInRange(int y, int x) => 
+        !(y < 0 || x < 0 || y >= Map.GetLength(0) || y >= Map.GetLength(0));
+
+    public Node GetMapNode((int , int ) pos)
     {
-        if(y <0 || x<0 || y >= Map.GetLength(0)||y >= Map.GetLength(0));
-            return Node.OOB;
+        (int y, int x) = pos;
+        if (y < 0 || x < 0 || y >= Map.GetLength(0) || y >= Map.GetLength(0))
+            return Node.Oob;
+
+        return Map[y, x];
     }
 
     private void UpdateStartNode(int y, int x)
     {
-
-        var yminus = GetMapNode(y - 1, x).Connected.Select(n => n.yMove).Contains(1);
-        var yplus = GetMapNode(y + 1, x).Connected.Select(n => n.yMove).Contains(-1);
-        var xminus = GetMapNode(y, x - 1).Connected.Select(n => n.xMove).Contains(1);
-        var xplus = GetMapNode(y, x + 1).Connected.Select(n => n.xMove).Contains(-1);
+        var yminus = GetMapNode((y - 1, x)).Connected.Select(n => n.yMove).Contains(1);
+        var yplus = GetMapNode((y + 1, x)).Connected.Select(n => n.yMove).Contains(-1);
+        var xminus = GetMapNode((y, x - 1)).Connected.Select(n => n.xMove).Contains(1);
+        var xplus = GetMapNode((y, x + 1)).Connected.Select(n => n.xMove).Contains(-1);
 
         List<(int y, int x)> connected = [];
 
@@ -66,38 +72,53 @@ public class Day10
             connected.Add((0, 1));
 
         Map[y, x].Connected = connected.ToArray();
+        Map[y, x].IsStart = true;
         Distances[y, x] = 0;
+        Current = (y, x);
     }
 
-    public int GetMaxDistance(int y, int x)
+    public int GetMaxDistance((int y, int x) startPostion)
     {
-        
+        var positions = new Queue<((int y, int x), int distance)>();
+        positions.Enqueue((startPostion, 0));
+        var highest = 0;
+
+        while (positions.Any())
+        {
+            var (pos,distance) = positions.Dequeue();
+            highest = Math.Max(highest,distance);
+            var node = GetMapNode(pos);
+
+            var nexts = node.Connected
+                .Select(delta => Move(pos, delta));
+
+            foreach (var canMoveTo in nexts)
+            {
+                if (IsInRange(canMoveTo.y, canMoveTo.x)
+                    && Distances[canMoveTo.y, canMoveTo.x] is null)
+                {
+                    Distances[canMoveTo.y, canMoveTo.x] = distance + 1;
+                    positions.Enqueue((canMoveTo, distance + 1));
+
+                }
+            }
+        }
+
+        return highest;
+
     }
-    
+
+    public (int y, int x) Move((int y, int x) start, (int y, int x) delta)
+        => (start.y + delta.y, start.x + delta.x);
 
     public (int y, int x) Current { get; set; }
 
-    // private void ReadInput(char[][] positions)
-    // {
-    //     Map = new Node[positions.Length, positions[0].Length];
-    //     Distances = new int[positions.Length, positions[0].Length];
-    //     
-    //     for (int y = 0; y < positions.Length; y++)
-    //     {
-    //         for (int x = 0; x < positions[y].Length; x++)
-    //         {
-    //             Map[x,y] = new Node(positions[y][x]);
-    //         }
-    //     }
-    //     
-    // }
-
-    private Node[,] Map;
+    public Node[,] Map;
     private int?[,] Distances;
     
     public class Node
     {
-        public static Node OOB = new( );
+        public static readonly Node Oob = new( );
 
         private Node()
         {
@@ -105,7 +126,7 @@ public class Day10
         }
         
         public (int yMove,int xMove)[] Connected;
-        public bool IsStart = false; 
+        public bool IsStart; 
         public Node(char mapTile)
         {
             IsStart = mapTile == 'S';
