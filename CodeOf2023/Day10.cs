@@ -41,7 +41,8 @@ public class Day10
 
     public Node GetMapNode(int y, int x)
     {
-        if(y <0 || x<0 || y >= Map.GetLength(0)||y >= Map.GetLength(0))
+        if(y <0 || x<0 || y >= Map.GetLength(0)||y >= Map.GetLength(0));
+            return Node.OOB;
     }
 
     private void UpdateStartNode(int y, int x)
@@ -57,6 +58,13 @@ public class Day10
         {
             if (yplus)
                 connected = [(1, 0), (-1, 0)];
+            else 
+            {
+             if(xminus)
+                 connected = [(0, -1), (-1, 0)];
+             if(yminus)
+                 connected = [(0, 1), (-1, 0)];
+            }
 
         }
         
@@ -82,8 +90,17 @@ public class Day10
     private Node[,] Map;
     private int[,] Distances;
     
+  
+    
     public class Node
     {
+        public static Node OOB = new( );
+
+        private Node()
+        {
+            Connected = [];
+        }
+        
         public (int yMove,int xMove)[] Connected;
         public bool IsStart = false; 
         public Node(char mapTile)
