@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.Design;
-
-namespace AoC2023;
+﻿namespace AoC2023;
 
 public class Day10
 {
@@ -33,18 +31,19 @@ public class Day10
                 if (Map[y, x].IsStart)
                 {
                     UpdateStartNode(y, x);
+                    return;
                 }
             }
         }
     }
 
     private bool IsInRange(int y, int x) => 
-        !(y < 0 || x < 0 || y >= Map.GetLength(0) || y >= Map.GetLength(0));
+        !(y < 0 || x < 0 || y >= Map.GetLength(0) || x >= Map.GetLength(1));
 
     private Node GetMapNode((int , int ) pos)
     {
         var (y, x) = pos;
-        if (y < 0 || x < 0 || y >= Map.GetLength(0) || y >= Map.GetLength(0))
+        if(!IsInRange(y,x))
             return Node.Oob;
 
         return Map[y, x];
@@ -89,24 +88,21 @@ public class Day10
                 .Select(delta => Move(pos, delta));
 
             _loopChars[pos.y, pos.x] = _positionsChars[pos.y][pos.x];
-                // node.Connected.Select(p => p.yMove).Contains(1);
 
-            foreach (var canMoveTo in nexts)
+            foreach (var canMoveTo in 
+                     nexts.Where(canMoveTo => 
+                         IsInRange(canMoveTo.y, canMoveTo.x)
+                         && _distances[canMoveTo.y, canMoveTo.x] is null))
             {
-                if (IsInRange(canMoveTo.y, canMoveTo.x)
-                    && _distances[canMoveTo.y, canMoveTo.x] is null)
-                {
-                    _distances[canMoveTo.y, canMoveTo.x] = distance + 1;
-                    positions.Enqueue((canMoveTo, distance + 1));
-
-                }
+                _distances[canMoveTo.y, canMoveTo.x] = distance + 1;
+                positions.Enqueue((canMoveTo, distance + 1));
             }
         }
 
         return highest;
     }
 
-    private (int y, int x) Move((int y, int x) start, (int y, int x) delta)
+    private static (int y, int x) Move((int y, int x) start, (int y, int x) delta)
         => (start.y + delta.y, start.x + delta.x);
 
     public (int y, int x) Start { get; private set; }
@@ -115,7 +111,7 @@ public class Day10
     private readonly int?[,] _distances;
     private readonly char[][] _positionsChars;
 
-    public int FloodisFill()
+    public int FloodFill()
     {
         var tilesInside = 0;
         

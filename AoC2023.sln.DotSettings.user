@@ -1,5 +1,11 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=8AB328D0_002D8C6A_002D4D34_002D9327_002D754B9544C0E0_002Ff_003AUnitTest1_002Ecs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">SUGGESTION</s:String>
+	<s:Boolean x:Key="/Default/Environment/Highlighting/HighlightingEnabled/@EntryValue">False</s:Boolean>
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingMode/@EntryValue">OnlyFullLine</s:String>
+	
+	
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0963f058_002D2f45_002D4cf1_002D9e27_002Db430e58901b6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Part2Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day10Test.Part2Test&lt;/TestId&gt;&#xD;
@@ -10,12 +16,13 @@
     &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day10Test.Part2Test&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=270e3804_002Ddb93_002D401b_002D9aa3_002Da6f9673eaaf1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="OneMultiMove" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=270e3804_002Ddb93_002D401b_002D9aa3_002Da6f9673eaaf1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="OneMultiMove" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day8Tests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day10Test.Part1Test&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day10Test.CanFindStartConnections&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day10Test&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day9Tests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
@@ -28,7 +35,7 @@
 	
 	
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bc6095e4_002D1c0e_002D442c_002Db333_002D20bf3a092592/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="3" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bc6095e4_002D1c0e_002D442c_002Db333_002D20bf3a092592/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="3" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cfcdd96c_002Ddd66_002D4846_002Dbe2b_002Dcfee3ab12837/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CanReadHands #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;

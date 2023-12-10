@@ -111,6 +111,9 @@
         <None Update="DataFiles\Day10\Test3.txt">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="DataFiles\Day10\Test4.txt">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

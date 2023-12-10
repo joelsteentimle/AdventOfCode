@@ -25,6 +25,13 @@ public class Day10Test
     {
         var d10 = new Day10("Day10".ReadTestLines());
         Assert.That(d10.GetMaxDistance(d10.Start),Is.EqualTo(4)); 
+    }   
+    
+    [Test]
+    public void Part1Test4()
+    {
+        var d10 = new Day10("Day10".ReadTestLines("4"));
+        Assert.That(d10.GetMaxDistance(d10.Start),Is.EqualTo(4)); 
     }
     
     [Test]
@@ -39,7 +46,7 @@ public class Day10Test
     {
         var d10 = new Day10("Day10".ReadTestLines());
         d10.GetMaxDistance(d10.Start);
-        Assert.That(d10.FloodisFill(),Is.EqualTo(1)); 
+        Assert.That(d10.FloodFill(),Is.EqualTo(1)); 
     }       
     
     [Test]
@@ -47,7 +54,7 @@ public class Day10Test
     {
         var d10 = new Day10("Day10".ReadTestLines("1"));
         d10.GetMaxDistance(d10.Start);
-        Assert.That(d10.FloodisFill(),Is.EqualTo(4)); 
+        Assert.That(d10.FloodFill(),Is.EqualTo(4)); 
     }   
         
     [Test]
@@ -55,7 +62,7 @@ public class Day10Test
     {
         var d10 = new Day10("Day10".ReadTestLines("2"));
         d10.GetMaxDistance(d10.Start);
-        Assert.That(d10.FloodisFill(),Is.EqualTo(8)); 
+        Assert.That(d10.FloodFill(),Is.EqualTo(8)); 
     }   
     
     [Test]
@@ -63,7 +70,7 @@ public class Day10Test
     {
         var d10 = new Day10("Day10".ReadTestLines("3"));
         d10.GetMaxDistance(d10.Start);
-        Assert.That(d10.FloodisFill(),Is.EqualTo(10)); 
+        Assert.That(d10.FloodFill(),Is.EqualTo(10)); 
     }   
     
     [Test]
@@ -71,6 +78,6 @@ public class Day10Test
     {
         var d10 = new Day10("Day10".ReadRealLines());
         d10.GetMaxDistance(d10.Start);
-        Assert.That(d10.FloodisFill(),Is.EqualTo(415)); 
+        Assert.That(d10.FloodFill(),Is.EqualTo(415)); 
     }
 }

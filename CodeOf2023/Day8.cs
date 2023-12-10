@@ -59,15 +59,6 @@ public class Day8
         List<DesertNode> startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
 
         return Steps(endNodeCondition, startNodes);
-        
-        /* For each "ghost":
-        * save start.
-         * run and note all goal-points
-         * stop when back at a previously visited node.
-         * store - then walk from start, adding the smallest largest step until next goal
-         * move along for all ghosts.
-         * stop when all ghosts are on a goal node.
-        */
     }
 
     public List<(int visited,int loop )> FindLoops(Func<string, bool> startNodeCondition)

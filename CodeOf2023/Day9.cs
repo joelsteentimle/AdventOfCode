@@ -11,8 +11,8 @@ public class Day9
 
     public (long left,long right ) GetNextValue(List<int> values)
     {
-        if (values.Count == 0 || values.All(v => v == 0))
-            return (0,0);
+        // if (values.Count == 0 || values.All(v => v == 0))
+        //     return (0,0);
         
         Stack<List<int>> valueReduce = [];
         

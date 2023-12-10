@@ -58,17 +58,14 @@ public class Day8Tests
     }
 
     // soon??
-    // [Test]
-    // public void FindLoops()
-    // {
-    //     var d8 = new Day8("Day8".ReadRealLines().ToArray());
-    //     bool StartNodeCondition(string nodeName) => nodeName[2] == 'A';
-    //     
-    //     Assert.That(d8.FindLoops(StartNodeCondition),Is.EquivalentTo(new []{(1,2),(3,4),(5,6)}));
-    //     
-    //     // node loop:
-    //     //Assert.That(d8.FindLoops(StartNodeCondition),Is.EquivalentTo(new []{ (63, 59), (62, 61), (83, 79), (75, 73), (73, 71), (49, 47)}));
-    // }
+    [Test]
+    public void FindLoops()
+    {
+        var d8 = new Day8("Day8".ReadRealLines().ToArray());
+        bool StartNodeCondition(string nodeName) => nodeName == "AAA";
+        
+        Assert.That(d8.FindLoops(StartNodeCondition),Is.EquivalentTo(new []{(19670, 16898)}));
+    }
 
     [Test]
     public void JustToTest()
