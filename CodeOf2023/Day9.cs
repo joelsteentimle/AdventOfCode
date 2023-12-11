@@ -7,15 +7,16 @@ public class Day9
         OriginalSeries = lines.Select(l => l.SplitAndTrim(' ').Select(n => Convert.ToInt32(n)).ToList()).ToList();
     }
 
-    public ( long left,long right) SumNexts() => OriginalSeries.Select(GetNextValue).Aggregate((0L,0L), (v1, v2) =>(v1.Item1+v2.left,v1.Item2+v2.right));
+    public ( long left, long right) SumNexts() => OriginalSeries.Select(GetNextValue)
+        .Aggregate((0L, 0L), (v1, v2) => (v1.Item1 + v2.left, v1.Item2 + v2.right));
 
-    public (long left,long right ) GetNextValue(List<int> values)
+    public (long left, long right ) GetNextValue(List<int> values)
     {
         // if (values.Count == 0 || values.All(v => v == 0))
         //     return (0,0);
-        
+
         Stack<List<int>> valueReduce = [];
-        
+
         var previus = values;
         var current = new List<int>();
 
@@ -23,9 +24,9 @@ public class Day9
         {
             current = [];
             valueReduce.Push(previus);
-            for (var i = 0; i+1 < previus.Count; i++)
+            for (var i = 0; i + 1 < previus.Count; i++)
             {
-                current.Add(previus[i+1] - previus[i]);
+                current.Add(previus[i + 1] - previus[i]);
             }
 
             previus = current;
@@ -36,11 +37,11 @@ public class Day9
         while (valueReduce.Any())
         {
             var list = valueReduce.Pop();
-            rightNumber += list.Last() ;
+            rightNumber += list.Last();
             leftNumber = list.First() - leftNumber;
         }
 
-        return (leftNumber,rightNumber);
+        return (leftNumber, rightNumber);
     }
 
     public List<List<int>> OriginalSeries { get; set; }

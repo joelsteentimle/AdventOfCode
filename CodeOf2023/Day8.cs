@@ -19,20 +19,20 @@ public class Day8
     public int StepsToNode(string endNodeName)
     {
         // List<DesertNode> startNodes = [ Nodes["AAA"]];
-        
-        return MultiStepsTo(n => n=="AAA",n=>n==endNodeName );
+
+        return MultiStepsTo(n => n == "AAA", n => n == endNodeName);
     }
 
     public long JustToZ(Func<string, bool> startNodeCondition, Func<string, bool> endNodeCondition)
     {
         List<DesertNode> startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
-        Dictionary<long,int> totalFactors = [];
+        Dictionary<long, int> totalFactors = [];
         foreach (var startNode in startNodes)
         {
             var steps = Steps(endNodeCondition, [startNode]);
-            
+
             var factors = Prime.Factors(steps).Order().ToList();
-            
+
             for (int i = 0; i < factors.Count; i++)
             {
                 var fac = factors[i];
@@ -49,45 +49,47 @@ public class Day8
         }
 
         return repFact.Aggregate((i, j) => i * j);
-        
-        
+
+
         // return Steps(endNodeCondition, startNodes);
     }
 
-    public int MultiStepsTo(Func<string,bool> startNodeCondition,Func<string,bool> endNodeCondition)
+    public int MultiStepsTo(Func<string, bool> startNodeCondition, Func<string, bool> endNodeCondition)
     {
         List<DesertNode> startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
 
         return Steps(endNodeCondition, startNodes);
     }
 
-    public List<(int visited,int loop )> FindLoops(Func<string, bool> startNodeCondition)
+    public List<(int visited, int loop )> FindLoops(Func<string, bool> startNodeCondition)
     {
         var startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
-        var loopLengths = new List<(int,int)>(startNodes.Count);
+        var loopLengths = new List<(int, int)>(startNodes.Count);
 
         foreach (var startNode in startNodes)
         {
-            var visited = new List<(DesertNode,int)>();
+            var visited = new List<(DesertNode, int)>();
             var current = startNode;
             // var steps = 0;
             var ip = 0;
-            while (!visited.Contains((current,ip))){
-                visited.Add((current,ip));
+            while (!visited.Contains((current, ip)))
+            {
+                visited.Add((current, ip));
                 current = SingleStep(MoveInstructions[ip], current);
                 ip = ++ip >= MoveInstructions.Length ? 0 : ip;
                 // steps++;
-            }// while (current.Name != startNode.Name);
-            ip = --ip < 0 ?  MoveInstructions.Length -1 : ip;
+            } // while (current.Name != startNode.Name);
+
+            ip = --ip < 0 ? MoveInstructions.Length - 1 : ip;
             var loopLength = visited.Count - visited.IndexOf((current, ip));
-            
+
             loopLengths.Add((visited.Count, loopLength));
         }
 
         return loopLengths;
     }
 
-    private int Steps(Func<string,bool> endCondition, IList<DesertNode> currentNode)
+    private int Steps(Func<string, bool> endCondition, IList<DesertNode> currentNode)
     {
         int ip = 0;
         int steps = 0;

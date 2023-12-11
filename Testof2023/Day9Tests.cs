@@ -19,7 +19,6 @@ public class Day9Tests
             Assert.That(d9.GetNextValue([0, 3, 6, 9, 12, 15]).right, Is.EqualTo(18));
             Assert.That(d9.GetNextValue([1, 3, 6, 10, 15, 21]).right, Is.EqualTo(28));
             Assert.That(d9.GetNextValue([10, 13, 16, 21, 30, 45]).right, Is.EqualTo(68));
-
         });
     }
 

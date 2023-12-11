@@ -16,7 +16,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Open.Numeric.Primes" Version="3.0.0" />
+        <PackageReference Include="Open.Numeric.Primes" Version="3.0.0"/>
     </ItemGroup>
 
 </Project>

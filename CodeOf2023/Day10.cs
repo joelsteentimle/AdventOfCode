@@ -2,27 +2,34 @@
 
 public class Day10
 {
+    private readonly int?[,] _distances;
+    private readonly char[,] _loopChars;
+    private readonly char[][] _positionsChars;
+    public readonly Node[,] Map;
+
     public Day10(IList<string> lines)
     {
         _positionsChars = lines.Select(l => l.ToCharArray()).ToArray();
-        
+
         Map = new Node[_positionsChars.Length, _positionsChars[0].Length];
         _distances = new int?[_positionsChars.Length, _positionsChars[0].Length];
         _loopChars = new char[_positionsChars.Length, _positionsChars[0].Length];
-        
-        
+
+
         for (var y = 0; y < _positionsChars.Length; y++)
         {
             for (var x = 0; x < _positionsChars[y].Length; x++)
             {
-                Map[y,x] = new Node(_positionsChars[y][x]);
+                Map[y, x] = new Node(_positionsChars[y][x]);
             }
         }
 
         PolishStart();
     }
 
-    private  void PolishStart()
+    public (int y, int x) Start { get; private set; }
+
+    private void PolishStart()
     {
         for (var y = 0; y < Map.GetLength(0); y++)
         {
@@ -37,13 +44,13 @@ public class Day10
         }
     }
 
-    private bool IsInRange(int y, int x) => 
+    private bool IsInRange(int y, int x) =>
         !(y < 0 || x < 0 || y >= Map.GetLength(0) || x >= Map.GetLength(1));
 
-    private Node GetMapNode((int , int ) pos)
+    private Node GetMapNode((int, int ) pos)
     {
         var (y, x) = pos;
-        if(!IsInRange(y,x))
+        if (!IsInRange(y, x))
             return Node.Oob;
 
         return Map[y, x];
@@ -80,8 +87,8 @@ public class Day10
 
         while (positions.Count != 0)
         {
-            var (pos,distance) = positions.Dequeue();
-            highest = Math.Max(highest,distance);
+            var (pos, distance) = positions.Dequeue();
+            highest = Math.Max(highest, distance);
             var node = GetMapNode(pos);
 
             var nexts = node.Connected
@@ -89,8 +96,8 @@ public class Day10
 
             _loopChars[pos.y, pos.x] = _positionsChars[pos.y][pos.x];
 
-            foreach (var canMoveTo in 
-                     nexts.Where(canMoveTo => 
+            foreach (var canMoveTo in
+                     nexts.Where(canMoveTo =>
                          IsInRange(canMoveTo.y, canMoveTo.x)
                          && _distances[canMoveTo.y, canMoveTo.x] is null))
             {
@@ -105,22 +112,16 @@ public class Day10
     private static (int y, int x) Move((int y, int x) start, (int y, int x) delta)
         => (start.y + delta.y, start.x + delta.x);
 
-    public (int y, int x) Start { get; private set; }
-    public readonly Node[,] Map;
-    private readonly char[,] _loopChars;
-    private readonly int?[,] _distances;
-    private readonly char[][] _positionsChars;
-
     public int FloodFill()
     {
         var tilesInside = 0;
-        
+
         // consider the position just x ++ , y++
-        for (var y = 1; y < _loopChars.GetLength(0)-1; y++)
+        for (var y = 1; y < _loopChars.GetLength(0) - 1; y++)
         {
             var isInside = false;
 
-            for (var x = 0; x < _loopChars.GetLength(1)-1; x++)
+            for (var x = 0; x < _loopChars.GetLength(1) - 1; x++)
             {
                 var c = _loopChars[y, x];
                 if (c is '|' or 'F' or '7')
@@ -135,18 +136,19 @@ public class Day10
 
         return tilesInside;
     }
-    
+
     public class Node
     {
-        public static readonly Node Oob = new( );
+        public static readonly Node Oob = new();
+        public readonly bool IsStart;
+
+        public (int yMove, int xMove)[] Connected;
 
         private Node()
         {
             Connected = [];
         }
-        
-        public (int yMove,int xMove)[] Connected;
-        public readonly bool IsStart; 
+
         public Node(char mapTile)
         {
             IsStart = mapTile == 'S';
@@ -163,4 +165,3 @@ public class Day10
         }
     }
 }
-

@@ -18,20 +18,17 @@ public class Day8Tests
     [Test]
     public void CanCreateNode()
     {
-        var node = new Day8.DesertNode("AAA = (BBB, CCC)",[]);
-        Assert.Multiple(() =>
-        {
-            Assert.That(node.Name, Is.EqualTo("AAA"));
-        });
+        var node = new Day8.DesertNode("AAA = (BBB, CCC)", []);
+        Assert.Multiple(() => { Assert.That(node.Name, Is.EqualTo("AAA")); });
     }
-    
+
     [Test]
     public void Part1Test()
     {
         var d8 = new Day8("Day8".ReadTestLines().ToArray());
         Assert.That(d8.StepsToNode("ZZZ"), Is.EqualTo(2));
     }
-     
+
     [Test]
     public void Part1()
     {
@@ -43,16 +40,16 @@ public class Day8Tests
     public void MultipeMovements()
     {
         var d8 = new Day8("Day8".ReadTestLines("2").ToArray());
-        Func<string, bool> startNodeCondition = nodeName => nodeName[2]=='A';
+        Func<string, bool> startNodeCondition = nodeName => nodeName[2] == 'A';
         Func<string, bool> endNodeCondition = nodeName => nodeName[2] == 'Z';
         Assert.That(d8.MultiStepsTo(startNodeCondition, endNodeCondition), Is.EqualTo(6));
-    }    
-    
+    }
+
     [Test]
     public void OneMultiMove()
     {
         var d8 = new Day8("Day8".ReadRealLines().ToArray());
-        Func<string, bool> startNodeCondition = nodeName => nodeName =="TSA";
+        Func<string, bool> startNodeCondition = nodeName => nodeName == "TSA";
         Func<string, bool> endNodeCondition = nodeName => nodeName[2] == 'Z';
         Assert.That(d8.MultiStepsTo(startNodeCondition, endNodeCondition), Is.EqualTo(16343));
     }
@@ -63,8 +60,8 @@ public class Day8Tests
     {
         var d8 = new Day8("Day8".ReadRealLines().ToArray());
         bool StartNodeCondition(string nodeName) => nodeName == "AAA";
-        
-        Assert.That(d8.FindLoops(StartNodeCondition),Is.EquivalentTo(new []{(19670, 16898)}));
+
+        Assert.That(d8.FindLoops(StartNodeCondition), Is.EquivalentTo(new[] { (19670, 16898) }));
     }
 
     [Test]
