@@ -2,14 +2,14 @@
 
 namespace AoC2023;
 
-public class Day3
+public class Day03
 {
     private readonly char[][] _inputField;
     private readonly Dictionary<(int row, int column), List<int>> _mightBeGears = [];
     public readonly List<int> Numbers = [];
     public readonly List<int> Parts = [];
 
-    public Day3(IEnumerable<string> lines)
+    public Day03(IEnumerable<string> lines)
     {
         _inputField = lines.Select(l => l.ToArray()).ToArray();
         CalculateNumbersAndParts();

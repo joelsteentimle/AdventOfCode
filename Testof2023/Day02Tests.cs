@@ -2,9 +2,9 @@
 
 namespace TestOf2023;
 
-internal class Day2Tests
+internal class Day02Tests
 {
-    private readonly Day2 _day2 = new();
+    private readonly Day02 _day02 = new();
 
     [Test]
     public void CanSplitToParts()
@@ -35,22 +35,16 @@ internal class Day2Tests
     [Test]
     public void FirstOfData()
     {
-        AddFromFile(@"DataFiles\Day2\Example.txt");
-        Assert.That(_day2.Games[2]["green"], Is.EqualTo(3));
-    }
-
-    private void AddFromFile(string filePath)
-    {
-        var fContent = filePath.ReadFileAsLines();
-        _day2.AddAllGames(fContent);
+        _day02.AddAllGames("Day02".ReadTestLines());
+        Assert.That(_day02.Games[2]["green"], Is.EqualTo(3));
     }
 
     [Test]
     public void CanFilterByLimits()
     {
-        AddFromFile(@"DataFiles\Day2\Example.txt");
+        _day02.AddAllGames("Day02".ReadTestLines());
         var gamesMatchingLimit
-            = _day2.GamesMatchingLimits(
+            = _day02.GamesMatchingLimits(
                 ("red", 12),
                 ("green", 13),
                 ("blue", 14)).ToArray();
@@ -62,25 +56,25 @@ internal class Day2Tests
     [Test]
     public void Solution()
     {
-        AddFromFile(@"DataFiles\Day2\RealValue.txt");
+        _day02.AddAllGames("Day02".ReadRealLines());
         var gamesMatchingLimit
-            = _day2.GamesMatchingLimits(
+            = _day02.GamesMatchingLimits(
                 ("red", 12),
                 ("green", 13),
                 ("blue", 14));
 
         Assert.That(gamesMatchingLimit.Sum(), Is.EqualTo(2600));
-        Assert.That(_day2.PowerSum, Is.EqualTo(86036));
+        Assert.That(_day02.PowerSum, Is.EqualTo(86036));
     }
 
     [Test]
     public void Power()
     {
-        AddFromFile(@"DataFiles\Day2\Example.txt");
+        _day02.AddAllGames("Day02".ReadTestLines());
 
-        Assert.That(_day2.GamePower(1), Is.EqualTo(48));
-        Assert.That(_day2.GamePower(2), Is.EqualTo(12));
-        Assert.That(_day2.GamePower(3), Is.EqualTo(1560));
-        Assert.That(_day2.PowerSum, Is.EqualTo(2286));
+        Assert.That(_day02.GamePower(1), Is.EqualTo(48));
+        Assert.That(_day02.GamePower(2), Is.EqualTo(12));
+        Assert.That(_day02.GamePower(3), Is.EqualTo(1560));
+        Assert.That(_day02.PowerSum, Is.EqualTo(2286));
     }
 }

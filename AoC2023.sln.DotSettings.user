@@ -3,12 +3,18 @@
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">SUGGESTION</s:String>
 	<s:Boolean x:Key="/Default/Environment/Highlighting/HighlightingEnabled/@EntryValue">False</s:Boolean>
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingMode/@EntryValue">OnlyFullLine</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=219dec6e_002D4e8f_002D486c_002Dbc75_002D5e727870ac0b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Session #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;And&gt;&#xD;
+    &lt;Namespace&gt;TestOf2023&lt;/Namespace&gt;&#xD;
+    &lt;Project Location="D:\code\AdventofCode\2023\AoC2023\TestOf2023" Presentation="&amp;lt;TestOf2023&amp;gt;" /&gt;&#xD;
+  &lt;/And&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	
 	
 	
 	
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=777a37d1_002D49ce_002D44a4_002Dbd48_002D3a9fa3af424c/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="1" IsActive="True" Name="Session" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=777a37d1_002D49ce_002D44a4_002Dbd48_002D3a9fa3af424c/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="1" Name="Session" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;And&gt;&#xD;
     &lt;Namespace&gt;TestOf2023&lt;/Namespace&gt;&#xD;
     &lt;Project Location="D:\code\AdventofCode\2023\AoC2023\TestOf2023" Presentation="&amp;lt;TestOf2023&amp;gt;" /&gt;&#xD;

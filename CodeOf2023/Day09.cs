@@ -1,8 +1,8 @@
 ﻿namespace AoC2023;
 
-public class Day9
+public class Day09
 {
-    public Day9(IList<string> lines)
+    public Day09(IList<string> lines)
     {
         OriginalSeries = lines.Select(l => l.SplitAndTrim(' ').Select(n => Convert.ToInt32(n)).ToList()).ToList();
     }

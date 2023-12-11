@@ -2,12 +2,12 @@
 
 namespace TestOf2023;
 
-public class Day5Tests
+public class Day05Tests
 {
     [Test]
     public void CanReadFirstLine()
     {
-        var uut = new Day5();
+        var uut = new Day05();
         var element = uut.ReadInitialLine("seeds: 79 14 55 13");
         Assert.Multiple(() =>
         {
@@ -57,20 +57,20 @@ public class Day5Tests
     [Test]
     public void ValidateMap()
     {
-        var map = new Day5.Element.Map(["50 98 2", "52 50 48"]);
+        var map = new Day05.Element.Map(["50 98 2", "52 50 48"]);
         Assert.Multiple(() =>
         {
-            Assert.That(map.GetTargetRanges(new Day5.ElementRange(10, 10)).First().Start, Is.EqualTo(10));
-            Assert.That(map.GetTargetRanges(new Day5.ElementRange(98, 98)).First().Start, Is.EqualTo(50));
-            Assert.That(map.GetTargetRanges(new Day5.ElementRange(99, 99)).First().Start, Is.EqualTo(51));
-            Assert.That(map.GetTargetRanges(new Day5.ElementRange(52, 52)).First().Start, Is.EqualTo(54));
+            Assert.That(map.GetTargetRanges(new Day05.ElementRange(10, 10)).First().Start, Is.EqualTo(10));
+            Assert.That(map.GetTargetRanges(new Day05.ElementRange(98, 98)).First().Start, Is.EqualTo(50));
+            Assert.That(map.GetTargetRanges(new Day05.ElementRange(99, 99)).First().Start, Is.EqualTo(51));
+            Assert.That(map.GetTargetRanges(new Day05.ElementRange(52, 52)).First().Start, Is.EqualTo(54));
         });
     }
 
     [Test]
     public void TestData()
     {
-        var uut = new Day5("Day5".ReadTestLines());
+        var uut = new Day05("Day05".ReadTestLines());
         var lowest = uut.GetTargetIdsFromRequested("location")
             .Select(elemRange => elemRange.Start).Min();
         Assert.That(lowest, Is.EqualTo(35));
@@ -79,7 +79,7 @@ public class Day5Tests
     [Test]
     public void Part1()
     {
-        var uut = new Day5("Day5".ReadRealLines());
+        var uut = new Day05("Day05".ReadRealLines());
         var lowest = uut.GetTargetIdsFromRequested("location").Select(elemRange => elemRange.Start).Min();
         Assert.That(lowest, Is.EqualTo(157211394));
     }
@@ -87,7 +87,7 @@ public class Day5Tests
     [Test]
     public void TestStep()
     {
-        var uut = new Day5("Day5".ReadTestLines());
+        var uut = new Day05("Day05".ReadTestLines());
         var lowest = uut.GetTargetIdsFromRequested("soil").Select(e => e.Start);
         Assert.That(lowest, Is.EquivalentTo(new[] { 13, 14, 57, 81 }));
     }
@@ -95,7 +95,7 @@ public class Day5Tests
     [Test]
     public void TestPart2()
     {
-        var uut = new Day5("Day5".ReadTestLines(), true);
+        var uut = new Day05("Day05".ReadTestLines(), true);
         var lowest = uut.GetTargetIdsFromRequested("location").Select(elemRange => elemRange.Start).Min();
         Assert.That(lowest, Is.EqualTo(46));
     }
@@ -103,7 +103,7 @@ public class Day5Tests
     [Test]
     public void Part2()
     {
-        var uut = new Day5("Day5".ReadRealLines(), true);
+        var uut = new Day05("Day05".ReadRealLines(), true);
         var lowest = uut.GetTargetIdsFromRequested("location").Select(elemRange => elemRange.Start).Min();
         Assert.That(lowest, Is.EqualTo(50855035));
     }

@@ -1,6 +1,6 @@
 ﻿namespace AoC2023;
 
-public class Day1
+public class Day01
 {
     public int SumTheFile(IEnumerable<string> lines) =>
         lines.Select(LineValue).Sum();

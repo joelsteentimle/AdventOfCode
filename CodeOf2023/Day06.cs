@@ -1,10 +1,10 @@
 ﻿namespace AoC2023;
 
-public class Day6
+public class Day06
 {
     public readonly List<(long time, long distance)> Races;
 
-    public Day6(IList<string> input, bool isReal = false)
+    public Day06(IList<string> input, bool isReal = false)
     {
         if (isReal)
             input = input.Select(s => s.Replace(" ", "")).ToList();

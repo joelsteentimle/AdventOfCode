@@ -1,8 +1,8 @@
 ﻿namespace AoC2023;
 
-public class Day4
+public class Day04
 {
-    public Day4(IEnumerable<string> readTestLines)
+    public Day04(IEnumerable<string> readTestLines)
     {
         foreach (var line in readTestLines)
         {

@@ -1,6 +1,6 @@
 ﻿namespace AoC2023;
 
-public class Day2
+public class Day02
 {
     private readonly Dictionary<int, Dictionary<string, int>> _gamesMaxValuePerColour = new();
 

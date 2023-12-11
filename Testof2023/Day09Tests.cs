@@ -2,18 +2,18 @@
 
 namespace TestOf2023;
 
-public class Day9Tests
+public class Day09Tests
 {
     [Test]
     public void CanRead()
     {
-        var d9 = new Day9("Day9".ReadTestLines());
+        var d9 = new Day09("Day09".ReadTestLines());
     }
 
     [Test]
     public void CanCountLine()
     {
-        var d9 = new Day9("Day9".ReadTestLines());
+        var d9 = new Day09("Day09".ReadTestLines());
         Assert.Multiple(() =>
         {
             Assert.That(d9.GetNextValue([0, 3, 6, 9, 12, 15]).right, Is.EqualTo(18));
@@ -25,7 +25,7 @@ public class Day9Tests
     [Test]
     public void CanCountLeft()
     {
-        var d9 = new Day9("Day9".ReadTestLines());
+        var d9 = new Day09("Day09".ReadTestLines());
         Assert.That(d9.GetNextValue([10, 13, 16, 21, 30, 45]).left, Is.EqualTo(5));
     }
 
@@ -33,7 +33,7 @@ public class Day9Tests
     [Test]
     public void Part1Test()
     {
-        var d9 = new Day9("Day9".ReadTestLines());
+        var d9 = new Day09("Day09".ReadTestLines());
 
         Assert.That(d9.SumNexts().right, Is.EqualTo(114));
     }
@@ -41,7 +41,7 @@ public class Day9Tests
     [Test]
     public void Part1()
     {
-        var d9 = new Day9("Day9".ReadRealLines());
+        var d9 = new Day09("Day09".ReadRealLines());
 
         Assert.That(d9.SumNexts().right, Is.EqualTo(2174807968));
     }
@@ -49,14 +49,14 @@ public class Day9Tests
     [Test]
     public void Part2Test()
     {
-        var d9 = new Day9("Day9".ReadTestLines());
+        var d9 = new Day09("Day09".ReadTestLines());
         Assert.That(d9.SumNexts().left, Is.EqualTo(2));
     }
 
     [Test]
     public void Part2()
     {
-        var d9 = new Day9("Day9".ReadRealLines());
+        var d9 = new Day09("Day09".ReadRealLines());
         Assert.That(d9.SumNexts().left, Is.EqualTo(1208));
     }
 }

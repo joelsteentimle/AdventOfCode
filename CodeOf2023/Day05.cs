@@ -1,16 +1,16 @@
 ﻿namespace AoC2023;
 
-public class Day5
+public class Day05
 {
     public Dictionary<string, Element> Elements = [];
     public (string type, List<ElementRange> ids) Requested;
 
-    public Day5()
+    public Day05()
     {
     }
 
 
-    public Day5(IEnumerable<string> input, bool isSeedsRange = false)
+    public Day05(IEnumerable<string> input, bool isSeedsRange = false)
     {
         var dataLines = input.ToList();
         ReadInitialLine(dataLines[0], isSeedsRange);
