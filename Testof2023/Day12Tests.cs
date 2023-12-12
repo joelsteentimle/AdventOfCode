@@ -31,6 +31,29 @@ public class Day12Tests
             Assert.That(LineVersions(".?##?????#?? 3,3"), Is.EqualTo(6));
         });
     }  
+    [Test]
+    public void CanFindFoldedlLine()
+    {
+        Assert.Multiple(() =>
+        {
+            Assert.That(FoldedLineVersions("???.### 1,1,3",5), Is.EqualTo(1));
+            Assert.That(FoldedLineVersions(".??..??...?##. 1,1,3",5), Is.EqualTo(16384));
+            Assert.That(FoldedLineVersions("?#?#?#?#?#?#?#? 1,3,1,6",5), Is.EqualTo(1));
+            Assert.That(FoldedLineVersions("????.#...#... 4,1,1",5), Is.EqualTo(16));
+            Assert.That(FoldedLineVersions("????.######..#####. 1,6,5",5), Is.EqualTo(2500));
+            Assert.That(FoldedLineVersions("?###???????? 3,2,1 1,6,5",5), Is.EqualTo(506250));
+        });
+    }
+   
+
+    
+    private static long FoldedLineVersions(string line, int times)
+    {
+        var f = new Day12.Field(line);
+        f.Fold(times);
+        return f.TotalCombinations();
+    }
+
     private static long LineVersions(string line) => new Day12.Field(line).TotalCombinations();
 
     [Test]
@@ -62,5 +85,13 @@ public class Day12Tests
     {
         var d12 = new Day12("Day12".ReadRealLines());
         Assert.That(d12.GetSum, Is.EqualTo(7195));
+    }
+
+    [Test]
+    public void Part2()
+    {
+        var d12 = new Day12("Day12".ReadRealLines());
+        d12.Fold(5);
+        Assert.That(d12.GetSum, Is.EqualTo(33992866292225));
     }
 }

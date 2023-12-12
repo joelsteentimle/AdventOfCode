@@ -1,4 +1,6 @@
-﻿namespace AoC2023;
+﻿using System.Text;
+
+namespace AoC2023;
 
 public class Day12
 {
@@ -6,8 +8,16 @@ public class Day12
     {
         Fields = lines.Select(l => new Field(l)).ToList();
     }
-    
-    public int GetSum => Fields.Select(f => f.TotalCombinations()).Sum();
+
+    public long GetSum => Fields.Select(f => f.TotalCombinations()).Sum();
+
+    public void Fold(int times)
+    {
+        foreach (var field in Fields)
+        {
+            field.Fold(times);
+        }
+    }
 
     public IList<Field> Fields { get; set; }
 
@@ -18,19 +28,36 @@ public class Day12
             var patternAndSprings = line.SplitAndTrim(' ');
             Pattern = patternAndSprings[0];
             Springs = patternAndSprings[1].SplitAndTrim(',').Select(n => Convert.ToInt32(n)).ToList();
-            Combinations = new int?[Pattern.Length, Springs.Count];
+            Combinations = new long?[Pattern.Length, Springs.Count];
         }
 
-        public int?[,] Combinations { get; set; }
+        public void Fold(int times)
+        {
+            var newPatterBuilder = new StringBuilder(Pattern);
+            List<int> newSprings = [..Springs];
+            for (int i = 1; i < times; i++)
+            {
+                newPatterBuilder.Append('?');
+                newPatterBuilder.Append(Pattern);
+
+                newSprings.AddRange(Springs);
+            }
+
+            Pattern = newPatterBuilder.ToString();
+            Springs = newSprings;
+            Combinations = new long?[Pattern.Length, Springs.Count];
+        }
+
+        public long?[,] Combinations { get; set; }
 
         public List<int> Springs { get; set; }
 
 
         public string Pattern { get; set; }
 
-        public int TotalCombinations() => GetCombinations(0, 0);
-        
-        public int GetCombinations(int startInPattern, int springNumber)
+        public long TotalCombinations() => GetCombinations(0, 0);
+
+        public long GetCombinations(int startInPattern, int springNumber)
         {
             if (springNumber >= Springs.Count || startInPattern >= Pattern.Length)
                 return 0;
@@ -48,7 +75,7 @@ public class Day12
                 return 0;
             }
   
-            var totalMatches = 0;
+            var totalMatches = 0L;
 
             if (MatchStart(startInPattern, springNumber))
             {
@@ -70,7 +97,6 @@ public class Day12
             Combinations[startInPattern, springNumber] = totalMatches;
             return totalMatches;
         }
-
 
         public bool MatchStart(int startInPattern, int springNumber)
         {
