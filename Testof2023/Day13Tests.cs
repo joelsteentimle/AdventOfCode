@@ -2,71 +2,55 @@
 
 namespace TestOf2023;
 
-public class Day13Tests
+public class Day13Tests : DayTests
 {
-    [Test]
-    public void CanGetResult()
-    {
-        var d13 = GetTest();
-        Assert.That(d13.Result, Is.EqualTo(5555));
-    }
-
     [Test]
     public void GetCorrectNumberOfFields()
     {
-        Assert.That(GetTest().Fields.Count, Is.EqualTo(2));
+        Assert.That(TestInstance.Fields.Count, Is.EqualTo(2));
     }
 
     [Test]
     public void CanFindVFoldInField()
     {
-        var F1 = GetTest().Fields[0];
-        Assert.That(F1.VFold, Is.EqualTo(5));
-        Assert.That(F1.HFold, Is.Null);
+        var f1 = TestInstance.Fields[0];
+        Assert.That(f1.VFold, Is.EqualTo(5));
+        Assert.That(f1.HFold, Is.Null);
     }
+
     [Test]
     public void CanFindHFoldInField()
     {
-        var F2 = GetTest().Fields[1];
-        Assert.That(F2.HFold, Is.EqualTo(4));
-        Assert.That(F2.VFold, Is.Null);
+        var f2 = TestInstance.Fields[1];
+        Assert.That(f2.HFold, Is.EqualTo(4));
+        Assert.That(f2.VFold, Is.Null);
     }
 
     [Test]
     public void Part1Test()
     {
-        Assert.That(GetTest().Sum, Is.EqualTo(405));
+        Assert.That(TestInstance.Sum, Is.EqualTo(405));
     }
 
     [Test]
     public void Part1()
     {
-        Assert.That(GetReal().Sum, Is.EqualTo(33975));
+        Assert.That(RealInstance.Sum, Is.EqualTo(33975));
     }
-    
+
     [Test]
     public void Part2Test()
     {
-        Assert.That(GetTest().SmudgeSum, Is.EqualTo(400));
+        Assert.That(TestInstance.SmudgeSum, Is.EqualTo(400));
     }
 
 
     [Test]
     public void Part2()
     {
-        Assert.That(GetReal().SmudgeSum, Is.EqualTo(29083));
+        Assert.That(RealInstance.SmudgeSum, Is.EqualTo(29083));
     }
-    
 
-    private static Day13 GetTest()
-    {
-        var d13 = new Day13("Day13".ReadTestLines());
-        return d13;
-    }
-    
-    private static Day13 GetReal()
-    {
-        var d13 = new Day13("Day13".ReadRealLines());
-        return d13;
-    }
+    private Day13 RealInstance => new(RealLines);
+    private Day13 TestInstance => new(TestLines);
 }

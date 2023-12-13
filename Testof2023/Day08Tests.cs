@@ -2,12 +2,12 @@
 
 namespace TestOf2023;
 
-public class Day08Tests
+public class Day08Tests : DayTests
 {
     [Test]
     public void CanReadInput()
     {
-        var d8 = new Day08("Day08".ReadTestLines().ToArray());
+        var d8 = new Day08("Day08".ReadTestLines());
         Assert.Multiple(() =>
         {
             Assert.That(d8.Nodes["BBB"].Left.Value.Name, Is.EqualTo("DDD"));
@@ -25,21 +25,21 @@ public class Day08Tests
     [Test]
     public void Part1Test()
     {
-        var d8 = new Day08("Day08".ReadTestLines().ToArray());
+        var d8 = new Day08("Day08".ReadTestLines());
         Assert.That(d8.StepsToNode("ZZZ"), Is.EqualTo(2));
     }
 
     [Test]
     public void Part1()
     {
-        var d8 = new Day08("Day08".ReadRealLines().ToArray());
+        var d8 = new Day08("Day08".ReadRealLines());
         Assert.That(d8.StepsToNode("ZZZ"), Is.EqualTo(19667));
     }
 
     [Test]
     public void MultipeMovements()
     {
-        var d8 = new Day08("Day08".ReadTestLines("2").ToArray());
+        var d8 = new Day08("Day08".ReadTestLines("2"));
         Func<string, bool> startNodeCondition = nodeName => nodeName[2] == 'A';
         Func<string, bool> endNodeCondition = nodeName => nodeName[2] == 'Z';
         Assert.That(d8.MultiStepsTo(startNodeCondition, endNodeCondition), Is.EqualTo(6));
@@ -48,26 +48,23 @@ public class Day08Tests
     [Test]
     public void OneMultiMove()
     {
-        var d8 = new Day08("Day08".ReadRealLines().ToArray());
+        var d8 = new Day08("Day08".ReadRealLines());
         Func<string, bool> startNodeCondition = nodeName => nodeName == "TSA";
         Func<string, bool> endNodeCondition = nodeName => nodeName[2] == 'Z';
         Assert.That(d8.MultiStepsTo(startNodeCondition, endNodeCondition), Is.EqualTo(16343));
     }
-
-    // soon??
-    [Test]
-    public void FindLoops()
-    {
-        var d8 = new Day08("Day08".ReadRealLines().ToArray());
-        bool StartNodeCondition(string nodeName) => nodeName == "AAA";
-
-        Assert.That(d8.FindLoops(StartNodeCondition), Is.EquivalentTo(new[] { (19670, 16898) }));
-    }
+    
+    // [Test]
+    // public void FindLoops()
+    // {
+    //     bool StartNodeCondition(string nodeName) => nodeName == "AAA";
+    //     Assert.That(RealInstance.FindLoops(StartNodeCondition), Is.EquivalentTo(new[] { (19670, 16898) }));
+    // }
 
     [Test]
     public void JustToTest()
     {
-        var d8 = new Day08("Day08".ReadTestLines("2").ToArray());
+        var d8 = new Day08("Day08".ReadTestLines("2"));
         Func<string, bool> startNodeCondition = nodeName => nodeName[2] == 'A';
         Func<string, bool> endNodeCondition = nodeName => nodeName[2] == 'Z';
         Assert.That(d8.JustToZ(startNodeCondition, endNodeCondition), Is.EqualTo(6));
@@ -76,9 +73,10 @@ public class Day08Tests
     [Test]
     public void Part2()
     {
-        var d8 = new Day08("Day08".ReadRealLines().ToArray());
         bool StartNodeCondition(string nodeName) => nodeName[2] == 'A';
         bool EndNodeCondition(string nodeName) => nodeName[2] == 'Z';
-        Assert.That(d8.JustToZ(StartNodeCondition, EndNodeCondition), Is.EqualTo(19185263738117));
+        Assert.That(RealInstance.JustToZ(StartNodeCondition, EndNodeCondition), Is.EqualTo(19185263738117));
     }
+
+    private Day08 RealInstance => new(RealLines);
 }

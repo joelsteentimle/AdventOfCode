@@ -4,7 +4,7 @@ namespace AoC2023;
 
 public class Day08
 {
-    public Day08(string[] input)
+    public Day08(List<string> input)
     {
         MoveInstructions = input.First().ToCharArray();
         foreach (var line in input[2 ..])
@@ -16,8 +16,6 @@ public class Day08
 
     public int StepsToNode(string endNodeName)
     {
-        // List<DesertNode> startNodes = [ Nodes["AAA"]];
-
         return MultiStepsTo(n => n == "AAA", n => n == endNodeName);
     }
 
