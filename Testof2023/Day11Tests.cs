@@ -1,6 +1,6 @@
-﻿using AoC2023;
+﻿namespace TestOf2023;
 
-namespace TestOf2023;
+using AoC2023;
 
 public class Day11Tests
 {
@@ -43,7 +43,10 @@ public class Day11Tests
     public void JustToCover()
     {
         var s1 = new Day11.Star { X = 2, Y = 3 };
-        Assert.That(s1.X, Is.EqualTo(2));
-        Assert.That(s1.Y, Is.EqualTo(3));
+        Assert.Multiple(() =>
+        {
+            Assert.That(s1.X, Is.EqualTo(2));
+            Assert.That(s1.Y, Is.EqualTo(3));
+        });
     }
 }

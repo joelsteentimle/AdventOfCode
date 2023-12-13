@@ -1,15 +1,10 @@
 ﻿namespace AoC2023;
 
-public class Day07
+public class Day07(IEnumerable<string> readTestLines, bool isPart2 = false)
 {
-    public Day07(IEnumerable<string> readTestLines, bool isPart2 = false)
-    {
-        Hands = readTestLines.Select(l => l.SplitAndTrim(' '))
-            .Select(p => new Hand(p.First(), Convert.ToInt32(p[1]), isPart2))
-            .ToList();
-    }
-
-    private List<Hand> Hands { get; }
+    private List<Hand> Hands { get; } = readTestLines.Select(l => l.SplitAndTrim(' '))
+        .Select(p => new Hand(p.First(), Convert.ToInt32(p[1], NumberFormatInfo.InvariantInfo), isPart2))
+        .ToList();
 
     public int TotalWinnings()
     {
@@ -19,13 +14,13 @@ public class Day07
 
     public readonly record struct Hand : IComparable<Hand>
     {
-        private readonly bool _isPart2;
+        private readonly bool isPart2;
 
         public Hand(string cards, int bet, bool part2 = false)
         {
             Cards = cards.ToCharArray();
             Bet = bet;
-            _isPart2 = part2;
+            isPart2 = part2;
             HandValue = CalculateHandValue();
         }
 
@@ -53,7 +48,7 @@ public class Day07
             var nonJokerCards = Cards;
             var nrOfJokers = 0;
 
-            if (_isPart2)
+            if (isPart2)
             {
                 nonJokerCards = Cards.Where(c => c != 'J').ToArray();
                 nrOfJokers = Cards.Count(c => c == 'J');
@@ -73,31 +68,36 @@ public class Day07
                 (5, _) => 7,
                 (4, _) => 6,
                 (3, 2) => 5,
-                (3, _) _ => 4,
+                (3, _) => 4,
                 (2, 2) => 3,
                 (2, _) => 2,
                 _ => 1
             };
         }
 
-        private int CardValue(char c)
+        private int CardValue(char c) => c switch
         {
-            return c switch
-            {
-                'A' => 13,
-                'K' => 12,
-                'Q' => 11,
-                'J' => _isPart2 ? 0 : 10,
-                'T' => 9,
-                '9' => 8,
-                '8' => 7,
-                '7' => 6,
-                '6' => 5,
-                '5' => 4,
-                '4' => 3,
-                '3' => 2,
-                _ => 1
-            };
-        }
+            'A' => 13,
+            'K' => 12,
+            'Q' => 11,
+            'J' => isPart2 ? 0 : 10,
+            'T' => 9,
+            '9' => 8,
+            '8' => 7,
+            '7' => 6,
+            '6' => 5,
+            '5' => 4,
+            '4' => 3,
+            '3' => 2,
+            _ => 1
+        };
+
+        public static bool operator <(Hand left, Hand right) => left.CompareTo(right) < 0;
+
+        public static bool operator <=(Hand left, Hand right) => left.CompareTo(right) <= 0;
+
+        public static bool operator >(Hand left, Hand right) => left.CompareTo(right) > 0;
+
+        public static bool operator >=(Hand left, Hand right) => left.CompareTo(right) >= 0;
     }
 }

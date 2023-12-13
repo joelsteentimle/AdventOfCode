@@ -1,6 +1,6 @@
-﻿using AoC2023;
+﻿namespace TestOf2023;
 
-namespace TestOf2023;
+using AoC2023;
 
 public class Day09Tests
 {
@@ -35,7 +35,7 @@ public class Day09Tests
     {
         var d9 = new Day09("Day09".ReadTestLines());
 
-        Assert.That(d9.SumNexts().right, Is.EqualTo(114));
+        Assert.That(d9.SumNext().right, Is.EqualTo(114));
     }
 
     [Test]
@@ -43,20 +43,20 @@ public class Day09Tests
     {
         var d9 = new Day09("Day09".ReadRealLines());
 
-        Assert.That(d9.SumNexts().right, Is.EqualTo(2174807968));
+        Assert.That(d9.SumNext().right, Is.EqualTo(2174807968));
     }
 
     [Test]
     public void Part2Test()
     {
         var d9 = new Day09("Day09".ReadTestLines());
-        Assert.That(d9.SumNexts().left, Is.EqualTo(2));
+        Assert.That(d9.SumNext().left, Is.EqualTo(2));
     }
 
     [Test]
     public void Part2()
     {
         var d9 = new Day09("Day09".ReadRealLines());
-        Assert.That(d9.SumNexts().left, Is.EqualTo(1208));
+        Assert.That(d9.SumNext().left, Is.EqualTo(1208));
     }
 }

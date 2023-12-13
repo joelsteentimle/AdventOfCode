@@ -2,22 +2,22 @@
 
 public class Day01
 {
-    public int SumTheFile(IEnumerable<string> lines) =>
+    public static int SumTheFile(IEnumerable<string> lines) =>
         lines.Select(LineValue).Sum();
 
     public static char[] LineNumbers(string line) =>
         line.Where(char.IsNumber).ToArray();
 
-    public int LineValue(string line) =>
-        Convert.ToInt16(new string(new[] { FirstNumber(line), LastNumber(line) }));
+    public static int LineValue(string line) =>
+        Convert.ToInt16(new string(new[] { FirstNumber(line), LastNumber(line) }), NumberFormatInfo.InvariantInfo);
 
-    private char LastNumber(string line) =>
+    private static char LastNumber(string line) =>
         FirstInRange(line, Enumerable.Range(0, line.Length).Reverse());
 
-    private char FirstNumber(string line) =>
+    private static char FirstNumber(string line) =>
         FirstInRange(line, Enumerable.Range(0, line.Length));
 
-    private char FirstInRange(string line, IEnumerable<int> range) =>
+    private static char FirstInRange(string line, IEnumerable<int> range) =>
         range.Select(i => PosAsNum(line, i))
             .FirstOrDefault(c => c is not null) ?? '0';
 

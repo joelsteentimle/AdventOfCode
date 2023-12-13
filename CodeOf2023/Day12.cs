@@ -1,25 +1,18 @@
-﻿using System.Text;
+﻿namespace AoC2023;
 
-namespace AoC2023;
+using System.Text;
 
-public class Day12
+public class Day12(IList<string> lines)
 {
-    public Day12(IList<string> lines)
-    {
-        Fields = lines.Select(l => new Field(l)).ToList();
-    }
-
     public long GetSum => Fields.Select(f => f.TotalCombinations()).Sum();
 
     public void Fold(int times)
     {
         foreach (var field in Fields)
-        {
             field.Fold(times);
-        }
     }
 
-    public IList<Field> Fields { get; set; }
+    public IList<Field> Fields { get; } = lines.Select(l => new Field(l)).ToList();
 
     public class Field
     {
@@ -27,15 +20,15 @@ public class Day12
         {
             var patternAndSprings = line.SplitAndTrim(' ');
             Pattern = patternAndSprings[0];
-            Springs = patternAndSprings[1].SplitAndTrim(',').Select(n => Convert.ToInt32(n)).ToList();
+            Springs = patternAndSprings[1].SplitAndTrim(',').Select(n => n.ToInt32()).ToList();
             Combinations = new long?[Pattern.Length, Springs.Count];
         }
 
         public void Fold(int times)
         {
             var newPatterBuilder = new StringBuilder(Pattern);
-            List<int> newSprings = [..Springs];
-            for (int i = 1; i < times; i++)
+            List<int> newSprings = [.. Springs];
+            for (var i = 1; i < times; i++)
             {
                 newPatterBuilder.Append('?');
                 newPatterBuilder.Append(Pattern);
@@ -48,16 +41,15 @@ public class Day12
             Combinations = new long?[Pattern.Length, Springs.Count];
         }
 
-        public long?[,] Combinations { get; set; }
+        private long?[,] Combinations { get; set; }
 
-        public List<int> Springs { get; set; }
+        public List<int> Springs { get; private set; }
 
-
-        public string Pattern { get; set; }
+        public string Pattern { get; private set; }
 
         public long TotalCombinations() => GetCombinations(0, 0);
 
-        public long GetCombinations(int startInPattern, int springNumber)
+        private long GetCombinations(int startInPattern, int springNumber)
         {
             if (springNumber >= Springs.Count || startInPattern >= Pattern.Length)
                 return 0;
@@ -68,27 +60,23 @@ public class Day12
                 return preCalculated.Value;
 
             var springSize = Springs[springNumber];
-            
+
             if (startInPattern + springSize > Pattern.Length)
             {
                 Combinations[startInPattern, springNumber] = 0;
                 return 0;
             }
-  
+
             var totalMatches = 0L;
 
             if (MatchStart(startInPattern, springNumber))
             {
                 if (springNumber + 1 == Springs.Count
-                    && Pattern[(startInPattern + springSize) ..].All(c => c!= '#'))
-                {
+                    && Pattern[(startInPattern + springSize)..].All(c => c != '#'))
                     totalMatches += 1;
-                }
-                else if(startInPattern + springSize < Pattern.Length &&
-                        Pattern[startInPattern + springSize] is '.' or '?')
-                {
+                else if (startInPattern + springSize < Pattern.Length &&
+                         Pattern[startInPattern + springSize] is '.' or '?')
                     totalMatches += GetCombinations(startInPattern + springSize + 1, springNumber + 1);
-                }
             }
 
             if (Pattern[startInPattern] is '.' or '?')
@@ -101,7 +89,7 @@ public class Day12
         public bool MatchStart(int startInPattern, int springNumber)
         {
             var springSize = Springs[springNumber];
-            return Pattern[startInPattern .. (startInPattern + springSize)].All(c => c is '#' or '?');
+            return Pattern[startInPattern..(startInPattern + springSize)].All(c => c is '#' or '?');
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using AoC2023;
+﻿namespace TestOf2023;
 
-namespace TestOf2023;
+using AoC2023;
 
 public class Day08Tests : DayTests
 {
@@ -19,7 +19,7 @@ public class Day08Tests : DayTests
     public void CanCreateNode()
     {
         var node = new Day08.DesertNode("AAA = (BBB, CCC)", []);
-        Assert.Multiple(() => { Assert.That(node.Name, Is.EqualTo("AAA")); });
+        Assert.Multiple(() => Assert.That(node.Name, Is.EqualTo("AAA")));
     }
 
     [Test]
@@ -40,8 +40,17 @@ public class Day08Tests : DayTests
     public void MultipeMovements()
     {
         var d8 = new Day08("Day08".ReadTestLines("2"));
-        Func<string, bool> startNodeCondition = nodeName => nodeName[2] == 'A';
-        Func<string, bool> endNodeCondition = nodeName => nodeName[2] == 'Z';
+
+        static bool startNodeCondition(string nodeName)
+        {
+            return nodeName[2] == 'A';
+        }
+
+        static bool endNodeCondition(string nodeName)
+        {
+            return nodeName[2] == 'Z';
+        }
+
         Assert.That(d8.MultiStepsTo(startNodeCondition, endNodeCondition), Is.EqualTo(6));
     }
 
@@ -49,11 +58,20 @@ public class Day08Tests : DayTests
     public void OneMultiMove()
     {
         var d8 = new Day08("Day08".ReadRealLines());
-        Func<string, bool> startNodeCondition = nodeName => nodeName == "TSA";
-        Func<string, bool> endNodeCondition = nodeName => nodeName[2] == 'Z';
+
+        static bool startNodeCondition(string nodeName)
+        {
+            return nodeName == "TSA";
+        }
+
+        static bool endNodeCondition(string nodeName)
+        {
+            return nodeName[2] == 'Z';
+        }
+
         Assert.That(d8.MultiStepsTo(startNodeCondition, endNodeCondition), Is.EqualTo(16343));
     }
-    
+
     // [Test]
     // public void FindLoops()
     // {
@@ -65,16 +83,26 @@ public class Day08Tests : DayTests
     public void JustToTest()
     {
         var d8 = new Day08("Day08".ReadTestLines("2"));
-        Func<string, bool> startNodeCondition = nodeName => nodeName[2] == 'A';
-        Func<string, bool> endNodeCondition = nodeName => nodeName[2] == 'Z';
+
+        static bool startNodeCondition(string nodeName) => nodeName[2] == 'A';
+        static bool endNodeCondition(string nodeName) =>  nodeName[2] == 'Z';
+
         Assert.That(d8.JustToZ(startNodeCondition, endNodeCondition), Is.EqualTo(6));
     }
 
     [Test]
     public void Part2()
     {
-        bool StartNodeCondition(string nodeName) => nodeName[2] == 'A';
-        bool EndNodeCondition(string nodeName) => nodeName[2] == 'Z';
+        bool StartNodeCondition(string nodeName)
+        {
+            return nodeName[2] == 'A';
+        }
+
+        bool EndNodeCondition(string nodeName)
+        {
+            return nodeName[2] == 'Z';
+        }
+
         Assert.That(RealInstance.JustToZ(StartNodeCondition, EndNodeCondition), Is.EqualTo(19185263738117));
     }
 

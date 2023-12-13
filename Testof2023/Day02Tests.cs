@@ -1,16 +1,16 @@
-﻿using AoC2023;
+﻿namespace TestOf2023;
 
-namespace TestOf2023;
+using AoC2023;
 
-internal class Day02Tests
+public class Day02Tests
 {
-    private readonly Day02 _day02 = new();
+    private readonly Day02 day02 = new();
 
     [Test]
     public void CanSplitToParts()
     {
         var gameLine = "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red";
-        var idAndString = gameLine["Game ".Length ..].Split(':');
+        var idAndString = gameLine["Game ".Length..].Split(':');
         var gameBalls = idAndString[1].Split(',', ';');
         Assert.Multiple(() =>
         {
@@ -35,16 +35,16 @@ internal class Day02Tests
     [Test]
     public void FirstOfData()
     {
-        _day02.AddAllGames("Day02".ReadTestLines());
-        Assert.That(_day02.Games[2]["green"], Is.EqualTo(3));
+        day02.AddAllGames("Day02".ReadTestLines());
+        Assert.That(day02.Games[2]["green"], Is.EqualTo(3));
     }
 
     [Test]
     public void CanFilterByLimits()
     {
-        _day02.AddAllGames("Day02".ReadTestLines());
+        day02.AddAllGames("Day02".ReadTestLines());
         var gamesMatchingLimit
-            = _day02.GamesMatchingLimits(
+            = day02.GamesMatchingLimits(
                 ("red", 12),
                 ("green", 13),
                 ("blue", 14)).ToArray();
@@ -56,25 +56,29 @@ internal class Day02Tests
     [Test]
     public void Solution()
     {
-        _day02.AddAllGames("Day02".ReadRealLines());
+        day02.AddAllGames("Day02".ReadRealLines());
         var gamesMatchingLimit
-            = _day02.GamesMatchingLimits(
+            = day02.GamesMatchingLimits(
                 ("red", 12),
                 ("green", 13),
                 ("blue", 14));
-
-        Assert.That(gamesMatchingLimit.Sum(), Is.EqualTo(2600));
-        Assert.That(_day02.PowerSum, Is.EqualTo(86036));
+        Assert.Multiple(() =>
+        {
+            Assert.That(gamesMatchingLimit.Sum(), Is.EqualTo(2600));
+            Assert.That(day02.PowerSum, Is.EqualTo(86036));
+        });
     }
 
     [Test]
     public void Power()
     {
-        _day02.AddAllGames("Day02".ReadTestLines());
-
-        Assert.That(_day02.GamePower(1), Is.EqualTo(48));
-        Assert.That(_day02.GamePower(2), Is.EqualTo(12));
-        Assert.That(_day02.GamePower(3), Is.EqualTo(1560));
-        Assert.That(_day02.PowerSum, Is.EqualTo(2286));
+        day02.AddAllGames("Day02".ReadTestLines());
+        Assert.Multiple(() =>
+        {
+            Assert.That(day02.GamePower(1), Is.EqualTo(48));
+            Assert.That(day02.GamePower(2), Is.EqualTo(12));
+            Assert.That(day02.GamePower(3), Is.EqualTo(1560));
+            Assert.That(day02.PowerSum, Is.EqualTo(2286));
+        });
     }
 }

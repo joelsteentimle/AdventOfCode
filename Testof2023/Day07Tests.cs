@@ -1,6 +1,6 @@
-﻿using AoC2023;
+﻿namespace TestOf2023;
 
-namespace TestOf2023;
+using AoC2023;
 
 public class Day07Tests
 {
@@ -14,24 +14,18 @@ public class Day07Tests
     ];
 
     [Test]
-    public void CanGetHandValue()
+    public void CanGetHandValue() => Assert.Multiple(() =>
     {
-        Assert.Multiple(() =>
-        {
-            Assert.That(new Day07.Hand("KK677", 28).HandValue, Is.EqualTo(3));
-            Assert.That(new Day07.Hand("32T3K", 765).HandValue, Is.EqualTo(2));
-            Assert.That(new Day07.Hand("T55J5", 684).HandValue, Is.EqualTo(4));
-            Assert.That(new Day07.Hand("KTJJT", 220).HandValue, Is.EqualTo(3));
-            Assert.That(new Day07.Hand("QQQJA", 483).HandValue, Is.EqualTo(4));
-        });
-    }
+        Assert.That(new Day07.Hand("KK677", 28).HandValue, Is.EqualTo(3));
+        Assert.That(new Day07.Hand("32T3K", 765).HandValue, Is.EqualTo(2));
+        Assert.That(new Day07.Hand("T55J5", 684).HandValue, Is.EqualTo(4));
+        Assert.That(new Day07.Hand("KTJJT", 220).HandValue, Is.EqualTo(3));
+        Assert.That(new Day07.Hand("QQQJA", 483).HandValue, Is.EqualTo(4));
+    });
 
     [Test]
-    public void SameHandIsSame()
-    {
-        Assert.That(new Day07.Hand("QQQJA", 483).CompareTo(new Day07.Hand("QQQJA", 555))
-            , Is.EqualTo(0));
-    }
+    public void SameHandIsSame() => Assert.That(new Day07.Hand("QQQJA", 483).CompareTo(new Day07.Hand("QQQJA", 555))
+        , Is.EqualTo(0));
 
     [Test]
     public void CanOrderHands()

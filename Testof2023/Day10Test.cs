@@ -1,6 +1,6 @@
-﻿using AoC2023;
+﻿namespace TestOf2023;
 
-namespace TestOf2023;
+using AoC2023;
 
 public class Day10Test
 {

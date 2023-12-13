@@ -2,13 +2,8 @@
 
 public class Day05
 {
-    public Dictionary<string, Element> Elements = [];
-    public (string type, List<ElementRange> ids) Requested;
-
-    public Day05()
-    {
-    }
-
+    private readonly Dictionary<string, Element> elements = [];
+    private (string type, List<ElementRange> ids) requested;
 
     public Day05(IEnumerable<string> input, bool isSeedsRange = false)
     {
@@ -22,13 +17,10 @@ public class Day05
                 {
                     if (value.Trim() == string.Empty)
                     {
-                        if (list.Last().Any())
-                            list.Add([]);
+                        if (list.Last().Count != 0) list.Add([]);
                     }
                     else
-                    {
                         list.Last().Add(value);
-                    }
 
                     return list;
                 });
@@ -36,15 +28,18 @@ public class Day05
         foreach (var mapSection in sectionsOfMaps) CreateElementMap(mapSection);
     }
 
-    public Dictionary<string, List<string>> ExistingMaps { get; } = [];
+    public Day05()
+    { }
+
+    private Dictionary<string, List<string>> ExistingMaps { get; } = [];
 
     public List<ElementRange> GetTargetIdsFromRequested(string target)
     {
-        var currentRequest = Requested;
+        var currentRequest = requested;
 
         while (currentRequest.type != target)
         {
-            var currentElement = Elements[currentRequest.type];
+            var currentElement = elements[currentRequest.type];
             var currentIds = currentRequest.ids;
 
             var nextElementName = ExistingMaps[currentRequest.type].First();
@@ -60,9 +55,7 @@ public class Day05
     private void CreateElementMap(List<string> mapSection)
     {
         var sourceAndTarget = mapSection.First()
-            .Split(new[] { '-', ' ' },
-                StringSplitOptions.TrimEntries |
-                StringSplitOptions.RemoveEmptyEntries);
+            .SplitAndTrim( '-', ' ');
 
         var source = sourceAndTarget[0];
         var target = sourceAndTarget[2];
@@ -70,9 +63,9 @@ public class Day05
         ExistingMaps.TryAdd(source, []);
         ExistingMaps[source].Add(target);
 
-        Elements.TryAdd(source, new Element());
+        elements.TryAdd(source, new Element());
 
-        var element = Elements[source];
+        var element = elements[source];
         element.AddMap(target, mapSection[1..]);
     }
 
@@ -85,7 +78,7 @@ public class Day05
             StringSplitOptions.RemoveEmptyEntries |
             StringSplitOptions.TrimEntries);
 
-        var seedInput = elementIds.Select(id => Convert.ToInt64(id)).ToList();
+        var seedInput = elementIds.Select(id => id.ToInt64()).ToList();
 
         if (isSeedsRange)
         {
@@ -94,27 +87,25 @@ public class Day05
             for (var i = 0; i + 1 < seedInput.Count; i += 2)
                 seedNumber.Add(new ElementRange(seedInput[i], seedInput[i] + seedInput[i + 1] - 1));
 
-            Requested = (elementName, seedNumber);
+            requested = (elementName, seedNumber);
         }
         else
-        {
-            Requested = (elementName, seedInput.Select(id => new ElementRange(id, id)).ToList());
-        }
+            requested = (elementName, seedInput.Select(id => new ElementRange(id, id)).ToList());
 
-        return Requested;
+        return requested;
     }
 
-    public struct ElementRange : IEquatable<ElementRange>
+    public readonly struct ElementRange : IEquatable<ElementRange>
     {
+        public override int GetHashCode() => HashCode.Combine(Start, End);
+
         public long Start { get; }
-        public long End { get; }
+        private long End { get; }
 
         public ElementRange(long start, long end)
         {
             if (start > end)
-            {
                 Start = End = 0;
-            }
             else
             {
                 Start = start;
@@ -122,23 +113,20 @@ public class Day05
             }
         }
 
-        public bool Equal(ElementRange other) => Start == other.Start && End == other.End;
+        private bool Equal(ElementRange other) => Start == other.Start && End == other.End;
 
-        public static ElementRange Empty { get; } = new(0, 0);
+        private static ElementRange Empty { get; } = new(0, 0);
 
         public bool IsEmpty => Equals(Empty);
 
-        public ( ElementRange overlap, ElementRange left) OverLap(ElementRange other)
+        public (ElementRange overlap, ElementRange left) OverLap(ElementRange other)
         {
-            if (Equal(other))
-                return (this, Empty);
+            if (Equal(other)) return (this, Empty);
 
             var newEnd = Math.Min(End, other.End);
             var newStart = Math.Max(Start, other.Start);
 
-            if (newStart > newEnd)
-                return (Empty, this);
-
+            if (newStart > newEnd) return (Empty, this);
 
             var overlap = new ElementRange(newStart, newEnd);
             var left = newStart > Start
@@ -150,22 +138,25 @@ public class Day05
 
         public bool Equals(ElementRange other) => Start == other.Start && End == other.End;
 
-        public ElementRange Addjust(long adjustment) => new(Start + adjustment, End + adjustment);
+        public ElementRange Adjust(long adjustment) => new(Start + adjustment, End + adjustment);
+
+        public override bool Equals(object? obj) => obj is ElementRange range && Equals(range);
+
+        public static bool operator ==(ElementRange left, ElementRange right) => left.Equals(right);
+
+        public static bool operator !=(ElementRange left, ElementRange right) => !(left == right);
     }
 
     public class Element
     {
         public Dictionary<string, Map> ElementMap { get; } = [];
 
-        public void AddMap(string target, List<string> mapData)
-        {
-            ElementMap[target] = new Map(mapData);
-        }
+        public void AddMap(string target, List<string> mapData) => ElementMap[target] = new Map(mapData);
 
 
         public class Map
         {
-            private readonly List<(ElementRange range, long adjustment)> _rangeMaps = [];
+            private readonly List<(ElementRange range, long adjustment)> rangeMaps = [];
 
             public Map(IEnumerable<string> input)
             {
@@ -176,11 +167,11 @@ public class Day05
                             StringSplitOptions.RemoveEmptyEntries |
                             StringSplitOptions.TrimEntries);
 
-                    var source = Convert.ToInt64(data[1]);
-                    var target = Convert.ToInt64(data[0]);
-                    var range = Convert.ToInt64(data[2]);
+                    var source = data[1].ToInt64();
+                    var target = data[0].ToInt64();
+                    var range = data[2].ToInt64();
 
-                    _rangeMaps.Add((new ElementRange(source, source + range - 1), target - source));
+                    rangeMaps.Add((new ElementRange(source, source + range - 1), target - source));
                 }
             }
 
@@ -189,18 +180,16 @@ public class Day05
                 var resultRanges = new List<ElementRange>();
                 var left = sourceIdRange;
 
-                foreach (var (range, adjustment) in _rangeMaps)
+                foreach (var (range, adjustment) in rangeMaps)
                 {
                     (var matched, left) = left.OverLap(range);
 
-                    if (!matched.IsEmpty) resultRanges.Add(matched.Addjust(adjustment));
+                    if (!matched.IsEmpty) resultRanges.Add(matched.Adjust(adjustment));
 
-                    if (left.IsEmpty)
-                        break;
+                    if (left.IsEmpty) break;
                 }
 
-                if (!left.IsEmpty)
-                    resultRanges.Add(left);
+                if (!left.IsEmpty) resultRanges.Add(left);
 
                 return resultRanges;
             }

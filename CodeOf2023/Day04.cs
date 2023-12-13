@@ -44,17 +44,17 @@ public class Day04
         public Card(string card)
         {
             var cardAndNumbers = card.Split(':');
-            Number = Convert.ToInt32(cardAndNumbers.First()["Card".Length..]);
+            Number = Convert.ToInt32(cardAndNumbers.First()["Card".Length..], NumberFormatInfo.InvariantInfo);
 
             var winnerAndMine = cardAndNumbers[1].Split('|');
             Winner = winnerAndMine.First().Split(' ',
                     StringSplitOptions.RemoveEmptyEntries |
                     StringSplitOptions.TrimEntries)
-                .Select(w => Convert.ToInt32(w));
+                .Select(w => Convert.ToInt32(w, NumberFormatInfo.InvariantInfo));
             Mine = winnerAndMine[1].Split(' ',
                     StringSplitOptions.RemoveEmptyEntries |
                     StringSplitOptions.TrimEntries)
-                .Select(m => Convert.ToInt32(m));
+                .Select(m => Convert.ToInt32(m, NumberFormatInfo.InvariantInfo));
         }
 
         public IEnumerable<int> Mine { get; }

@@ -1,6 +1,6 @@
-﻿using AoC2023;
+﻿namespace TestOf2023;
 
-namespace TestOf2023;
+using AoC2023;
 
 public class Day05Tests
 {
@@ -8,11 +8,11 @@ public class Day05Tests
     public void CanReadFirstLine()
     {
         var uut = new Day05();
-        var element = uut.ReadInitialLine("seeds: 79 14 55 13");
+        var (type, ids) = uut.ReadInitialLine("seeds: 79 14 55 13");
         Assert.Multiple(() =>
         {
-            Assert.That(element.type, Is.EqualTo("seed"));
-            Assert.That(element.ids.Select(e => e.Start), Is.EquivalentTo(new[] { 79, 14, 55, 13 }));
+            Assert.That(type, Is.EqualTo("seed"));
+            Assert.That(ids.Select(e => e.Start), Is.EquivalentTo(new[] { 79, 14, 55, 13 }));
         });
     }
 
@@ -21,14 +21,7 @@ public class Day05Tests
     {
         var input = new[]
         {
-            "",
-            "seed-to-soil map:",
-            "50 98 2",
-            "52 50 48",
-            "",
-            "soil-to-fertilizer map:",
-            "0 15 37",
-            "37 52 2",
+            "", "seed-to-soil map:", "50 98 2", "52 50 48", "", "soil-to-fertilizer map:", "0 15 37", "37 52 2",
             "39 0 15"
         };
         var parsed = input.Aggregate(new List<List<string>> { new() },
@@ -36,13 +29,10 @@ public class Day05Tests
             {
                 if (value.Trim() == string.Empty)
                 {
-                    if (list.Last().Count != 0)
-                        list.Add([]);
+                    if (list.Last().Count != 0) list.Add([]);
                 }
                 else
-                {
                     list.Last().Add(value);
-                }
 
                 return list;
             });

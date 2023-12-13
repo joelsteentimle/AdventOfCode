@@ -1,6 +1,6 @@
-using AoC2023;
-
 namespace TestOf2023;
+
+using AoC2023;
 
 public class Day01Tests
 {
@@ -12,13 +12,13 @@ public class Day01Tests
 
     [Test]
     public void CanFindLineValue() =>
-        Assert.That(_d1.LineValue("ue5shus53 ssa  89"), Is.EqualTo(59));
+        Assert.That(Day01.LineValue("ue5shus53 ssa  89"), Is.EqualTo(59));
 
     [Test]
     public void CanAddRows()
     {
         var fContent = "Day01".ReadTestLines();
-        var fileTotal = fContent.Select(_d1.LineValue).Sum();
+        var fileTotal = fContent.Select(Day01.LineValue).Sum();
         Assert.That(fileTotal, Is.EqualTo(142));
     }
 
@@ -26,7 +26,7 @@ public class Day01Tests
     public void Solution()
     {
         var fContent = "Day01".ReadRealLines();
-        var fileTotal = fContent.Select(_d1.LineValue).Sum();
+        var fileTotal = fContent.Select(Day01.LineValue).Sum();
         Assert.That(fileTotal, Is.EqualTo(54649));
     }
 
@@ -34,7 +34,7 @@ public class Day01Tests
     public void CanHandleWrittenNumbers()
     {
         var fContent = "Day01".ReadTestLines("2");
-        Assert.That(_d1.SumTheFile(fContent), Is.EqualTo(281));
+        Assert.That(Day01.SumTheFile(fContent), Is.EqualTo(281));
     }
 
     [TestCase(0, '1')]
@@ -48,14 +48,14 @@ public class Day01Tests
     [Test]
     public void Solution2()
     {
-        var fContent = "Day01".ReadRealLines(); 
-        Assert.That(_d1.SumTheFile(fContent), Is.EqualTo(54649));
+        var fContent = "Day01".ReadRealLines();
+        Assert.That(Day01.SumTheFile(fContent), Is.EqualTo(54649));
     }
 
     [Test]
     public void HomegrownTest3()
     {
-        var fContent = "Day01".ReadTestLines("3");            
-        Assert.That(_d1.SumTheFile(fContent), Is.EqualTo(231));
+        var fContent = "Day01".ReadTestLines("3");
+        Assert.That(Day01.SumTheFile(fContent), Is.EqualTo(231));
     }
 }

@@ -1,8 +1,8 @@
-﻿using AoC2023;
+﻿namespace TestOf2023;
 
-namespace TestOf2023;
+using AoC2023;
 
-internal class Day03Tests
+public class Day03Tests
 {
     [Test]
     public void CanFindNumbers()

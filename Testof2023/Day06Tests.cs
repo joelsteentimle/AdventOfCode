@@ -1,6 +1,6 @@
-﻿using AoC2023;
+﻿namespace TestOf2023;
 
-namespace TestOf2023;
+using AoC2023;
 
 public class Day06Tests
 {
@@ -12,10 +12,7 @@ public class Day06Tests
     }
 
     [Test]
-    public void DoFirstRace()
-    {
-        Assert.That(Day06.CalculateRace((7, 9)), Is.EqualTo(4));
-    }
+    public void DoFirstRace() => Assert.That(Day06.CalculateRace((7, 9)), Is.EqualTo(4));
 
     [Test]
     public void Part1Test()

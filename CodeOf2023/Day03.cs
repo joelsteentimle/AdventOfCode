@@ -1,32 +1,32 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿namespace AoC2023;
 
-namespace AoC2023;
+using System.Diagnostics.CodeAnalysis;
 
 public class Day03
 {
-    private readonly char[][] _inputField;
-    private readonly Dictionary<(int row, int column), List<int>> _mightBeGears = [];
-    public readonly List<int> Numbers = [];
-    public readonly List<int> Parts = [];
+    private readonly char[][] inputField;
+    private readonly Dictionary<(int row, int column), List<int>> mightBeGears = [];
+    public List<int> Numbers { get; } = [];
+    public List<int> Parts { get; } = [];
 
     public Day03(IEnumerable<string> lines)
     {
-        _inputField = lines.Select(l => l.ToArray()).ToArray();
+        inputField = lines.Select(l => l.ToArray()).ToArray();
         CalculateNumbersAndParts();
     }
 
-    public IEnumerable<List<int>> Gears => _mightBeGears.Values.Where(v => v.Count == 2);
+    public IEnumerable<List<int>> Gears => mightBeGears.Values.Where(v => v.Count == 2);
 
     private void CalculateNumbersAndParts()
     {
-        for (var rowNumber = 0; rowNumber < _inputField.Length; rowNumber++)
+        for (var rowNumber = 0; rowNumber < inputField.Length; rowNumber++)
         {
-            var row = _inputField[rowNumber];
+            var row = inputField[rowNumber];
             int? numberStart = null;
             for (var i = 0; i < row.Length; i++)
             {
-                if (StartOfNumber())
-                    numberStart = i;
+                if (StartOfNumber()) numberStart = i;
+
                 if (EndOfNumber(numberStart))
                 {
                     AddNumber(rowNumber, numberStart.Value, i);
@@ -52,26 +52,26 @@ public class Day03
 
     private void AddNumber(int rowNumber, int numberStart, int numberEnd)
     {
-        var number = Convert.ToInt32(new string(_inputField[rowNumber][numberStart..(numberEnd + 1)]));
+        var number = Convert.ToInt32(new string(inputField[rowNumber][numberStart..(numberEnd + 1)]), NumberFormatInfo.InvariantInfo);
 
         Numbers.Add(number);
 
-        if (CloseToPart())
-            Parts.Add(number);
+        if (CloseToPart()) Parts.Add(number);
+
         return;
 
         bool CloseToPart()
         {
             var rowStart = Math.Max(0, rowNumber - 1);
-            var rowEnd = Math.Min(_inputField.Length, rowNumber + 2);
+            var rowEnd = Math.Min(inputField.Length, rowNumber + 2);
 
             var columnStart = Math.Max(0, numberStart - 1);
-            var columnEnd = Math.Min(_inputField.Length, numberEnd + 2);
+            var columnEnd = Math.Min(inputField.Length, numberEnd + 2);
             var isPart = false;
 
             for (var gearRow = rowStart; gearRow < rowEnd; gearRow++)
             {
-                var row = _inputField[gearRow];
+                var row = inputField[gearRow];
                 for (var gearColumn = columnStart; gearColumn < columnEnd; gearColumn++)
                 {
                     var c = row[gearColumn];
@@ -85,10 +85,10 @@ public class Day03
 
                     void AddPossibleGear()
                     {
-                        if (_mightBeGears.TryGetValue((gearRow, gearColumn), out var numbers))
+                        if (mightBeGears.TryGetValue((gearRow, gearColumn), out var numbers))
                             numbers.Add(number);
                         else
-                            _mightBeGears[(gearRow, gearColumn)] = [number];
+                            mightBeGears[(gearRow, gearColumn)] = [number];
                     }
                 }
             }

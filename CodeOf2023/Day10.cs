@@ -5,7 +5,7 @@ public class Day10
     private readonly int?[,] _distances;
     private readonly char[,] _loopChars;
     private readonly char[][] _positionsChars;
-    public readonly Node[,] Map;
+    public Node[,] Map { get; }
 
     public Day10(IList<string> lines)
     {
@@ -17,12 +17,8 @@ public class Day10
 
 
         for (var y = 0; y < _positionsChars.Length; y++)
-        {
-            for (var x = 0; x < _positionsChars[y].Length; x++)
-            {
-                Map[y, x] = new Node(_positionsChars[y][x]);
-            }
-        }
+        for (var x = 0; x < _positionsChars[y].Length; x++)
+            Map[y, x] = new Node(_positionsChars[y][x]);
 
         PolishStart();
     }
@@ -32,26 +28,21 @@ public class Day10
     private void PolishStart()
     {
         for (var y = 0; y < Map.GetLength(0); y++)
-        {
-            for (var x = 0; x < Map.GetLength(1); x++)
+        for (var x = 0; x < Map.GetLength(1); x++)
+            if (Map[y, x].IsStart)
             {
-                if (Map[y, x].IsStart)
-                {
-                    UpdateStartNode(y, x);
-                    return;
-                }
+                UpdateStartNode(y, x);
+                return;
             }
-        }
     }
 
     private bool IsInRange(int y, int x) =>
         !(y < 0 || x < 0 || y >= Map.GetLength(0) || x >= Map.GetLength(1));
 
-    private Node GetMapNode((int, int ) pos)
+    private Node GetMapNode((int, int) pos)
     {
         var (y, x) = pos;
-        if (!IsInRange(y, x))
-            return Node.Oob;
+        if (!IsInRange(y, x)) return Node.Oob;
 
         return Map[y, x];
     }
@@ -65,14 +56,13 @@ public class Day10
 
         List<(int y, int x)> connected = [];
 
-        if (yMinus)
-            connected.Add((-1, 0));
-        if (yPlus)
-            connected.Add((1, 0));
-        if (xMinus)
-            connected.Add((0, -1));
-        if (xPlus)
-            connected.Add((0, 1));
+        if (yMinus) connected.Add((-1, 0));
+
+        if (yPlus) connected.Add((1, 0));
+
+        if (xMinus) connected.Add((0, -1));
+
+        if (xPlus) connected.Add((0, 1));
 
         Map[y, x].Connected = connected.ToArray();
         _distances[y, x] = 0;
@@ -125,9 +115,7 @@ public class Day10
             {
                 var c = _loopChars[y, x];
                 if (c is '|' or 'F' or '7')
-                {
                     isInside = !isInside;
-                }
 
                 if (isInside && c == 0)
                     tilesInside++;
@@ -140,14 +128,11 @@ public class Day10
     public class Node
     {
         public static readonly Node Oob = new();
-        public readonly bool IsStart;
+        public bool IsStart { get; }
 
-        public (int yMove, int xMove)[] Connected;
+        public (int yMove, int xMove)[] Connected { get; set; }
 
-        private Node()
-        {
-            Connected = [];
-        }
+        private Node() => Connected = [];
 
         public Node(char mapTile)
         {

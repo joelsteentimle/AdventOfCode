@@ -2,20 +2,19 @@
 
 public class Day06
 {
-    public readonly List<(long time, long distance)> Races;
+    public List<(long time, long distance)> Races { get; }
 
     public Day06(IList<string> input, bool isReal = false)
     {
-        if (isReal)
-            input = input.Select(s => s.Replace(" ", "")).ToList();
+        if (isReal) input = input.Select(s => s.Replace(" ", "")).ToList();
 
-        var times = input.First()["Time:".Length ..]
+        var times = input.First()["Time:".Length..]
             .Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
-        var distances = input[1]["Distance:".Length ..]
+        var distances = input[1]["Distance:".Length..]
             .Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
-        Races = times.Zip(distances, (t, d) => (Convert.ToInt64(t), Convert.ToInt64(d))).ToList();
+        Races = times.Zip(distances, (t, d) => (t.ToInt64(), d.ToInt64())).ToList();
     }
 
     public static int CalculateRace((long time, long distance) race)

@@ -1,27 +1,24 @@
-﻿using Open.Numeric.Primes;
+﻿namespace AoC2023;
 
-namespace AoC2023;
+using Open.Numeric.Primes;
 
 public class Day08
 {
     public Day08(List<string> input)
     {
         MoveInstructions = input.First().ToCharArray();
-        foreach (var line in input[2 ..])
+        foreach (var line in input[2..])
         {
             var node = new DesertNode(line, Nodes);
             Nodes[node.Name] = node;
         }
     }
 
-    public int StepsToNode(string endNodeName)
-    {
-        return MultiStepsTo(n => n == "AAA", n => n == endNodeName);
-    }
+    public int StepsToNode(string endNodeName) => MultiStepsTo(n => n == "AAA", n => n == endNodeName);
 
     public long JustToZ(Func<string, bool> startNodeCondition, Func<string, bool> endNodeCondition)
     {
-        List<DesertNode> startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
+        var startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
         Dictionary<long, int> totalFactors = [];
         foreach (var startNode in startNodes)
         {
@@ -29,7 +26,7 @@ public class Day08
 
             var factors = Prime.Factors(steps).Order().ToList();
 
-            for (int i = 0; i < factors.Count; i++)
+            for (var i = 0; i < factors.Count; i++)
             {
                 var fac = factors[i];
                 var count = factors.Count(f => f == fac);
@@ -39,10 +36,7 @@ public class Day08
 
         var repFact = new List<long>();
 
-        foreach (var key in totalFactors.Keys)
-        {
-            repFact.AddRange(Enumerable.Repeat(key, totalFactors[key]));
-        }
+        foreach (var key in totalFactors.Keys) repFact.AddRange(Enumerable.Repeat(key, totalFactors[key]));
 
         return repFact.Aggregate((i, j) => i * j);
 
@@ -52,12 +46,12 @@ public class Day08
 
     public int MultiStepsTo(Func<string, bool> startNodeCondition, Func<string, bool> endNodeCondition)
     {
-        List<DesertNode> startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
+        var startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
 
         return Steps(endNodeCondition, startNodes);
     }
 
-    public List<(int visited, int loop )> FindLoops(Func<string, bool> startNodeCondition)
+    public List<(int visited, int loop)> FindLoops(Func<string, bool> startNodeCondition)
     {
         var startNodes = Nodes.Values.Where(n => startNodeCondition(n.Name)).ToList();
         var loopLengths = new List<(int, int)>(startNodes.Count);
@@ -87,17 +81,14 @@ public class Day08
 
     private int Steps(Func<string, bool> endCondition, IList<DesertNode> currentNode)
     {
-        int ip = 0;
-        int steps = 0;
+        var ip = 0;
+        var steps = 0;
 
         while (currentNode.Any(n => !endCondition(n.Name)))
         {
             var currentInstruction = MoveInstructions[ip];
 
-            for (var i = 0; i < currentNode.Count; i++)
-            {
-                currentNode[i] = SingleStep(currentInstruction, currentNode[i]);
-            }
+            for (var i = 0; i < currentNode.Count; i++) currentNode[i] = SingleStep(currentInstruction, currentNode[i]);
 
             ip = ++ip >= MoveInstructions.Length ? 0 : ip;
             steps++;
@@ -106,19 +97,16 @@ public class Day08
         return steps;
     }
 
-    private static DesertNode SingleStep(char currentInstruction, DesertNode here)
+    private static DesertNode SingleStep(char currentInstruction, DesertNode here) => currentInstruction switch
     {
-        return currentInstruction switch
-        {
-            'L' => here.Left.Value,
-            _ => here.Right.Value
-        };
-    }
+        'L' => here.Left.Value,
+        _ => here.Right.Value
+    };
 
     public Dictionary<string, DesertNode> Nodes { get; } = [];
     public char[] MoveInstructions { get; }
 
-    public struct DesertNode
+    public readonly struct DesertNode
     {
         public string Name { get; }
         public Lazy<DesertNode> Right { get; }

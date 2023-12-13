@@ -2,10 +2,10 @@
 
 public class Day02
 {
-    private readonly Dictionary<int, Dictionary<string, int>> _gamesMaxValuePerColour = new();
+    private readonly Dictionary<int, Dictionary<string, int>> gamesMaxValuePerColour = [];
 
     public IReadOnlyDictionary<int, Dictionary<string, int>> Games
-        => _gamesMaxValuePerColour;
+        => gamesMaxValuePerColour;
 
     public int PowerSum =>
         Games.Keys.Select(GamePower).Sum();
@@ -18,9 +18,9 @@ public class Day02
 
     private void AddGameString(string gameLine)
     {
-        var idAndString = gameLine["Game ".Length ..].Split(':');
-        var gameId = Convert.ToInt32(idAndString.First());
-        _gamesMaxValuePerColour[gameId] = ParseGameLine(idAndString.Last());
+        var idAndString = gameLine["Game ".Length..].Split(':');
+        var gameId = Convert.ToInt32(idAndString.First(), NumberFormatInfo.InvariantInfo);
+        gamesMaxValuePerColour[gameId] = ParseGameLine(idAndString.Last());
     }
 
     private static Dictionary<string, int> ParseGameLine(string gamePart)
@@ -31,7 +31,7 @@ public class Day02
         foreach (var colorString in colorParts)
         {
             var countAndColour = colorString.Trim().Split(' ');
-            result.MaxToDictionary(countAndColour.Last(), Convert.ToInt32(countAndColour.First()));
+            result.MaxToDictionary(countAndColour.Last(), Convert.ToInt32(countAndColour.First(), NumberFormatInfo.InvariantInfo));
         }
 
         return result;
