@@ -17,8 +17,8 @@ public class Day10
 
 
         for (var y = 0; y < _positionsChars.Length; y++)
-        for (var x = 0; x < _positionsChars[y].Length; x++)
-            Map[y, x] = new Node(_positionsChars[y][x]);
+            for (var x = 0; x < _positionsChars[y].Length; x++)
+                Map[y, x] = new Node(_positionsChars[y][x]);
 
         PolishStart();
     }
@@ -28,12 +28,12 @@ public class Day10
     private void PolishStart()
     {
         for (var y = 0; y < Map.GetLength(0); y++)
-        for (var x = 0; x < Map.GetLength(1); x++)
-            if (Map[y, x].IsStart)
-            {
-                UpdateStartNode(y, x);
-                return;
-            }
+            for (var x = 0; x < Map.GetLength(1); x++)
+                if (Map[y, x].IsStart)
+                {
+                    UpdateStartNode(y, x);
+                    return;
+                }
     }
 
     private bool IsInRange(int y, int x) =>
@@ -42,7 +42,8 @@ public class Day10
     private Node GetMapNode((int, int) pos)
     {
         var (y, x) = pos;
-        if (!IsInRange(y, x)) return Node.Oob;
+        if (!IsInRange(y, x))
+            return Node.Oob;
 
         return Map[y, x];
     }
@@ -56,13 +57,17 @@ public class Day10
 
         List<(int y, int x)> connected = [];
 
-        if (yMinus) connected.Add((-1, 0));
+        if (yMinus)
+            connected.Add((-1, 0));
 
-        if (yPlus) connected.Add((1, 0));
+        if (yPlus)
+            connected.Add((1, 0));
 
-        if (xMinus) connected.Add((0, -1));
+        if (xMinus)
+            connected.Add((0, -1));
 
-        if (xPlus) connected.Add((0, 1));
+        if (xPlus)
+            connected.Add((0, 1));
 
         Map[y, x].Connected = connected.ToArray();
         _distances[y, x] = 0;

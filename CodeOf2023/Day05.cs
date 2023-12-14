@@ -17,7 +17,8 @@ public class Day05
                 {
                     if (value.Trim() == string.Empty)
                     {
-                        if (list.Last().Count != 0) list.Add([]);
+                        if (list.Last().Count != 0)
+                            list.Add([]);
                     }
                     else
                         list.Last().Add(value);
@@ -25,7 +26,8 @@ public class Day05
                     return list;
                 });
 
-        foreach (var mapSection in sectionsOfMaps) CreateElementMap(mapSection);
+        foreach (var mapSection in sectionsOfMaps)
+            CreateElementMap(mapSection);
     }
 
     public Day05()
@@ -55,7 +57,7 @@ public class Day05
     private void CreateElementMap(List<string> mapSection)
     {
         var sourceAndTarget = mapSection.First()
-            .SplitAndTrim( '-', ' ');
+            .SplitAndTrim('-', ' ');
 
         var source = sourceAndTarget[0];
         var target = sourceAndTarget[2];
@@ -121,12 +123,14 @@ public class Day05
 
         public (ElementRange overlap, ElementRange left) OverLap(ElementRange other)
         {
-            if (Equal(other)) return (this, Empty);
+            if (Equal(other))
+                return (this, Empty);
 
             var newEnd = Math.Min(End, other.End);
             var newStart = Math.Max(Start, other.Start);
 
-            if (newStart > newEnd) return (Empty, this);
+            if (newStart > newEnd)
+                return (Empty, this);
 
             var overlap = new ElementRange(newStart, newEnd);
             var left = newStart > Start
@@ -184,12 +188,15 @@ public class Day05
                 {
                     (var matched, left) = left.OverLap(range);
 
-                    if (!matched.IsEmpty) resultRanges.Add(matched.Adjust(adjustment));
+                    if (!matched.IsEmpty)
+                        resultRanges.Add(matched.Adjust(adjustment));
 
-                    if (left.IsEmpty) break;
+                    if (left.IsEmpty)
+                        break;
                 }
 
-                if (!left.IsEmpty) resultRanges.Add(left);
+                if (!left.IsEmpty)
+                    resultRanges.Add(left);
 
                 return resultRanges;
             }

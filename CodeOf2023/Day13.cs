@@ -27,23 +27,27 @@ public class Day13
             _isRock = new bool[lines.First().Length, lines.Count];
 
             for (var y = 0; y < lines.Count; y++)
-            for (var x = 0; x < lines[y].Length; x++)
-                _isRock[x, y] = lines[y][x] == '#';
+                for (var x = 0; x < lines[y].Length; x++)
+                    _isRock[x, y] = lines[y][x] == '#';
 
             for (var x = 1; x < _isRock.GetLength(0); x++)
             {
                 var (current, smudge) = CheckIfVMirror(x);
-                if (current) VFold = x;
+                if (current)
+                    VFold = x;
 
-                if (smudge) VSmudgeFold = x;
+                if (smudge)
+                    VSmudgeFold = x;
             }
 
             for (var y = 1; y < _isRock.GetLength(1); y++)
             {
                 var (current, smudge) = CheckIfHMirror(y);
-                if (current) HFold = y;
+                if (current)
+                    HFold = y;
 
-                if (smudge) HSmudgeFold = y;
+                if (smudge)
+                    HSmudgeFold = y;
             }
         }
 
@@ -59,7 +63,8 @@ public class Day13
                     if (_isRock[right, y] != _isRock[left, y])
                     {
                         smudges++;
-                        if (smudges > 1) return (false, false);
+                        if (smudges > 1)
+                            return (false, false);
                     }
 
                 left--;
@@ -81,7 +86,8 @@ public class Day13
                     if (_isRock[x, lower] != _isRock[x, upper])
                     {
                         smudges++;
-                        if (smudges > 1) return (false, false);
+                        if (smudges > 1)
+                            return (false, false);
                     }
 
                 upper++;

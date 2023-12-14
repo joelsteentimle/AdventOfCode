@@ -1,8 +1,7 @@
-﻿namespace TestOf2023;
-
+﻿
 using AoC2023;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Serialization;
 
+namespace TestOf2023;
 public class Day14Tests : DayTests
 {
     [Test]

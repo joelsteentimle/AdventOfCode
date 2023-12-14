@@ -12,7 +12,8 @@ public class Day02
 
     public void AddAllGames(IEnumerable<string> games)
     {
-        foreach (var game in games) AddGameString(game);
+        foreach (var game in games)
+            AddGameString(game);
     }
 
 

@@ -1,7 +1,7 @@
-﻿namespace TestOf2023;
-
+﻿
 using AoC2023;
 
+namespace TestOf2023;
 public class Day02Tests
 {
     private readonly Day02 day02 = new();

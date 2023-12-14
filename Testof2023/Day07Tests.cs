@@ -1,7 +1,7 @@
-﻿namespace TestOf2023;
-
+﻿
 using AoC2023;
 
+namespace TestOf2023;
 public class Day07Tests
 {
     private readonly List<Day07.Hand> _testHands =

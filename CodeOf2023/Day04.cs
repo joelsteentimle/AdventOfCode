@@ -67,10 +67,12 @@ public class Day04
         {
             var myWinners = MatchingNumbers();
 
-            if (myWinners == 0) return 0;
+            if (myWinners == 0)
+                return 0;
 
             var myScore = 1;
-            for (var i = 0; i < myWinners - 1; i++) myScore *= 2;
+            for (var i = 0; i < myWinners - 1; i++)
+                myScore *= 2;
 
             return myScore;
         }

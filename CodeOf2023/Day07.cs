@@ -32,12 +32,14 @@ public class Day07(IEnumerable<string> readTestLines, bool isPart2 = false)
         public int CompareTo(Hand other)
         {
             var handValueComparison = HandValue.CompareTo(other.HandValue);
-            if (handValueComparison != 0) return handValueComparison;
+            if (handValueComparison != 0)
+                return handValueComparison;
 
             for (var card = 0; card < Cards.Length; card++)
             {
                 var comp = CardValue(Cards[card]).CompareTo(CardValue(other.Cards[card]));
-                if (comp != 0) return comp;
+                if (comp != 0)
+                    return comp;
             }
 
             return 0;

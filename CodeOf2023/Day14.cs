@@ -9,14 +9,14 @@ public class Day14(IList<string> realLines)
         var initialMap = new MapElement[list[0].Length, list.Count];
 
         for (var y = 0; y < list.Count; y++)
-        for (var x = 0; x < list[y].Length; x++)
-            initialMap[x, y] = list[y][x] switch
-            {
-                'O' => MapElement.Rolling,
-                '#' => MapElement.Stuck,
-                '.' => MapElement.Empty,
-                _ => throw new ArgumentException("Not know ")
-            };
+            for (var x = 0; x < list[y].Length; x++)
+                initialMap[x, y] = list[y][x] switch
+                {
+                    'O' => MapElement.Rolling,
+                    '#' => MapElement.Stuck,
+                    '.' => MapElement.Empty,
+                    _ => throw new ArgumentException("Not know ")
+                };
 
         return initialMap;
     }
@@ -26,9 +26,9 @@ public class Day14(IList<string> realLines)
         long totalLoad = 0;
         var mapHeight = Map.GetLength(1);
         for (var x = 0; x < Map.GetLength(0); x++)
-        for (var y = 0; y < Map.GetLength(1); y++)
-            if (Map[x, y] == MapElement.Rolling)
-                totalLoad += mapHeight - y;
+            for (var y = 0; y < Map.GetLength(1); y++)
+                if (Map[x, y] == MapElement.Rolling)
+                    totalLoad += mapHeight - y;
 
         return totalLoad;
     }
@@ -65,9 +65,9 @@ public class Day14(IList<string> realLines)
     private bool MapEqual(MapElement[,] preCycleMap, MapElement[,] map)
     {
         for (var x = 0; x < Map.GetLength(0); x++)
-        for (var y = 0; y < Map.GetLength(1); y++)
-            if (preCycleMap[x, y] != map[x, y])
-                return false;
+            for (var y = 0; y < Map.GetLength(1); y++)
+                if (preCycleMap[x, y] != map[x, y])
+                    return false;
 
         return true;
     }
@@ -90,15 +90,15 @@ public class Day14(IList<string> realLines)
         var yIter = dy > 0 ? -dy : 1;
 
         for (var x = xStart; x < width && x >= 0; x += xIter)
-        for (var y = yStart; y < height && y >= 0; y += yIter)
-            if (Map[x, y] == MapElement.Rolling)
-            {
-                rolledMap[x, y] = MapElement.Empty;
-                var (rolledX, rolledY) = RollBoulder(rolledMap, (x, y), direction);
-                rolledMap[rolledX, rolledY] = MapElement.Rolling;
-            }
-            else
-                rolledMap[x, y] = Map[x, y];
+            for (var y = yStart; y < height && y >= 0; y += yIter)
+                if (Map[x, y] == MapElement.Rolling)
+                {
+                    rolledMap[x, y] = MapElement.Empty;
+                    var (rolledX, rolledY) = RollBoulder(rolledMap, (x, y), direction);
+                    rolledMap[rolledX, rolledY] = MapElement.Rolling;
+                }
+                else
+                    rolledMap[x, y] = Map[x, y];
 
         Map = rolledMap;
     }

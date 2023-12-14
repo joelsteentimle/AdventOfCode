@@ -1,7 +1,7 @@
-﻿namespace TestOf2023;
-
+﻿
 using AoC2023;
 
+namespace TestOf2023;
 public class Day08Tests : DayTests
 {
     [Test]
@@ -41,15 +41,9 @@ public class Day08Tests : DayTests
     {
         var d8 = new Day08("Day08".ReadTestLines("2"));
 
-        static bool startNodeCondition(string nodeName)
-        {
-            return nodeName[2] == 'A';
-        }
+        static bool startNodeCondition(string nodeName) => nodeName[2] == 'A';
 
-        static bool endNodeCondition(string nodeName)
-        {
-            return nodeName[2] == 'Z';
-        }
+        static bool endNodeCondition(string nodeName) => nodeName[2] == 'Z';
 
         Assert.That(d8.MultiStepsTo(startNodeCondition, endNodeCondition), Is.EqualTo(6));
     }
@@ -59,15 +53,9 @@ public class Day08Tests : DayTests
     {
         var d8 = new Day08("Day08".ReadRealLines());
 
-        static bool startNodeCondition(string nodeName)
-        {
-            return nodeName == "TSA";
-        }
+        static bool startNodeCondition(string nodeName) => nodeName == "TSA";
 
-        static bool endNodeCondition(string nodeName)
-        {
-            return nodeName[2] == 'Z';
-        }
+        static bool endNodeCondition(string nodeName) => nodeName[2] == 'Z';
 
         Assert.That(d8.MultiStepsTo(startNodeCondition, endNodeCondition), Is.EqualTo(16343));
     }
@@ -85,7 +73,7 @@ public class Day08Tests : DayTests
         var d8 = new Day08("Day08".ReadTestLines("2"));
 
         static bool startNodeCondition(string nodeName) => nodeName[2] == 'A';
-        static bool endNodeCondition(string nodeName) =>  nodeName[2] == 'Z';
+        static bool endNodeCondition(string nodeName) => nodeName[2] == 'Z';
 
         Assert.That(d8.JustToZ(startNodeCondition, endNodeCondition), Is.EqualTo(6));
     }
@@ -93,15 +81,9 @@ public class Day08Tests : DayTests
     [Test]
     public void Part2()
     {
-        bool StartNodeCondition(string nodeName)
-        {
-            return nodeName[2] == 'A';
-        }
+        bool StartNodeCondition(string nodeName) => nodeName[2] == 'A';
 
-        bool EndNodeCondition(string nodeName)
-        {
-            return nodeName[2] == 'Z';
-        }
+        bool EndNodeCondition(string nodeName) => nodeName[2] == 'Z';
 
         Assert.That(RealInstance.JustToZ(StartNodeCondition, EndNodeCondition), Is.EqualTo(19185263738117));
     }

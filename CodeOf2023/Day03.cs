@@ -1,7 +1,7 @@
-﻿namespace AoC2023;
-
+﻿
 using System.Diagnostics.CodeAnalysis;
 
+namespace AoC2023;
 public class Day03
 {
     private readonly char[][] inputField;
@@ -25,7 +25,8 @@ public class Day03
             int? numberStart = null;
             for (var i = 0; i < row.Length; i++)
             {
-                if (StartOfNumber()) numberStart = i;
+                if (StartOfNumber())
+                    numberStart = i;
 
                 if (EndOfNumber(numberStart))
                 {
@@ -35,17 +36,11 @@ public class Day03
 
                 continue;
 
-                bool EndOfNumber([NotNullWhen(true)] int? startOfNumber)
-                {
-                    return startOfNumber.HasValue
+                bool EndOfNumber([NotNullWhen(true)] int? startOfNumber) => startOfNumber.HasValue
                            && (i == row.Length - 1
                                || !char.IsNumber(row[i + 1]));
-                }
 
-                bool StartOfNumber()
-                {
-                    return numberStart is null && char.IsNumber(row[i]);
-                }
+                bool StartOfNumber() => numberStart is null && char.IsNumber(row[i]);
             }
         }
     }
@@ -56,7 +51,8 @@ public class Day03
 
         Numbers.Add(number);
 
-        if (CloseToPart()) Parts.Add(number);
+        if (CloseToPart())
+            Parts.Add(number);
 
         return;
 
@@ -78,7 +74,8 @@ public class Day03
                     if (c != '.' && !char.IsNumber(c))
                     {
                         isPart = true;
-                        if (c == '*') AddPossibleGear();
+                        if (c == '*')
+                            AddPossibleGear();
                     }
 
                     continue;

@@ -1,7 +1,7 @@
-﻿namespace AoC2023;
-
+﻿
 using System.Text;
 
+namespace AoC2023;
 public class Day12(IList<string> lines)
 {
     public long GetSum => Fields.Select(f => f.TotalCombinations()).Sum();

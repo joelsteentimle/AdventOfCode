@@ -6,7 +6,8 @@ public class Day06
 
     public Day06(IList<string> input, bool isReal = false)
     {
-        if (isReal) input = input.Select(s => s.Replace(" ", "")).ToList();
+        if (isReal)
+            input = input.Select(s => s.Replace(" ", "")).ToList();
 
         var times = input.First()["Time:".Length..]
             .Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);

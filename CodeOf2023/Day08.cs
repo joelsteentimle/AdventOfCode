@@ -1,7 +1,7 @@
-﻿namespace AoC2023;
-
+﻿
 using Open.Numeric.Primes;
 
+namespace AoC2023;
 public class Day08
 {
     public Day08(List<string> input)
@@ -36,7 +36,8 @@ public class Day08
 
         var repFact = new List<long>();
 
-        foreach (var key in totalFactors.Keys) repFact.AddRange(Enumerable.Repeat(key, totalFactors[key]));
+        foreach (var key in totalFactors.Keys)
+            repFact.AddRange(Enumerable.Repeat(key, totalFactors[key]));
 
         return repFact.Aggregate((i, j) => i * j);
 
@@ -88,7 +89,8 @@ public class Day08
         {
             var currentInstruction = MoveInstructions[ip];
 
-            for (var i = 0; i < currentNode.Count; i++) currentNode[i] = SingleStep(currentInstruction, currentNode[i]);
+            for (var i = 0; i < currentNode.Count; i++)
+                currentNode[i] = SingleStep(currentInstruction, currentNode[i]);
 
             ip = ++ip >= MoveInstructions.Length ? 0 : ip;
             steps++;

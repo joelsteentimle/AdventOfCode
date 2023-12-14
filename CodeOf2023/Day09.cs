@@ -16,7 +16,8 @@ public class Day09(IList<string> lines)
         {
             current = [];
             valueReduce.Push(previous);
-            for (var i = 0; i + 1 < previous.Count; i++) current.Add(previous[i + 1] - previous[i]);
+            for (var i = 0; i + 1 < previous.Count; i++)
+                current.Add(previous[i + 1] - previous[i]);
 
             previous = current;
         } while (current.Any(c => c != 0));
@@ -33,6 +34,6 @@ public class Day09(IList<string> lines)
         return (leftNumber, rightNumber);
     }
 
-    private readonly List<List<int>> originalSeries  =
+    private readonly List<List<int>> originalSeries =
         lines.Select(l => l.SplitAndTrim(' ').Select(n => Convert.ToInt32(n, NumberFormatInfo.InvariantInfo)).ToList()).ToList();
 }

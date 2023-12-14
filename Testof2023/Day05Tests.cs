@@ -1,7 +1,7 @@
-﻿namespace TestOf2023;
-
+﻿
 using AoC2023;
 
+namespace TestOf2023;
 public class Day05Tests
 {
     [Test]
@@ -29,7 +29,8 @@ public class Day05Tests
             {
                 if (value.Trim() == string.Empty)
                 {
-                    if (list.Last().Count != 0) list.Add([]);
+                    if (list.Last().Count != 0)
+                        list.Add([]);
                 }
                 else
                     list.Last().Add(value);

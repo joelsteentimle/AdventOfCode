@@ -24,9 +24,9 @@ public class Day11
         InsertInX();
 
         for (var x = 0; x < charArr[0].Count; x++)
-        for (var y = 0; y < charArr.Count; y++)
-            if (charArr[y][x] == '#')
-                Stars.Add(new Star(x, y));
+            for (var y = 0; y < charArr.Count; y++)
+                if (charArr[y][x] == '#')
+                    Stars.Add(new Star(x, y));
 
         void InsertInY()
         {
@@ -47,8 +47,8 @@ public class Day11
     {
         var totalDistance = 0L;
         for (var firstStar = 0; firstStar < Stars.Count - 1; firstStar++)
-        for (var secondStar = firstStar + 1; secondStar < Stars.Count; secondStar++)
-            totalDistance += StarsDistance(Stars[firstStar], Stars[secondStar]);
+            for (var secondStar = firstStar + 1; secondStar < Stars.Count; secondStar++)
+                totalDistance += StarsDistance(Stars[firstStar], Stars[secondStar]);
 
         return totalDistance;
     }
