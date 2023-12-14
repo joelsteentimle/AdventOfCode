@@ -2,26 +2,21 @@
 
 public class Day14(IList<string> realLines)
 {
-    public Stonish[,] Map { get; private set; } = CalculateMap(realLines);
+    private MapElement[,] Map { get; set; } = CalculateMap(realLines);
 
-    private static Stonish[,] CalculateMap(IList<string> list)
+    private static MapElement[,] CalculateMap(IList<string> list)
     {
-        var initialMap = new Stonish[list[0].Length, list.Count];
+        var initialMap = new MapElement[list[0].Length, list.Count];
 
         for (var y = 0; y < list.Count; y++)
-        {
-            var row = list[y];
-            for (var x = 0; x < row.Length; x++)
+        for (var x = 0; x < list[y].Length; x++)
+            initialMap[x, y] = list[y][x] switch
             {
-                initialMap[x, y] = row[x] switch
-                {
-                    'O' => Stonish.Rolling,
-                    '#' => Stonish.Stuck,
-                    '.' => Stonish.Empty,
-                    _=> throw new ArgumentException("Not know ")
-                };
-            }
-        }
+                'O' => MapElement.Rolling,
+                '#' => MapElement.Stuck,
+                '.' => MapElement.Empty,
+                _ => throw new ArgumentException("Not know ")
+            };
 
         return initialMap;
     }
@@ -29,76 +24,103 @@ public class Day14(IList<string> realLines)
     public long CalculateLoad()
     {
         long totalLoad = 0;
-        int mapHeight = Map.GetLength(1);
-        for (int x = 0; x < Map.GetLength(0); x++)
-        {
-            for (int y = 0; y < Map.GetLength(1); y++)
-            {
-                if (Map[x, y] == Stonish.Rolling)
-                    totalLoad += mapHeight - y;
-            }
-        }
+        var mapHeight = Map.GetLength(1);
+        for (var x = 0; x < Map.GetLength(0); x++)
+        for (var y = 0; y < Map.GetLength(1); y++)
+            if (Map[x, y] == MapElement.Rolling)
+                totalLoad += mapHeight - y;
 
         return totalLoad;
     }
 
-    public enum Stonish  {
-        Rolling =1,
-        Stuck =2,
-        Empty =3
+    private enum MapElement
+    {
+        Rolling = 1,
+        Stuck = 2,
+        Empty = 3
     }
 
-    public void RollNorth()
+    public void CycleRoll(int cycles)
     {
-        var height = Map.GetLength(0);
-        var width = Map.GetLength(1);
-        var rolledMap = new Stonish[height, width];
+        List<MapElement[,]> preCycleMap = [];
 
-        for (int x = 0; x < width; x++)
+        for (var i = 0; i < cycles; i++)
         {
-            for (var y = 0; y < height; y++)
+            var indexOf = preCycleMap.FindIndex(pr => MapEqual(pr, Map));
+            if (indexOf != -1)
             {
-                if(Map[x,y] == Stonish.Rolling)
-                {
-                    rolledMap[x, y] = Stonish.Empty;
-                    var (rolledX, rolledY) = GetRolledUp(rolledMap, (x, y), (0,-1));
-                    rolledMap[rolledX, rolledY] = Stonish.Rolling;
-                }
-                else
-                {
-                    rolledMap[x, y] = Map[x, y];
-                }
+                var cyclesToRepeat = preCycleMap.Count - indexOf;
+                CycleRoll((cycles - i) % cyclesToRepeat);
+                break;
             }
+
+            preCycleMap.Add(Map);
+            RollNorth();
+            RollWest();
+            RollSouth();
+            RollEast();
         }
+    }
+
+    private bool MapEqual(MapElement[,] preCycleMap, MapElement[,] map)
+    {
+        for (var x = 0; x < Map.GetLength(0); x++)
+        for (var y = 0; y < Map.GetLength(1); y++)
+            if (preCycleMap[x, y] != map[x, y])
+                return false;
+
+        return true;
+    }
+
+    public void RollNorth() => Roll((0, -1));
+    private void RollEast() => Roll((1, 0));
+    private void RollSouth() => Roll((0, 1));
+    private void RollWest() => Roll((-1, 0));
+
+    private void Roll((int dx, int dy) direction)
+    {
+        var (dx, dy) = direction;
+        var width = Map.GetLength(0);
+        var height = Map.GetLength(1);
+        var rolledMap = new MapElement[height, width];
+
+        var xStart = dx > 0 ? width - 1 : 0;
+        var yStart = dy > 0 ? height - 1 : 0;
+        var xIter = dx > 0 ? -dx : 1;
+        var yIter = dy > 0 ? -dy : 1;
+
+        for (var x = xStart; x < width && x >= 0; x += xIter)
+        for (var y = yStart; y < height && y >= 0; y += yIter)
+            if (Map[x, y] == MapElement.Rolling)
+            {
+                rolledMap[x, y] = MapElement.Empty;
+                var (rolledX, rolledY) = RollBoulder(rolledMap, (x, y), direction);
+                rolledMap[rolledX, rolledY] = MapElement.Rolling;
+            }
+            else
+                rolledMap[x, y] = Map[x, y];
 
         Map = rolledMap;
     }
 
-    private (int rolledX, int rolledY) GetRolledUp(Stonish[,] rolledMap, (int x, int y) position, (int x, int y) direction)
+    private (int rolledX, int rolledY) RollBoulder(MapElement[,] map, (int x, int y) boulderPosition,
+        (int x, int y) direction)
     {
-        var nextPosition = Move(position, direction);
+        var nextPosition = Move(boulderPosition, direction);
 
-        while (InsideBounds(nextPosition) && rolledMap[nextPosition.x, nextPosition.y] == Stonish.Empty)
+        while (InsideBounds(nextPosition) && map[nextPosition.x, nextPosition.y] == MapElement.Empty)
         {
-            position = nextPosition;
-            nextPosition = Move(position, direction);
+            boulderPosition = nextPosition;
+            nextPosition = Move(boulderPosition, direction);
         }
 
-        return position;
+        return boulderPosition;
     }
 
-    private bool InsideBounds( (int x, int y) pos) =>
+    private bool InsideBounds((int x, int y) pos) =>
         0 <= pos.x && pos.x < Map.GetLength(0)
                    && 0 <= pos.y && pos.y < Map.GetLength(1);
 
-    private  static (int x, int y) Move((int x, int y) pos, (int dx, int dy) dir)
+    private static (int x, int y) Move((int x, int y) pos, (int dx, int dy) dir)
         => (pos.x + dir.dx, pos.y + dir.dy);
-
-    // public (int rolledX, int rolledY) GetRolledUp(Stonish[,] map, int x, int y)
-    // {
-    //     for (int rollingTo = y - 1; rollingTo >= 0; rollingTo--)
-    //     {
-    //
-    //     }
-    // }
 }

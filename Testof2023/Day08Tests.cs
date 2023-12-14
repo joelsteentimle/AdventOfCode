@@ -106,5 +106,5 @@ public class Day08Tests : DayTests
         Assert.That(RealInstance.JustToZ(StartNodeCondition, EndNodeCondition), Is.EqualTo(19185263738117));
     }
 
-    private Day08 RealInstance => new(RealLines);
+    private Day08 RealInstance => new(GetRealLines());
 }

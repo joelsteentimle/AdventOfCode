@@ -42,6 +42,6 @@ public class Day13Tests : DayTests
     [Test]
     public void Part2() => Assert.That(RealInstance.SmudgeSum, Is.EqualTo(29083));
 
-    private Day13 RealInstance => new(RealLines);
-    private Day13 TestInstance => new(TestLines);
+    private Day13 RealInstance => new(GetRealLines());
+    private Day13 TestInstance => new(GetTestLines());
 }
