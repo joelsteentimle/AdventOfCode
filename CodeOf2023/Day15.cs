@@ -43,7 +43,7 @@ public class Day15(List<string> lines)
 
     private Dictionary<int, List<Lens>> Boxes { get; } = ParseBoxes(lines.First());
 
-    private record Lens(string Key, int Number)
+    private sealed record Lens(string Key, int Number)
     {
         public int Number { get; set; } = Number;
     }
