@@ -5,15 +5,22 @@ namespace TestOf2023;
 public class Day16Tests : DayTests
 {
     [Test]
-    public void CanReadLinesAndMatrix() =>
-        Assert.Multiple(() =>
-        {
-            Assert.That(RealInstance.TextGroups, Has.Count.GreaterThan(2));
-            Assert.That(GetTestInstance().Map.GetLength(0), Is.GreaterThan(10));
-        });
+    public void Part1Test() =>
+        Assert.That(GetTestInstance().Shine(new Day16.Position(0, 0), Day16.Direction.East), Is.EqualTo(46));
+
+    [Test]
+    public void Part1() =>
+        Assert.That( RealInstance.Shine(new Day16.Position(0, 0), Day16.Direction.East), Is.EqualTo(6361));
+
+    [Test]
+    public void Part2Test()
+        => Assert.That(GetTestInstance().MaxEnergized(), Is.EqualTo(51));
+
+    [Test]
+    public void Part2()
+        => Assert.That(RealInstance.MaxEnergized(), Is.EqualTo(6701));
 
     private Day16 RealInstance => new(GetRealLines());
 
     private Day16 GetTestInstance(string suffix = "") => new(GetTestLines(suffix));
-
 }
