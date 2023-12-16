@@ -2,7 +2,7 @@
 using AoC2023;
 
 namespace TestOf2023;
-public class Day10Test
+public class Day10Tests
 {
     [Test]
     public void CanFindStart()
