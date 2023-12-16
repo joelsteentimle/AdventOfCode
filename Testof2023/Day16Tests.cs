@@ -10,7 +10,7 @@ public class Day16Tests : DayTests
 
     [Test]
     public void Part1() =>
-        Assert.That( RealInstance.Shine(new Day16.Position(0, 0), Day16.Direction.East), Is.EqualTo(6361));
+        Assert.That(RealInstance.Shine(new Day16.Position(0, 0), Day16.Direction.East), Is.EqualTo(6361));
 
     [Test]
     public void Part2Test()

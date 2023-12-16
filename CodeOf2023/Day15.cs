@@ -60,7 +60,8 @@ public class Day15(List<string> lines)
         {
             var boxSum = 0;
             var lenses = Boxes[key];
-            for (var i = 0; i < lenses.Count; i++) boxSum += (i + 1) * lenses[i].Number;
+            for (var i = 0; i < lenses.Count; i++)
+                boxSum += (i + 1) * lenses[i].Number;
 
             sum += boxSum * (key + 1);
 
