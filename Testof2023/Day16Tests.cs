@@ -1,4 +1,5 @@
 ﻿using AoC2023;
+using AoC2023.Graph;
 
 namespace TestOf2023;
 
@@ -6,11 +7,11 @@ public class Day16Tests : DayTests
 {
     [Test]
     public void Part1Test() =>
-        Assert.That(GetTestInstance().Shine(new Day16.Position(0, 0), Day16.Direction.East), Is.EqualTo(46));
+        Assert.That(GetTestInstance().Shine(new Position(0, 0), Direction.East), Is.EqualTo(46));
 
     [Test]
     public void Part1() =>
-        Assert.That(RealInstance.Shine(new Day16.Position(0, 0), Day16.Direction.East), Is.EqualTo(6361));
+        Assert.That(RealInstance.Shine(new Position(0, 0), Direction.East), Is.EqualTo(6361));
 
     [Test]
     public void Part2Test()

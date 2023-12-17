@@ -2,12 +2,11 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=8AB328D0_002D8C6A_002D4D34_002D9327_002D754B9544C0E0_002Ff_003AUnitTest1_002Ecs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">SUGGESTION</s:String>
 	
+	
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingMode/@EntryValue">OnlyMarkers</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=053f8ae8_002D0d11_002D4629_002D9b3a_002D48648a08941e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Day16Tests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Solution /&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=50c59725_002Dd89c_002D48f6_002D8e55_002De566caf68232/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Day16Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=93edd68d_002D8c59_002D48e1_002D85dc_002D570772c44640/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Day17Tests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day17Tests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day16Tests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
@@ -16,9 +15,13 @@
 	
 	
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=654e7feb_002Df130_002D414b_002D8c50_002Db0989ee5e8e8/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="2" Name="Day15Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	
+	
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d6530acd_002D9e0e_002D4884_002D99d6_002D609bf216b6e4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Day17Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day15Tests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day17Tests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day16Tests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	

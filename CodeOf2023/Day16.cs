@@ -1,4 +1,7 @@
-﻿namespace AoC2023;
+﻿using System.Transactions;
+using AoC2023.Graph;
+
+namespace AoC2023;
 
 public class Day16(List<string> lines)
 {
@@ -87,52 +90,43 @@ public class Day16(List<string> lines)
         {
 
             (Direction.East, '\\') or (Direction.West, '/') =>
-                [new Beam(Direction.South, Move(current.Pos, Direction.South))],
+                [new Beam(Direction.South, current.Pos.Move( Direction.South))],
             (Direction.East, '/') or (Direction.West, '\\') =>
-                [new Beam(Direction.North, Move(current.Pos, Direction.North))],
+                [new Beam(Direction.North, current.Pos.Move( Direction.North))],
             (Direction.South, '\\') or (Direction.North, '/') =>
-                [new Beam(Direction.East, Move(current.Pos, Direction.East))],
+                [new Beam(Direction.East, current.Pos.Move( Direction.East))],
             (Direction.South, '/') or (Direction.North, '\\') =>
-                [new Beam(Direction.West, Move(current.Pos, Direction.West))],
+                [new Beam(Direction.West, current.Pos.Move( Direction.West))],
 
             (Direction.North or Direction.South, '-') =>
             [
-                new Beam(Direction.East, Move(current.Pos, Direction.East)),
-                new Beam(Direction.West, Move(current.Pos, Direction.West))
+                new Beam(Direction.East, current.Pos.Move( Direction.East)),
+                new Beam(Direction.West, current.Pos.Move( Direction.West))
             ],
             (Direction.West or Direction.East, '|') =>
             [
-                new Beam(Direction.South, Move(current.Pos, Direction.South)),
-                new Beam(Direction.North, Move(current.Pos, Direction.North))
+                new Beam(Direction.South, current.Pos.Move( Direction.South)),
+                new Beam(Direction.North, current.Pos.Move( Direction.North))
             ],
 
-            (Direction.North or Direction.South, '|') => [current with { Pos = Move(current.Pos, dir) }],
-            (Direction.East or Direction.West, '-') => [current with { Pos = Move(current.Pos, dir) }],
-            (_, '.') => [current with { Pos = Move(current.Pos, dir) }],
+            (Direction.North or Direction.South, '|') => [current with { Pos = current.Pos.Move( dir) }],
+            (Direction.East or Direction.West, '-') => [current with { Pos = current.Pos.Move( dir) }],
+            (_, '.') => [current with { Pos = current.Pos.Move( dir) }],
             _ => []
         };
     }
 
-    public static Position Move(Position pos, Direction dir) =>
-        dir switch
-        {
-            Direction.North => pos with { Y = pos.Y - 1 },
-            Direction.East => pos with { X = pos.X + 1 },
-            Direction.South => pos with { Y = pos.Y + 1 },
-            Direction.West => pos with { X = pos.X - 1 },
-            _ => throw new ArgumentException($"Not a direction! {dir}")
-        };
+    // public static Position Move( Direction dir) =>
+    //     dir switch
+    //     {
+    //         Direction.North => pos with { Y = pos.Y - 1 },
+    //         Direction.East => pos with { X = pos.X + 1 },
+    //         Direction.South => pos with { Y = pos.Y + 1 },
+    //         Direction.West => pos with { X = pos.X - 1 },
+    //         _ => throw new ArgumentException($"Not a direction! {dir}")
+    //     };
 
-    public record struct Position(int X, int Y);
     public record struct Beam(Direction Dir, Position Pos);
-
-    public enum Direction
-    {
-        East,
-        South,
-        West,
-        North
-    }
 
     public int Shine(Position start, Direction dir)
     {
