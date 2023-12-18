@@ -31,6 +31,26 @@ public class Day17Tests : DayTests
             Is.EqualTo(102));
 
 
+    [Test]
+    public void Part2Test()
+    {
+        var testInstance = new Day17(GetTestLines(), true);
+        Assert.That(testInstance.Dijkstra(new Position(0, 0),
+                new Position( testInstance.Map.GetLength(0)-1
+                    ,testInstance.Map.GetLength(1)-1)),
+            Is.EqualTo(94));
+    }
+
+    [Test]
+    public void Part2()
+    {
+        var testInstance = new Day17(GetRealLines(), true);
+        Assert.That(testInstance.Dijkstra(new Position(0, 0),
+                new Position( testInstance.Map.GetLength(0)-1
+                    ,testInstance.Map.GetLength(1)-1)),
+            Is.EqualTo(94));
+    }
+
     private Day17 RealInstance => new(GetRealLines());
 
     private Day17 GetTestInstance(string suffix = "") => new(GetTestLines(suffix));

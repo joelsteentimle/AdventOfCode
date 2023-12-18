@@ -3,7 +3,7 @@ using AoC2023.Graph;
 
 namespace AoC2023;
 
-public class Day17(List<string> lines)
+public class Day17(List<string> lines, bool isPart2 = false)
 {
     public int[,] Map { get; } = CalculateMap(lines);
     public Path?[,] PathMap { get; } = InitializePaths(lines);
@@ -24,6 +24,24 @@ public class Day17(List<string> lines)
         return initialMap;
     }
 
+    public IEnumerable<Direction> DirectionsForPath(Path here)
+    {
+        if (!isPart2)
+        {
+            return AllButBack(here.LastDirection)
+                .Where(d => d != here.LastDirection || here.TimesInSame < 3);
+
+        }
+        else
+        {
+            if (here.TimesInSame < 4)
+                return [here.LastDirection];
+
+            return AllButBack(here.LastDirection)
+                .Where(d => d != here.LastDirection || here.TimesInSame < 10);
+        }
+    }
+
     public int Dijkstra(Position from, Position to)
     {
         var known = new SortedSet<Path>(new Path.Comparer());
@@ -36,9 +54,9 @@ public class Day17(List<string> lines)
                && current.Cost < 4000)
         {
             processed++;
-            foreach (var dir in AllButBack(current.LastDirection))
+            foreach (var dir in  DirectionsForPath(current))
             {
-                if (current != null && (dir != current.LastDirection || current.TimesInSame < 3))
+                if (current != null)
                 {
                     var nextPosition = current.Position.Move(dir);
                     if (InsideBound(nextPosition))
