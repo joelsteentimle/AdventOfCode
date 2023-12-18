@@ -33,7 +33,7 @@ public class Day17(List<string> lines)
         var processed = 0;
         while (current != null
                && (current.Position.X != to.X || current.Position.Y != to.Y)
-               && current.Cost < 500)
+               && current.Cost < 4000)
         {
             processed++;
             foreach (var dir in AllButBack(current.LastDirection))
@@ -77,10 +77,10 @@ public class Day17(List<string> lines)
     private Direction[] AllButBack(Direction dir) =>
         dir switch
         {
-            Direction.East => [Direction.North, Direction.West, Direction.South],
-            Direction.South => [Direction.North, Direction.West, Direction.East],
-            Direction.West => [Direction.North, Direction.South, Direction.East],
-            Direction.North => [Direction.West, Direction.South, Direction.East],
+            Direction.East => [Direction.North, Direction.East, Direction.South],
+            Direction.South => [Direction.South, Direction.West, Direction.East],
+            Direction.West => [Direction.North, Direction.South, Direction.West],
+            Direction.North => [Direction.West, Direction.North, Direction.East],
             _ => throw new ArgumentOutOfRangeException(nameof(dir), dir, null)
         };
 
