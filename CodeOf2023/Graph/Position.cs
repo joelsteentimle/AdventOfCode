@@ -1,14 +1,16 @@
 ﻿namespace AoC2023.Graph;
 
-public record struct Position(int X, int Y)
+public readonly record struct Position(int X, int Y)
 {
-    public Position Move(Direction dir) =>
+    public Position Move(Direction dir) => Move(dir, 1);
+
+    public Position Move(Direction dir, int distance) =>
         dir switch
         {
-            Direction.North => this with { Y = this.Y - 1 },
-            Direction.East => this with { X = this.X + 1 },
-            Direction.South => this with { Y = this.Y + 1 },
-            Direction.West => this with { X = this.X - 1 },
+            Direction.North => this with { Y = Y - distance },
+            Direction.East => this with { X = X + distance },
+            Direction.South => this with { Y = Y + distance },
+            Direction.West => this with { X = X - distance },
             _ => throw new ArgumentException($"Not a direction! {dir}")
         };
 }
