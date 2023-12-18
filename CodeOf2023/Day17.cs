@@ -31,22 +31,23 @@ public class Day17(List<string> lines)
         var current = new Path(new Position(from.X, from.Y), 0, Direction.East, 0);
         known.Add(current);
         var processed = 0;
-        while ( current != null && ( current.Position.X != to.X || current.Position.Y != to.Y)
+        while (current != null
+               && (current.Position.X != to.X || current.Position.Y != to.Y)
                && current.Cost < 500)
         {
             processed++;
-            foreach (var dir in (Direction[]) Enum.GetValues(typeof(Direction)) )
+            foreach (var dir in AllButBack(current.LastDirection))
             {
-                if ( current != null && (dir != current.LastDirection || current.TimesInSame < 3))
+                if (current != null && (dir != current.LastDirection || current.TimesInSame < 3))
                 {
                     var nextPosition = current.Position.Move(dir);
                     if (InsideBound(nextPosition))
                     {
                         var nextCost = current.Cost + Map[nextPosition.X, nextPosition.Y];
 
-                        // var previousTargetPath = PathMap[nextPosition.X, nextPosition.Y];
-                        // if(previousTargetPath is null || previousTargetPath.Cost > nextCost)
-                        // {
+                        var previousTargetPath = PathMap[nextPosition.X, nextPosition.Y];
+                        if (previousTargetPath is null || (previousTargetPath.Cost + 18)  > nextCost )
+                        {
                             var nextPath = new Path(
                                 nextPosition,
                                 nextCost,
@@ -54,23 +55,35 @@ public class Day17(List<string> lines)
                                 dir == current.LastDirection ? current.TimesInSame + 1 : 1
                             );
                             known.Add(nextPath);
-                        //     PathMap[nextPath.position.X, nextPath.position.Y] = nextPath;
-                        // }
+                            if (previousTargetPath is null || previousTargetPath.Cost > nextCost)
+                                PathMap[nextPath.Position.X, nextPath.Position.Y] = nextPath;
+                        }
                     }
                 }
             }
 
-                if(current is not null)
-                    known.Remove(current);
+            if (current is not null)
+                known.Remove(current);
 
-                current = known.Min;
+            current = known.Min;
         }
 
-        if ( current is null || current.Position.X != to.X || current.Position.Y != to.Y)
+        if (current is null || current.Position.X != to.X || current.Position.Y != to.Y)
             throw new EvaluateException("No path found");
 
         return current.Cost;
     }
+
+    private Direction[] AllButBack(Direction dir) =>
+        dir switch
+        {
+            Direction.East => [Direction.North, Direction.West, Direction.South],
+            Direction.South => [Direction.North, Direction.West, Direction.East],
+            Direction.West => [Direction.North, Direction.South, Direction.East],
+            Direction.North => [Direction.West, Direction.South, Direction.East],
+            _ => throw new ArgumentOutOfRangeException(nameof(dir), dir, null)
+        };
+
 
     private bool InsideBound(Position position) =>
         position.X < Map.GetLength(0)
@@ -93,8 +106,9 @@ public class Day17(List<string> lines)
                  if (ReferenceEquals(x,null)) return -1;
                  if (ReferenceEquals(null,y)) return 1;
                  var costDif = x.Cost.CompareTo(y.Cost);
-                 if (costDif == 0
-                     && x.Position.X == y.Position.X
+                 if (costDif != 0)
+                     return costDif;
+                 if(x.Position.X == y.Position.X
                      && x.Position.Y == y.Position.Y
                      && x.LastDirection == y.LastDirection
                      && x.TimesInSame == y.TimesInSame)

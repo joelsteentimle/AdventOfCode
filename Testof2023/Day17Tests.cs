@@ -18,10 +18,17 @@ public class Day17Tests : DayTests
     {
         var testInstance = GetTestInstance();
         Assert.That(testInstance.Dijkstra(new Position(0, 0),
-                new Position( testInstance.Map.GetLength(0)
-                ,testInstance.Map.GetLength(1))),
+                new Position( testInstance.Map.GetLength(0)-1
+                ,testInstance.Map.GetLength(1)-1)),
                 Is.EqualTo(102));
     }
+
+    [Test]
+    public void Part1() =>
+        Assert.That(RealInstance.Dijkstra(new Position(0, 0),
+                new Position( RealInstance.Map.GetLength(0)-1
+                    ,RealInstance.Map.GetLength(1)-1)),
+            Is.EqualTo(102));
 
 
     private Day17 RealInstance => new(GetRealLines());
