@@ -30,7 +30,6 @@ public class Day17Tests : DayTests
                     ,RealInstance.Map.GetLength(1)-1)),
             Is.EqualTo(758));
 
-
     [Test]
     public void Part2Test()
     {
