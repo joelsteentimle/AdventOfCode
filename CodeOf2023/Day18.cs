@@ -1,26 +1,30 @@
-﻿using System.Diagnostics;
-using AoC2023.Graph;
+﻿using AoC2023.Graph;
 
 namespace AoC2023;
 
-public class Day18(List<string> lines)
+public class Day18(List<string> lines, bool IsPart2)
 {
-    // public IList<string> TextGroups { get; } = lines.First().SplitAndTrim(',');
-    public List<Instruction> Insturtctions { get; } = CalculateInstructions(lines);
+    private long xMin;
+    private long xMax;
+    private long yMin;
+    private long yMax;
+    public List<Instruction> Insturtctions { get; } = CalculateInstructions(lines, IsPart2);
     public LagoonPoint?[,] LavaMap { get; private set; } = new LagoonPoint[0, 0];
     public Position StartPoint { get; private set; } = new(0, 0);
     public bool RightIsIn { get; private set; }
 
-    private static List<Instruction> CalculateInstructions(List<string> list) =>
-        list.Select(l => new Instruction(l)).ToList();
+    private static List<Instruction> CalculateInstructions(List<string> list, bool isPart2) =>
+        list.Select(l => isPart2 ? Instruction.Part2(l) : new Instruction(l)).ToList();
 
     public void GenerateFieldAndStart()
     {
+        FindCornerAndStart();
+        LavaMap = new LagoonPoint[xMax - xMin + 1, yMax - yMin + 1];
+    }
+
+    public void FindCornerAndStart()
+    {
         var position = new Position(0, 0);
-        var xMin = 0;
-        var xMax = 0;
-        var yMin = 0;
-        var yMax = 0;
 
         foreach (var instruction in Insturtctions)
         {
@@ -41,10 +45,9 @@ public class Day18(List<string> lines)
             }
 
         }
-
-        LavaMap = new LagoonPoint[xMax - xMin + 1, yMax - yMin + 1];
         StartPoint = new Position(-xMin, -yMin);
     }
+
 
     public void WalkThroughTheTrench()
     {
@@ -84,11 +87,52 @@ public class Day18(List<string> lines)
         }
     }
 
+    public long Part2PoolVolume()
+    {
+        var current = StartPoint;
+        long totalDoubleCountedVolume =0L;
+        long distance = 0L;
+
+        for (var i = 0; i < Insturtctions.Count; i++)
+        {
+            var instruction = Insturtctions[i];
+
+            if (instruction.Direction is Direction.North or Direction.South)
+            {
+                var nextDir = Insturtctions[(i + 1) % Insturtctions.Count].Direction;
+                var prevDir = Insturtctions[(i + Insturtctions.Count - 1) % Insturtctions.Count].Direction;
+
+                var nrOuter = 0;
+                if ( LookInside(instruction.Direction) == nextDir)
+                    nrOuter++;
+                if ( LookInside(prevDir) == instruction.Direction)
+                    nrOuter++;
+
+                // Right of is inside
+                if ((instruction.Direction is Direction.North && RightIsIn)
+                    || (instruction.Direction is Direction.South && !RightIsIn))
+                {
+                    totalDoubleCountedVolume += (xMax - current.X +1) * (instruction.Distance -1 + nrOuter);
+                    totalDoubleCountedVolume -= (current.X) * (instruction.Distance -1 +nrOuter);
+                }
+                else
+                {
+                    totalDoubleCountedVolume += ( current.X +1) * (instruction.Distance -1 +nrOuter);
+                    totalDoubleCountedVolume -= (xMax -current.X) * (instruction.Distance -1 +nrOuter);
+                }
+            }
+
+            current = current.Move(instruction.Direction, instruction.Distance);
+        }
+
+        return (totalDoubleCountedVolume/2) +distance;
+    }
+
     public Direction LookInside(Direction lastMove) =>
         (Direction) ((int)(lastMove + (RightIsIn ? 1 : 3)) %4 );
 
     public int TrenchVolume() => SumUp((lp) => lp?.Trench is true);
-    public int PoolVolume() => SumUp((lp) => lp?.Pool is true);
+    public int Part1PoolVolume() => SumUp((lp) => lp?.Pool is true);
 
     private int SumUp(Func<LagoonPoint?, bool> countPoint)
     {
@@ -107,8 +151,13 @@ public class Day18(List<string> lines)
     public class Instruction
     {
         public Direction Direction { get; }
-        public int Distance { get; }
-        // public (int R, int G, int B) colour { get; }
+        public long Distance { get; }
+
+        public Instruction(Direction dir, int dist)
+        {
+            Direction = dir;
+            Distance = dist;
+        }
 
         public Instruction(string line)
         {
@@ -122,6 +171,22 @@ public class Day18(List<string> lines)
                 _ => throw new ArgumentException("Not valid!")
             };
             Distance = splitLine[1].ToInt32();
+        }
+
+        public static Instruction Part2(string line)
+        {
+            var splitLine = line.SplitAndTrim(' ', '#', '(', ')');
+            var hexCoded = splitLine.Last();
+            var dist = Convert.ToInt32(hexCoded[..5], 16);
+            var dir = hexCoded[^1] switch
+            {
+                '0' => Direction.East,
+                '1' => Direction.South,
+                '2' => Direction.West,
+                '3' => Direction.North,
+                _ => throw new ArgumentException("Not valid!")
+            };
+            return new Instruction(dir, dist);
         }
     }
 }

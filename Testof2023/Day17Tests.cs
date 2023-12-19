@@ -28,7 +28,7 @@ public class Day17Tests : DayTests
         Assert.That(RealInstance.Dijkstra(new Position(0, 0),
                 new Position( RealInstance.Map.GetLength(0)-1
                     ,RealInstance.Map.GetLength(1)-1)),
-            Is.EqualTo(102));
+            Is.EqualTo(758));
 
 
     [Test]
@@ -48,7 +48,7 @@ public class Day17Tests : DayTests
         Assert.That(testInstance.Dijkstra(new Position(0, 0),
                 new Position( testInstance.Map.GetLength(0)-1
                     ,testInstance.Map.GetLength(1)-1)),
-            Is.EqualTo(94));
+            Is.EqualTo(892));
     }
 
     private Day17 RealInstance => new(GetRealLines());

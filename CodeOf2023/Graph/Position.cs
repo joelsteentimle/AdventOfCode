@@ -1,10 +1,10 @@
 ﻿namespace AoC2023.Graph;
 
-public readonly record struct Position(int X, int Y)
+public readonly record struct Position(long X, long Y)
 {
     public Position Move(Direction dir) => Move(dir, 1);
 
-    public Position Move(Direction dir, int distance) =>
+    public Position Move(Direction dir, long distance) =>
         dir switch
         {
             Direction.North => this with { Y = Y - distance },
