@@ -47,10 +47,63 @@ public class Day19Tests : DayTests
     }
 
     [Test]
-    public void Part1Test() => Assert.That(GetTestInstance().GetSum(), Is.EqualTo(19114));
+    public void Part1Test() =>
+        Assert.That(GetTestInstance().GetSum(), Is.EqualTo(19114));
 
     [Test]
-    public void Part1() => Assert.That(RealInstance.GetSum(), Is.EqualTo(263678));
+    public void Part1() =>
+        Assert.That(RealInstance.GetSum(), Is.EqualTo(263678));
+
+    [Test]
+    public void CanProcessRange()
+    {
+        var r1 = new Day19.Sorter.Rule("a<2006:qkq");
+        var r2 = new Day19.Sorter.Rule("s>3448:A");
+        var startParts = new Day19.RangeParts();
+        var afterLess = r1.Split(startParts);
+        var afterGreater = r2.Split(startParts);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(afterLess.splitted, Is.EqualTo(new Day19.RangeParts(
+                new Day19.Range(0, 4000),
+                new Day19.Range(0, 4000),
+                new Day19.Range(0, 2005),
+                new Day19.Range(0, 4000))));
+
+            Assert.That(afterLess.left, Is.EqualTo(new Day19.RangeParts(
+                new Day19.Range(0, 4000),
+                new Day19.Range(0, 4000),
+                new Day19.Range(2006, 4000),
+                new Day19.Range(0, 4000))));
+
+             Assert.That(afterGreater.splitted, Is.EqualTo(new Day19.RangeParts(
+                new Day19.Range(0, 4000),
+                new Day19.Range(0, 4000),
+                new Day19.Range(0, 4000),
+                new Day19.Range(3449, 4000))));
+
+            Assert.That(afterGreater.left, Is.EqualTo(new Day19.RangeParts(
+                new Day19.Range(0, 4000),
+                new Day19.Range(0, 4000),
+                new Day19.Range(0, 4000),
+                new Day19.Range(0, 3448))));
+        });
+    }
+
+    [Test]
+    public void Part2Test() =>
+        Assert.That(GetTestInstance().GetRangeSums(), Is.EqualTo(167409079868000));
+
+    [Test]
+    public void Part2() =>
+        Assert.That(RealInstance.GetRangeSums(), Is.EqualTo(125455345557345));
+
+    [Test]
+    public void Part2Minimal() =>
+        Assert.That(new Day19(["in{a<3997:R,a>3997:R,x>1:R,m<4000:R,s>2:R,A", ""]).GetRangeSums(),
+            Is.EqualTo(6));
+
 
     private Day19 RealInstance => new(GetRealLines());
     private Day19 GetTestInstance(string suffix = "") => new(GetTestLines(suffix));

@@ -21,7 +21,8 @@ public class Day16Tests : DayTests
     public void Part2()
         => Assert.That(RealInstance.MaxEnergized(), Is.EqualTo(6701));
 
-    private Day16 RealInstance => new(GetRealLines());
+
+private Day16 RealInstance => new(GetRealLines());
 
     private Day16 GetTestInstance(string suffix = "") => new(GetTestLines(suffix));
 }
