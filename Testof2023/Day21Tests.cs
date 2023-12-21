@@ -5,12 +5,12 @@ namespace TestOf2023;
 public class Day21Tests : DayTests
 {
     [Test]
-    public void CanReadLinesAndMatrix() =>
-        Assert.Multiple(() =>
-        {
-            Assert.That(RealInstance.TextGroups, Has.Count.GreaterThan(2));
-            Assert.That(GetTestInstance().Map.GetLength(0), Is.GreaterThan(10));
-        });
+    public void Part1Test()
+        => Assert.That(GetTestInstance().CountEndPlots(16), Is.EqualTo(16));
+
+    [Test]
+    public void Part1()
+        => Assert.That(RealInstance.CountEndPlots(64), Is.EqualTo(3658));
 
     private Day21 RealInstance => new(GetRealLines());
 

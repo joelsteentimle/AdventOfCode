@@ -71,7 +71,7 @@ public class Day20
     private Dictionary<string, PulseMod> PulseMods { get; } =[];
 
 
-    private class Broadcaster(string name, List<string> targets)
+    private sealed class Broadcaster(string name, List<string> targets)
     {
         public string Name { get; } = name;
         public List<string> Targets { get; } = targets;
@@ -88,7 +88,7 @@ public class Day20
         public abstract Queue<Pulse> ReceivePulse(Pulse input);
     }
 
-    private class FlipMod(string name, List<string> targets) : PulseMod(name, targets)
+    private sealed class FlipMod(string name, List<string> targets) : PulseMod(name, targets)
     {
         private bool modIsOn;
 
@@ -106,7 +106,7 @@ public class Day20
         }
     }
 
-    private class ConMod(string nameArg, List<string> targets) : PulseMod(nameArg, targets)
+    private sealed class ConMod(string nameArg, List<string> targets) : PulseMod(nameArg, targets)
     {
         private readonly Dictionary<string, PulseLevel> inputs = [];
 
@@ -125,7 +125,7 @@ public class Day20
         }
     }
 
-    private record Pulse(string Sender, string Target, PulseLevel Level);
+    private sealed record Pulse(string Sender, string Target, PulseLevel Level);
 
     private enum PulseLevel
     {
