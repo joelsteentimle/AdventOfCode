@@ -22,7 +22,7 @@ public class Day16Tests : DayTests
         => Assert.That(RealInstance.MaxEnergized(), Is.EqualTo(6701));
 
 
-private Day16 RealInstance => new(GetRealLines());
+    private Day16 RealInstance => new(GetRealLines());
 
     private Day16 GetTestInstance(string suffix = "") => new(GetTestLines(suffix));
 }

@@ -1,6 +1,6 @@
 ﻿namespace AoC2023.Graph;
 
-public enum Direction:int
+public enum Direction : int
 {
     East = 0,
     South = 1,

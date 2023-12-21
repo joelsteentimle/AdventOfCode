@@ -1,5 +1,4 @@
-﻿using System.Transactions;
-using AoC2023.Graph;
+﻿using AoC2023.Graph;
 
 namespace AoC2023;
 
@@ -90,28 +89,28 @@ public class Day16(List<string> lines)
         {
 
             (Direction.East, '\\') or (Direction.West, '/') =>
-                [new Beam(Direction.South, current.Pos.Move( Direction.South))],
+                [new Beam(Direction.South, current.Pos.Move(Direction.South))],
             (Direction.East, '/') or (Direction.West, '\\') =>
-                [new Beam(Direction.North, current.Pos.Move( Direction.North))],
+                [new Beam(Direction.North, current.Pos.Move(Direction.North))],
             (Direction.South, '\\') or (Direction.North, '/') =>
-                [new Beam(Direction.East, current.Pos.Move( Direction.East))],
+                [new Beam(Direction.East, current.Pos.Move(Direction.East))],
             (Direction.South, '/') or (Direction.North, '\\') =>
-                [new Beam(Direction.West, current.Pos.Move( Direction.West))],
+                [new Beam(Direction.West, current.Pos.Move(Direction.West))],
 
             (Direction.North or Direction.South, '-') =>
             [
-                new Beam(Direction.East, current.Pos.Move( Direction.East)),
-                new Beam(Direction.West, current.Pos.Move( Direction.West))
+                new Beam(Direction.East, current.Pos.Move(Direction.East)),
+                new Beam(Direction.West, current.Pos.Move(Direction.West))
             ],
             (Direction.West or Direction.East, '|') =>
             [
-                new Beam(Direction.South, current.Pos.Move( Direction.South)),
-                new Beam(Direction.North, current.Pos.Move( Direction.North))
+                new Beam(Direction.South, current.Pos.Move(Direction.South)),
+                new Beam(Direction.North, current.Pos.Move(Direction.North))
             ],
 
-            (Direction.North or Direction.South, '|') => [current with { Pos = current.Pos.Move( dir) }],
-            (Direction.East or Direction.West, '-') => [current with { Pos = current.Pos.Move( dir) }],
-            (_, '.') => [current with { Pos = current.Pos.Move( dir) }],
+            (Direction.North or Direction.South, '|') => [current with { Pos = current.Pos.Move(dir) }],
+            (Direction.East or Direction.West, '-') => [current with { Pos = current.Pos.Move(dir) }],
+            (_, '.') => [current with { Pos = current.Pos.Move(dir) }],
             _ => []
         };
     }

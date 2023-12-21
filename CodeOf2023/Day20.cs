@@ -16,17 +16,17 @@ public class Day20
             if (line[0] == '%')
                 PulseMods[name] = new FlipMod(name, targets);
 
-            if(line[0]== '&')
+            if (line[0] == '&')
                 PulseMods[name] = new ConMod(name, targets);
 
             if (line[0] == 'b')
                 StartPoint = new Broadcaster(name, targets);
         }
 
-        UpdateInputs(StartPoint.Name,StartPoint.Targets);
+        UpdateInputs(StartPoint.Name, StartPoint.Targets);
 
         foreach (var mod in PulseMods.Values)
-            UpdateInputs(mod.Name,mod.Targets);
+            UpdateInputs(mod.Name, mod.Targets);
 
 
         void UpdateInputs(string source, List<string> targets)
@@ -40,35 +40,35 @@ public class Day20
 
     public long SentPulses()
     {
-        long lowPulses=0;
-        long highPulses=0;
+        long lowPulses = 0;
+        long highPulses = 0;
         for (var i = 0; i < 1000; i++)
         {
             var pulses = StartPoint.Start();
-             lowPulses++;
-             while (pulses.Count > 0)
-             {
-                 var current = pulses.Dequeue();
+            lowPulses++;
+            while (pulses.Count > 0)
+            {
+                var current = pulses.Dequeue();
 
-                 if (current.Level == PulseLevel.High)
-                     highPulses++;
-                 else
-                     lowPulses++;
+                if (current.Level == PulseLevel.High)
+                    highPulses++;
+                else
+                    lowPulses++;
 
-                 if (PulseMods.TryGetValue(current.Target, out var mod))
-                 {
-                     var newPulses = mod.ReceivePulse(current);
-                     foreach (var p in newPulses)
-                         pulses.Enqueue(p);
-                 }
-             }
+                if (PulseMods.TryGetValue(current.Target, out var mod))
+                {
+                    var newPulses = mod.ReceivePulse(current);
+                    foreach (var p in newPulses)
+                        pulses.Enqueue(p);
+                }
+            }
         }
 
         return highPulses * lowPulses;
     }
 
-    private Broadcaster StartPoint { get; }= new ("-",[]);
-    private Dictionary<string, PulseMod> PulseMods { get; } =[];
+    private Broadcaster StartPoint { get; } = new("-", []);
+    public Dictionary<string, PulseMod> PulseMods { get; } = [];
 
 
     private sealed class Broadcaster(string name, List<string> targets)
@@ -80,9 +80,9 @@ public class Day20
             Targets.Select(t => new Pulse(Name, t, PulseLevel.Low)).ToQueue();
     }
 
-    private abstract class PulseMod(string name, List<string> targets)
+    public abstract class PulseMod(string name, List<string> targets)
     {
-        public  string Name { get; } = name;
+        public string Name { get; } = name;
         public List<string> Targets { get; } = targets;
 
         public abstract Queue<Pulse> ReceivePulse(Pulse input);
@@ -125,9 +125,9 @@ public class Day20
         }
     }
 
-    private sealed record Pulse(string Sender, string Target, PulseLevel Level);
+    public sealed record Pulse(string Sender, string Target, PulseLevel Level);
 
-    private enum PulseLevel
+    public enum PulseLevel
     {
         Low = 1,
         High = 2

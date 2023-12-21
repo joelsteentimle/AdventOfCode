@@ -9,10 +9,10 @@ public class Day18Tests : DayTests
     public void CanAddDirection() =>
         Assert.Multiple(() =>
         {
-            Assert.That((Direction)((int)(Direction.East + 1) % 4) , Is.EqualTo(Direction.South));
-            Assert.That((Direction)((int)(Direction.North +3)% 4), Is.EqualTo(Direction.West));
-            Assert.That((Direction)((int)(Direction.North + 1)% 4), Is.EqualTo(Direction.East));
-            Assert.That((Direction)((int)(Direction.East +3)% 4), Is.EqualTo(Direction.North));
+            Assert.That((Direction)((int)(Direction.East + 1) % 4), Is.EqualTo(Direction.South));
+            Assert.That((Direction)((int)(Direction.North + 3) % 4), Is.EqualTo(Direction.West));
+            Assert.That((Direction)((int)(Direction.North + 1) % 4), Is.EqualTo(Direction.East));
+            Assert.That((Direction)((int)(Direction.East + 3) % 4), Is.EqualTo(Direction.North));
         });
 
     [Test]
@@ -42,7 +42,7 @@ public class Day18Tests : DayTests
         Assert.Multiple(() =>
         {
             Assert.That(d18.Part1PoolVolume(), Is.EqualTo(62));
-             Assert.That(d18.Part2PoolVolume(), Is.EqualTo(62));
+            Assert.That(d18.Part2PoolVolume(), Is.EqualTo(62));
         });
     }
 
@@ -51,17 +51,17 @@ public class Day18Tests : DayTests
     {
         List<string> textInstructions = [
         "U 2",
-        "R 2",
-        "D 2",
-        "L 2"];
+            "R 2",
+            "D 2",
+            "L 2"];
         var d18 = new Day18(textInstructions, false);
         d18.GenerateFieldAndStart();
         d18.WalkThroughTheTrench();
         d18.DigInside();
         Assert.Multiple(() =>
         {
-            Assert.That(d18.Part1PoolVolume(), Is.EqualTo(9),"Can count with method 1");
-            Assert.That(d18.Part2PoolVolume(), Is.EqualTo(9),"Can count with method 2");
+            Assert.That(d18.Part1PoolVolume(), Is.EqualTo(9), "Can count with method 1");
+            Assert.That(d18.Part2PoolVolume(), Is.EqualTo(9), "Can count with method 2");
         });
     }
 

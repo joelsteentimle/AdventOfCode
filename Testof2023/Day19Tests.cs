@@ -13,9 +13,9 @@ public class Day19Tests : DayTests
         Assert.Multiple(() =>
         {
             Assert.That(r1.Matches(nullPart), Is.True);
-            Assert.That(r1.Matches(nullPart with { A =  2000}), Is.True);
-            Assert.That(r1.Matches(nullPart with { A =  2006}), Is.False);
-            Assert.That(r1.Matches(nullPart with { A =  20006}), Is.False);
+            Assert.That(r1.Matches(nullPart with { A = 2000 }), Is.True);
+            Assert.That(r1.Matches(nullPart with { A = 2006 }), Is.False);
+            Assert.That(r1.Matches(nullPart with { A = 20006 }), Is.False);
         });
     }
 
@@ -24,13 +24,14 @@ public class Day19Tests : DayTests
     {
         var s1 = new Day19.Sorter("px{a<2006:qkq,m>2090:A,rfg}");
 
-        var nullPart = new Day19.Part(0, 0, 0, 0);;
+        var nullPart = new Day19.Part(0, 0, 0, 0);
+        ;
 
-        Assert  .Multiple(() =>
+        Assert.Multiple(() =>
         {
             Assert.That(s1.Sort(nullPart), Is.EqualTo("qkq"));
-            Assert.That(s1.Sort(nullPart with {A = 2006, M = 2091}), Is.EqualTo("A"));
-            Assert.That(s1.Sort(nullPart with {A = 2006, M = 2081}), Is.EqualTo("rfg"));
+            Assert.That(s1.Sort(nullPart with { A = 2006, M = 2091 }), Is.EqualTo("A"));
+            Assert.That(s1.Sort(nullPart with { A = 2006, M = 2081 }), Is.EqualTo("rfg"));
         });
     }
 
@@ -60,28 +61,28 @@ public class Day19Tests : DayTests
         var r1 = new Day19.Sorter.Rule("a<2006:qkq");
         var r2 = new Day19.Sorter.Rule("s>3448:A");
         var startParts = new Day19.RangeParts();
-        var afterLess = r1.Split(startParts);
+        var (splitted, left) = r1.Split(startParts);
         var afterGreater = r2.Split(startParts);
 
         Assert.Multiple(() =>
         {
-            Assert.That(afterLess.splitted, Is.EqualTo(new Day19.RangeParts(
+            Assert.That(splitted, Is.EqualTo(new Day19.RangeParts(
                 new Day19.Range(0, 4000),
                 new Day19.Range(0, 4000),
                 new Day19.Range(0, 2005),
                 new Day19.Range(0, 4000))));
 
-            Assert.That(afterLess.left, Is.EqualTo(new Day19.RangeParts(
+            Assert.That(left, Is.EqualTo(new Day19.RangeParts(
                 new Day19.Range(0, 4000),
                 new Day19.Range(0, 4000),
                 new Day19.Range(2006, 4000),
                 new Day19.Range(0, 4000))));
 
-             Assert.That(afterGreater.splitted, Is.EqualTo(new Day19.RangeParts(
-                new Day19.Range(0, 4000),
-                new Day19.Range(0, 4000),
-                new Day19.Range(0, 4000),
-                new Day19.Range(3449, 4000))));
+            Assert.That(afterGreater.splitted, Is.EqualTo(new Day19.RangeParts(
+               new Day19.Range(0, 4000),
+               new Day19.Range(0, 4000),
+               new Day19.Range(0, 4000),
+               new Day19.Range(3449, 4000))));
 
             Assert.That(afterGreater.left, Is.EqualTo(new Day19.RangeParts(
                 new Day19.Range(0, 4000),

@@ -54,7 +54,7 @@ public class Day17(List<string> lines, bool isPart2 = false)
                && current.Cost < 4000)
         {
             processed++;
-            foreach (var dir in  DirectionsForPath(current))
+            foreach (var dir in DirectionsForPath(current))
             {
                 if (current != null)
                 {
@@ -64,7 +64,7 @@ public class Day17(List<string> lines, bool isPart2 = false)
                         var nextCost = current.Cost + Map[nextPosition.X, nextPosition.Y];
 
                         var previousTargetPath = PathMap[nextPosition.X, nextPosition.Y];
-                        if (previousTargetPath is null || (previousTargetPath.Cost + 18)  > nextCost )
+                        if (previousTargetPath is null || (previousTargetPath.Cost + 18) > nextCost)
                         {
                             var nextPath = new Path(
                                 nextPosition,
@@ -109,31 +109,34 @@ public class Day17(List<string> lines, bool isPart2 = false)
         && position.Y < Map.GetLength(1)
         && position.Y >= 0;
 
-     public class Path(Position position, int Cost, Direction lastDirection, int timesInSame)
-     {
-         public Position Position { get; } = position;
-         public int Cost { get; } = Cost;
-         public Direction LastDirection { get; } = lastDirection;
-         public int TimesInSame { get; } = timesInSame;
+    public class Path(Position position, int Cost, Direction lastDirection, int timesInSame)
+    {
+        public Position Position { get; } = position;
+        public int Cost { get; } = Cost;
+        public Direction LastDirection { get; } = lastDirection;
+        public int TimesInSame { get; } = timesInSame;
 
-         public  class Comparer : Comparer<Path>
-         {
-             public override int Compare(Path? x, Path? y)
-             {
-                 if (ReferenceEquals(x,y)) return 0;
-                 if (ReferenceEquals(x,null)) return -1;
-                 if (ReferenceEquals(null,y)) return 1;
-                 var costDif = x.Cost.CompareTo(y.Cost);
-                 if (costDif != 0)
-                     return costDif;
-                 if(x.Position.X == y.Position.X
-                     && x.Position.Y == y.Position.Y
-                     && x.LastDirection == y.LastDirection
-                     && x.TimesInSame == y.TimesInSame)
-                     return 0;
-                 else
-                     return -1;
-             }
-         }
+        public class Comparer : Comparer<Path>
+        {
+            public override int Compare(Path? x, Path? y)
+            {
+                if (ReferenceEquals(x, y))
+                    return 0;
+                if (x is null)
+                    return -1;
+                if (y is null)
+                    return 1;
+                var costDif = x.Cost.CompareTo(y.Cost);
+                if (costDif != 0)
+                    return costDif;
+                if (x.Position.X == y.Position.X
+                    && x.Position.Y == y.Position.Y
+                    && x.LastDirection == y.LastDirection
+                    && x.TimesInSame == y.TimesInSame)
+                    return 0;
+                else
+                    return -1;
+            }
+        }
     }
 }

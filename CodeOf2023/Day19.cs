@@ -2,7 +2,7 @@
 
 public class Day19(List<string> lines)
 {
-    private Dictionary<string, Sorter> Sortes = GenerateSorter(lines);
+    private readonly Dictionary<string, Sorter> Sortes = GenerateSorter(lines);
 
     private static Dictionary<string, Sorter> GenerateSorter(List<string> lines)
     {
@@ -17,7 +17,7 @@ public class Day19(List<string> lines)
         return sortLookup;
     }
 
-    private List<Part> Parts = GenerateParts(lines);
+    private readonly List<Part> Parts = GenerateParts(lines);
 
     private static List<Part> GenerateParts(List<string> lines)
     {
@@ -40,28 +40,28 @@ public class Day19(List<string> lines)
         {
             var current = processingParts.Dequeue();
             var currentSort = Sortes[current.Target];
-           var processed =
-               currentSort.PartRangeToTargets(current.Parts);
-           foreach (var p in processed)
-           {
-               if(p.Target == "A")
-                   acceptedParts.Add(p.Parts);
-               else if (p.Target != "R")
-                   processingParts.Enqueue(p);
-           }
+            var processed =
+                currentSort.PartRangeToTargets(current.Parts);
+            foreach (var p in processed)
+            {
+                if (p.Target == "A")
+                    acceptedParts.Add(p.Parts);
+                else if (p.Target != "R")
+                    processingParts.Enqueue(p);
+            }
         }
 
-        long combinations =0;
+        long combinations = 0;
         if (acceptedParts.Any(p => p.IsEmpty))
             throw new ArgumentException("Panic!!!");
 
         foreach (var part in acceptedParts)
         {
             combinations +=
-                (part.X.max - part.X.min+1) *
-                (part.M.max - part.M.min+1) *
-                (part.A.max - part.A.min+1) *
-                (part.S.max - part.S.min+1);
+                (part.X.max - part.X.min + 1) *
+                (part.M.max - part.M.min + 1) *
+                (part.A.max - part.A.min + 1) *
+                (part.S.max - part.S.min + 1);
         }
 
         return combinations;
@@ -74,7 +74,7 @@ public class Day19(List<string> lines)
         foreach (var part in Parts)
         {
             var at = "in";
-            while (at != "R" && at != "A")
+            while (at is not "R" and not "A")
             {
                 var currentSort = Sortes[at];
                 at = currentSort.Sort(part);

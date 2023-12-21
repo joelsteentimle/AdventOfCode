@@ -90,8 +90,8 @@ public class Day18(List<string> lines, bool IsPart2)
     public long Part2PoolVolume()
     {
         var current = StartPoint;
-        long totalDoubleCountedVolume =0L;
-        long distance = 0L;
+        var totalDoubleCountedVolume = 0L;
+        var distance = 0L;
 
         for (var i = 0; i < Insturtctions.Count; i++)
         {
@@ -103,33 +103,33 @@ public class Day18(List<string> lines, bool IsPart2)
                 var prevDir = Insturtctions[(i + Insturtctions.Count - 1) % Insturtctions.Count].Direction;
 
                 var nrOuter = 0;
-                if ( LookInside(instruction.Direction) == nextDir)
+                if (LookInside(instruction.Direction) == nextDir)
                     nrOuter++;
-                if ( LookInside(prevDir) == instruction.Direction)
+                if (LookInside(prevDir) == instruction.Direction)
                     nrOuter++;
 
                 // Right of is inside
                 if ((instruction.Direction is Direction.North && RightIsIn)
                     || (instruction.Direction is Direction.South && !RightIsIn))
                 {
-                    totalDoubleCountedVolume += (xMax - current.X +1) * (instruction.Distance -1 + nrOuter);
-                    totalDoubleCountedVolume -= (current.X) * (instruction.Distance -1 +nrOuter);
+                    totalDoubleCountedVolume += (xMax - current.X + 1) * (instruction.Distance - 1 + nrOuter);
+                    totalDoubleCountedVolume -= current.X * (instruction.Distance - 1 + nrOuter);
                 }
                 else
                 {
-                    totalDoubleCountedVolume += ( current.X +1) * (instruction.Distance -1 +nrOuter);
-                    totalDoubleCountedVolume -= (xMax -current.X) * (instruction.Distance -1 +nrOuter);
+                    totalDoubleCountedVolume += (current.X + 1) * (instruction.Distance - 1 + nrOuter);
+                    totalDoubleCountedVolume -= (xMax - current.X) * (instruction.Distance - 1 + nrOuter);
                 }
             }
 
             current = current.Move(instruction.Direction, instruction.Distance);
         }
 
-        return (totalDoubleCountedVolume/2) +distance;
+        return (totalDoubleCountedVolume / 2) + distance;
     }
 
     public Direction LookInside(Direction lastMove) =>
-        (Direction) ((int)(lastMove + (RightIsIn ? 1 : 3)) %4 );
+        (Direction)((int)(lastMove + (RightIsIn ? 1 : 3)) % 4);
 
     public int TrenchVolume() => SumUp((lp) => lp?.Trench is true);
     public int Part1PoolVolume() => SumUp((lp) => lp?.Pool is true);
@@ -139,9 +139,9 @@ public class Day18(List<string> lines, bool IsPart2)
         var digged = 0;
 
         for (var x = 0; x < LavaMap.GetLength(0); x++)
-        for (var y = 0; y < LavaMap.GetLength(1); y++)
-            if (countPoint(LavaMap[x, y]) )
-                digged++;
+            for (var y = 0; y < LavaMap.GetLength(1); y++)
+                if (countPoint(LavaMap[x, y]))
+                    digged++;
 
         return digged;
     }
