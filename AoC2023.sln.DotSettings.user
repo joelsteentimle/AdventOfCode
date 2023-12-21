@@ -4,21 +4,14 @@
 	
 	
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingMode/@EntryValue">OnlyMarkers</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=70682698_002De8d6_002D46d5_002Db907_002Dbe63e217698a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Day19Tests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5ef75099_002D42e7_002D422d_002D9d12_002D0e09a61d298c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Day20Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day19Tests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day20Tests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=979df8cf_002D646b_002D4d83_002Da77f_002D3bde8a86bc49/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CanProcessRange" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day19Tests.CanProcessRange&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a0e458ea_002Dc12f_002D4675_002D9e85_002D51aa11780348/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Day19Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day19Tests&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
+	
+	
+	
 	
 	
 	
