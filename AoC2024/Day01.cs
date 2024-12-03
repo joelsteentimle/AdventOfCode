@@ -2,9 +2,9 @@
 
 public class Day01
 {
-    private List<int> first;
-    private List<int> second;
-    private Dictionary<int, int> occurences = new Dictionary<int, int>();
+    private readonly List<int> first;
+    private readonly Dictionary<int, int> occurences = new();
+    private readonly List<int> second;
 
     public Day01(List<string> data)
     {
@@ -22,29 +22,19 @@ public class Day01
             second.Add(secondNumber);
 
             if (occurences.TryGetValue(secondNumber, out var previousOccurences))
-            {
                 occurences[secondNumber] = previousOccurences + 1;
-            }
             else
-            {
                 occurences[secondNumber] = 1;
-            }
-
         }
 
         first.Sort();
         second.Sort();
-
-
     }
 
     public int Part1()
     {
         var sum = 0;
-        for (int i = 0; i < first.Count; i++)
-        {
-            sum += Math.Abs(first[i] - second[i]);
-        }
+        for (var i = 0; i < first.Count; i++) sum += Math.Abs(first[i] - second[i]);
         return sum;
     }
 
@@ -52,12 +42,9 @@ public class Day01
     {
         var sum = 0;
         foreach (var number in first)
-        {
             if (occurences.TryGetValue(number, out var secondOccurences))
-            {
                 sum += number * secondOccurences;
-            }
-        }
+
         return sum;
     }
 }
