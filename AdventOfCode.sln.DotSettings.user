@@ -9,12 +9,12 @@
     &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2026.Day01Tests.TestData&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=35a3e4e4_002Daeeb_002D4712_002D86ec_002D6c904cb530d4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Day21.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=35a3e4e4_002Daeeb_002D4712_002D86ec_002D6c904cb530d4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Day21.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net8.0::TestOf2023.Day21Tests.Part1Test&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2026.Day02Tests.Real2&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5ef75099_002D42e7_002D422d_002D9d12_002D0e09a61d298c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Day20Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5ef75099_002D42e7_002D422d_002D9d12_002D0e09a61d298c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Day20Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Or&gt;&#xD;
     &lt;TestAncestor&gt;&#xD;
       &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2026.Day01Tests.Test2&lt;/TestId&gt;&#xD;

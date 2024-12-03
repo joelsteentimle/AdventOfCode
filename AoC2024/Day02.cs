@@ -9,18 +9,32 @@ public class Day02
             BreakToOuter:
             var stairs = line.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
 
-            var previous = stairs[0];
+            int? previous =null;
             var sign = Math.Sign(stairs[1] - stairs[0]);
             var dangerous = 0;
 
-            foreach (var stair in stairs[1..])
+            for (var index = 0; index < stairs.Count; index++)
             {
-                var abs = Math.Abs(stair - previous);
-                var localSign = Math.Sign(stair - previous);
+                var stair = stairs[index];
 
-                if (abs > 3 || abs < 1 ||  localSign != sign)
+                if (index > 0 && previous != null)
                 {
-                    dangerous++;
+                    var abs = Math.Abs(stair - previous.Value);
+                    var localSign = Math.Sign(stair - previous.Value);
+
+                    if (abs > 3 || abs < 1 || localSign != sign)
+                    {
+                        dangerous++;
+                        if (index == 1)
+                        {
+                            sign = Math.Sign(stairs[2] - stairs[1]);
+                            previous = null;
+                        }
+                    }
+                    else
+                    {
+                        previous = stair;
+                    }
                 }
                 else
                 {
