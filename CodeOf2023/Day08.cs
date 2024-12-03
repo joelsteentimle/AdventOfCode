@@ -80,7 +80,7 @@ public class Day08
         return loopLengths;
     }
 
-    private int Steps(Func<string, bool> endCondition, IList<DesertNode> currentNode)
+    private int Steps(Func<string, bool> endCondition, List<DesertNode> currentNode)
     {
         var ip = 0;
         var steps = 0;

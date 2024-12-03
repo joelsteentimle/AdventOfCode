@@ -5,7 +5,7 @@ public class Day09(IList<string> lines)
     public (long left, long right) SumNext() => originalSeries.Select(GetNextValue)
         .Aggregate((0L, 0L), (v1, v2) => (v1.Item1 + v2.left, v1.Item2 + v2.right));
 
-    public (long left, long right) GetNextValue(List<int> values)
+    public static (long left, long right) GetNextValue(List<int> values)
     {
         Stack<List<int>> valueReduce = [];
 

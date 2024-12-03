@@ -1,5 +1,6 @@
 ﻿
 using AoC2023;
+using SupportCode;
 
 namespace TestOf2023;
 public class Day03Tests

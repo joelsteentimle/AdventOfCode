@@ -1,5 +1,6 @@
 ﻿
 using AoC2023;
+using SupportCode;
 
 namespace TestOf2023;
 public class Day09Tests
@@ -16,9 +17,9 @@ public class Day09Tests
         var d9 = new Day09("Day09".ReadTestLines());
         Assert.Multiple(() =>
         {
-            Assert.That(d9.GetNextValue([0, 3, 6, 9, 12, 15]).right, Is.EqualTo(18));
-            Assert.That(d9.GetNextValue([1, 3, 6, 10, 15, 21]).right, Is.EqualTo(28));
-            Assert.That(d9.GetNextValue([10, 13, 16, 21, 30, 45]).right, Is.EqualTo(68));
+            Assert.That(Day09.GetNextValue([0, 3, 6, 9, 12, 15]).right, Is.EqualTo(18));
+            Assert.That(Day09.GetNextValue([1, 3, 6, 10, 15, 21]).right, Is.EqualTo(28));
+            Assert.That(Day09.GetNextValue([10, 13, 16, 21, 30, 45]).right, Is.EqualTo(68));
         });
     }
 
@@ -26,7 +27,7 @@ public class Day09Tests
     public void CanCountLeft()
     {
         var d9 = new Day09("Day09".ReadTestLines());
-        Assert.That(d9.GetNextValue([10, 13, 16, 21, 30, 45]).left, Is.EqualTo(5));
+        Assert.That(Day09.GetNextValue([10, 13, 16, 21, 30, 45]).left, Is.EqualTo(5));
     }
 
 

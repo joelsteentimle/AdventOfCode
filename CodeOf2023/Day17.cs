@@ -92,7 +92,7 @@ public class Day17(List<string> lines, bool isPart2 = false)
         return current.Cost;
     }
 
-    private Direction[] AllButBack(Direction dir) =>
+    private static Direction[] AllButBack(Direction dir) =>
         dir switch
         {
             Direction.East => [Direction.North, Direction.East, Direction.South],

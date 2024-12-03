@@ -1,5 +1,6 @@
 ﻿using AoC2023;
 using AoC2023.Graph;
+using SupportCode;
 
 namespace TestOf2023;
 
