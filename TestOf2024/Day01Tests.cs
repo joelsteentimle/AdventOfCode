@@ -1,7 +1,7 @@
 ﻿using AoC2024;
 using SupportCode;
 
-namespace TestOf2026;
+namespace TestOf2024;
 
 public class Day01Tests
 {

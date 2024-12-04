@@ -25,6 +25,7 @@ public class Day02
                     if (abs > 3 || abs < 1 || localSign != sign)
                     {
                         dangerous++;
+
                         if (index == 1)
                         {
                             sign = Math.Sign(stairs[2] - stairs[1]);
