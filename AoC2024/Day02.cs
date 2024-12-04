@@ -2,11 +2,52 @@
 
 public class Day02
 {
-    public Day02(List<string> lines, int tolerance)
+    public Day02(List<string> lines, int tolerance, bool peek = false)
+    {
+        if(peek)
+            PeakForward(lines, tolerance);
+        else
+            FirstTry(lines, tolerance);
+    }
+
+    private void PeakForward(List<string> lines, int tolerance)
     {
         foreach (var line in lines)
         {
-            BreakToOuter:
+            var stairs = line.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+
+            if (EvaluateStairs(stairs, tolerance))
+                Safe.Add(stairs);
+            else
+
+                Unsafe.Add(stairs);
+        }
+    }
+
+    private bool EvaluateStairs(List<int> stairs, int tolerance)
+    {
+        int? previous = null;
+        int? sign = null; // Math.Sign(stairs[1] - stairs[0]);
+        var dangerous = 0;
+
+        for (int i = 0; i < stairs.Count - 1; i++)
+        {
+            var stair = stairs[i];
+            var commingStair = stairs[i+1];
+            var abs = Math.Abs(commingStair -stair);
+            var localSign = Math.Sign(commingStair -  stair );
+
+
+        }
+
+        return true;
+    }
+
+
+    private void FirstTry(List<string> lines, int tolerance)
+    {
+        foreach (var line in lines)
+        {
             var stairs = line.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
 
             int? previous =null;
