@@ -2,95 +2,61 @@
 
 public class Day02
 {
-    public Day02(List<string> lines, int tolerance, bool peek = false)
-    {
-        if(peek)
-            PeakForward(lines, tolerance);
-        else
-            FirstTry(lines, tolerance);
-    }
-
-    private void PeakForward(List<string> lines, int tolerance)
+    public Day02(List<string> lines, bool allowOne = false)
     {
         foreach (var line in lines)
         {
             var stairs = line.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
 
-            if (EvaluateStairs(stairs, tolerance))
+            var isSafe = AreStrairsSafe(stairs);
+
+            if (!isSafe && allowOne)
+            {
+                isSafe = AreAlteredStraisSafe(stairs);
+            }
+
+            if(isSafe)
+            {
                 Safe.Add(stairs);
-            else
-
+            }else
+            {
                 Unsafe.Add(stairs);
-        }
-    }
-
-    private bool EvaluateStairs(List<int> stairs, int tolerance)
-    {
-        int? previous = null;
-        int? sign = null; // Math.Sign(stairs[1] - stairs[0]);
-        var dangerous = 0;
-
-        for (int i = 0; i < stairs.Count - 1; i++)
-        {
-            var stair = stairs[i];
-            var commingStair = stairs[i+1];
-            var abs = Math.Abs(commingStair -stair);
-            var localSign = Math.Sign(commingStair -  stair );
-
-
+            }
         }
 
-        return true;
-    }
-
-
-    private void FirstTry(List<string> lines, int tolerance)
-    {
-        foreach (var line in lines)
+        bool AreAlteredStraisSafe(List<int> stairs)
         {
-            var stairs = line.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+            for (var i = 0; i < stairs.Count; i++)
+            {
+                var stairsMinusOne = stairs[..i];
+                stairsMinusOne.AddRange(stairs[(i+1)..]);
+                if(AreStrairsSafe(stairsMinusOne))
+                    return true;
+            }
 
-            int? previous =null;
+            return false;
+        }
+
+        bool AreStrairsSafe(List<int> stairs)
+        {
+            var previous =stairs[0];
             var sign = Math.Sign(stairs[1] - stairs[0]);
-            var dangerous = 0;
 
-            for (var index = 0; index < stairs.Count; index++)
+            for (var index = 1; index < stairs.Count; index++)
             {
                 var stair = stairs[index];
 
-                if (index > 0 && previous != null)
-                {
-                    var abs = Math.Abs(stair - previous.Value);
-                    var localSign = Math.Sign(stair - previous.Value);
+                var abs = Math.Abs(stair - previous);
+                var localSign = Math.Sign(stair - previous);
 
-                    if (abs > 3 || abs < 1 || localSign != sign)
-                    {
-                        dangerous++;
-
-                        if (index == 1)
-                        {
-                            sign = Math.Sign(stairs[2] - stairs[1]);
-                            previous = null;
-                        }
-                    }
-                    else
-                    {
-                        previous = stair;
-                    }
-                }
-                else
+                if (abs > 3 || abs < 1 || localSign != sign)
                 {
-                    previous = stair;
+                    return false;
                 }
+                previous = stair;
             }
 
-            if(dangerous>tolerance)
-            {
-                Unsafe.Add(stairs);
-            }else
-            {
-                Safe.Add(stairs);
-            }
+            return true;
         }
     }
 
