@@ -29,9 +29,18 @@ public class Day05
         }
     }
 
+    public int MidPagesAfterFixingOutOfOrder()
+    {
+        var incorrect = Prints.Where(p => !IsPrintCorrect(p)).ToList();
+
+
+        return 0;
+
+    }
+
     public int MidPageSumOfAllowed()
     {
-        var correctPrints = Prints.Where(p => IsPrintCorrect(p)).ToList();
+        var correctPrints = Prints.Where(IsPrintCorrect).ToList();
 
         var sum = 0;
         foreach (var correctPrint in correctPrints)
