@@ -12,4 +12,12 @@ public class Day06Tests
         Assert.That(d6.GuardVisitedSquares(), Is.EqualTo(143));
     }
 
+    [Test]
+    public void Real1()
+    {
+        var d6 = new Day06("Day06".ReadRealLines());
+        Assert.That(d6.GuardVisitedSquares(), Is.EqualTo(143));
+
+    }
+
 }
