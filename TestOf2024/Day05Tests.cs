@@ -18,6 +18,4 @@ public class Day05Tests
         var d5 = new Day05("Day05".ReadRealLines());
         Assert.That(d5.MidPageSumOfAllowed(), Is.EqualTo(4689));
     }
-
-
 }
