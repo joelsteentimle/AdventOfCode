@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using Microsoft.VisualBasic;
-
 namespace AoC2024;
 
 public class Day06
@@ -20,10 +17,10 @@ public class Day06
     {
         Field = new Place[input.Count,input[0].Length];
 
-        for (int y = 0; y < input.Count; y++)
+        for (var y = 0; y < input.Count; y++)
         {
-            var row = input[i].ToCharArray();
-            for (int x = 0; x < row.Length; x++)
+            var row = input[y].ToCharArray();
+            for (var x = 0; x < row.Length; x++)
             {
                 switch (row[x])
                 {
@@ -58,17 +55,6 @@ public class Day06
                         break;
                 }
 
-                // Field[y, x] = row[x] switch
-                // {
-                //     '.' => Place.Open,
-                //     '#' => Place.Boulder,
-                //     'X' => Place.Visited,
-                //     '^' => {
-                //     GuardPosition = (y, x);
-                //     GuardHeading = (-1, 0);
-                //     return Place.Visited;
-                // }
-                // };
             }
         }
     }
