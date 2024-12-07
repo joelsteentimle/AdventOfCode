@@ -33,22 +33,39 @@ public class Day05
     {
         var incorrect = Prints.Where(p => !IsPrintCorrect(p)).ToList();
 
-
-        return 0;
-
-    }
-
-    public int MidPageSumOfAllowed()
-    {
-        var correctPrints = Prints.Where(IsPrintCorrect).ToList();
-
-        var sum = 0;
-        foreach (var correctPrint in correctPrints)
+        int sum = 0;
+        foreach (var print in incorrect)
         {
-            sum += correctPrint[correctPrint.Count /2];
+            while (!OrderToCorrect(print)) ;
+
+            sum += print[print.Count / 2];
         }
+
         return sum;
     }
+
+    public bool OrderToCorrect(List<int> pages)
+    {
+        var swapToPage = new Dictionary<int, int>();
+
+        for (int i = 0; i < pages.Count; i++)
+        {
+            var pageNumber = pages[i];
+            if (swapToPage.TryGetValue(pageNumber, out int indexToSwapTo))
+            {
+                pages[i] = pages[indexToSwapTo];
+                pages[indexToSwapTo] = pageNumber;
+                return false;
+            }
+
+            if(Rules.TryGetValue(pages[i], out var newPages))
+                foreach(var notAllowedpage in newPages)
+                    swapToPage[notAllowedpage] = i;
+        }
+
+        return true;
+    }
+
 
     public bool IsPrintCorrect(List<int> pages)
     {
@@ -64,6 +81,18 @@ public class Day05
         }
 
         return true;
+    }
+
+    public int MidPageSumOfAllowed()
+    {
+        var correctPrints = Prints.Where(IsPrintCorrect).ToList();
+
+        var sum = 0;
+        foreach (var correctPrint in correctPrints)
+        {
+            sum += correctPrint[correctPrint.Count /2];
+        }
+        return sum;
     }
 
     Dictionary<int, List<int>> Rules = new();

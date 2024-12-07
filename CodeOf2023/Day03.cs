@@ -1,7 +1,7 @@
-﻿
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace AoC2023;
+
 public class Day03
 {
     private readonly char[][] inputField;
@@ -37,8 +37,8 @@ public class Day03
                 continue;
 
                 bool EndOfNumber([NotNullWhen(true)] int? startOfNumber) => startOfNumber.HasValue
-                           && (i == row.Length - 1
-                               || !char.IsNumber(row[i + 1]));
+                                                                            && (i == row.Length - 1
+                                                                                || !char.IsNumber(row[i + 1]));
 
                 bool StartOfNumber() => numberStart is null && char.IsNumber(row[i]);
             }
@@ -47,7 +47,8 @@ public class Day03
 
     private void AddNumber(int rowNumber, int numberStart, int numberEnd)
     {
-        var number = Convert.ToInt32(new string(inputField[rowNumber][numberStart..(numberEnd + 1)]), NumberFormatInfo.InvariantInfo);
+        var number = Convert.ToInt32(new string(inputField[rowNumber][numberStart..(numberEnd + 1)]),
+            NumberFormatInfo.InvariantInfo);
 
         Numbers.Add(number);
 
