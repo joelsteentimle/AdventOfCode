@@ -66,7 +66,6 @@ public class Day05
         return true;
     }
 
-
     public bool IsPrintCorrect(List<int> pages)
     {
         var notAllowed = new HashSet<int>();
