@@ -2,43 +2,28 @@ namespace AoC2024;
 
 public class Day06
 {
-    private enum Place : int
-    {
-        Open,
-        Boulder,
-        Visited
-    };
+    private bool DidLoop;
+    private readonly Place[,] Field;
+    private (int dy, int dx) GuardDirection = (0, 0);
 
     private (int y, int x) GuardPosition = (0, 0);
-    private (int dy, int dx) GuardDirection = (0, 0);
-    private Place[,] Field;
-    private HashSet<(int y, int x)>[,] DirectionsAtPlace;
-    private bool[,] LoopingBoulder;
-
-    private (int y, int x) LoopGuard;
-    private (int dy, int dx) LoopGuardDirection;
+    private readonly HashSet<(int y, int x)> LoopBolderPositions = [];
+    private readonly HashSet<(int y, int x)>[,] LoopDirectionsAtPlace;
     private (int y, int x)? testingLoopBoulder;
-    // private HashSet<(int y, int x)>[,] LoopDirectionsAtPlace;
 
     public Day06(List<string> input)
     {
         Field = new Place[input.Count, input[0].Length];
-        DirectionsAtPlace = new HashSet<(int y, int x)>[input.Count, input[0].Length];
-        // LoopDirectionsAtPlace = new HashSet<(int y, int x)>[input.Count, input[0].Length];
-        LoopingBoulder = new bool[input.Count, input[0].Length];
+        LoopDirectionsAtPlace = new HashSet<(int y, int x)>[input.Count, input[0].Length];
 
         for (var y = 0; y < Field.GetLength(0); y++)
         for (var x = 0; x < Field.GetLength(1); x++)
-        {
-            DirectionsAtPlace[y, x] = [];
-            // LoopDirectionsAtPlace[y, x] = [];
-        }
+            LoopDirectionsAtPlace[y, x] = [];
 
         for (var y = 0; y < input.Count; y++)
         {
             var row = input[y].ToCharArray();
             for (var x = 0; x < row.Length; x++)
-            {
                 switch (row[x])
                 {
                     case '.':
@@ -54,74 +39,67 @@ public class Day06
                         GuardPosition = (y, x);
                         GuardDirection = (-1, 0);
                         Field[y, x] = Place.Visited;
-                        DirectionsAtPlace[y, x].Add(GuardDirection);
                         break;
                     case '>':
                         GuardPosition = (y, x);
                         GuardDirection = (0, 1);
                         Field[y, x] = Place.Visited;
-                        DirectionsAtPlace[y, x].Add(GuardDirection);
                         break;
                     case 'v':
                         GuardPosition = (y, x);
                         GuardDirection = (1, 0);
                         Field[y, x] = Place.Visited;
-                        DirectionsAtPlace[y, x].Add(GuardDirection);
                         break;
                     case '<':
                         GuardPosition = (y, x);
                         GuardDirection = (0, -1);
                         Field[y, x] = Place.Visited;
-                        DirectionsAtPlace[y, x].Add(GuardDirection);
                         break;
                 }
-
-            }
         }
+
+        GuardStartPosition = GuardPosition;
+        GuardStartDirection = GuardDirection;
     }
+
+    public (int dy, int dx) GuardStartDirection { get; set; }
+
+    public (int y, int x) GuardStartPosition { get; set; }
 
     public int NumberOfLoopBoulders()
     {
-        while (TryMoveGuard(GuardPosition, GuardDirection, out GuardPosition, out GuardDirection))
+        var numberOfLoopBoulders = 0;
+        while (TryMoveGuard(
+                   GuardPosition,
+                   GuardDirection,
+                   out GuardPosition,
+                   out GuardDirection,
+                   true)) ;
+
+
+        foreach (var loopBoulder in LoopBolderPositions)
         {
-            var (pbY,pbX) = Peek(GuardPosition, GuardDirection);
-            if (!IsOutOfBound((pbY,pbX)))
-            {
-                for (var y = 0; y < Field.GetLength(0); y++)
-                for (var x = 0; x < Field.GetLength(1); x++)
-                {
-                    // LoopDirectionsAtPlace[y, x] = [];
-                    DirectionsAtPlace[y, x] = [];
+            Field[loopBoulder.y, loopBoulder.x] = Place.Boulder;
+            DidLoop = false;
+            GuardPosition = GuardStartPosition;
+            GuardDirection = GuardStartDirection;
 
-                }
+            foreach (var loopDirection in LoopDirectionsAtPlace)
+                loopDirection.Clear();
 
+            while (TryMoveGuard(
+                       GuardPosition,
+                       GuardDirection,
+                       out GuardPosition,
+                       out GuardDirection)) ;
 
-                testingLoopBoulder = (pbY, pbX);
-                if( WillGenerateALoop(GuardPosition, RotateRight( GuardDirection)) )
-                    LoopingBoulder[pbY, pbX] = true;
+            if (DidLoop)
+                numberOfLoopBoulders++;
 
-                testingLoopBoulder = null;
-            }
+            Field[loopBoulder.y, loopBoulder.x] = Place.Visited;
         }
 
-        var boulders = 0;
-        foreach (var isBolder in LoopingBoulder)
-        {
-            if(isBolder)
-                boulders++;
-        }
-        return boulders;
-    }
-
-    private bool WillGenerateALoop((int y, int x) guardPosition, (int dY, int dX) guardDirection)
-    {
-        do
-        {
-            if (DirectionsAtPlace[guardPosition.y,guardPosition.x].Contains(guardDirection))
-                // || LoopDirectionsAtPlace[guardPosition.y,guardPosition.x].Contains(guardDirection))
-                return true;
-        } while (TryMoveGuard(guardPosition, guardDirection, out guardPosition, out guardDirection, markVisit: false));
-        return false;
+        return numberOfLoopBoulders;
     }
 
     public int GuardVisitedSquares()
@@ -130,60 +108,53 @@ public class Day06
 
         var sum = 0;
         foreach (var positions in Field)
-        {
             if (positions == Place.Visited)
                 sum++;
-        }
 
         return sum;
     }
 
-    private bool TryMoveGuard(
-        (int y, int x) guardPosition,
+    private bool TryMoveGuard((int y, int x) guardPosition,
         (int dy, int dx) guardDirection,
         out (int y, int x) newGuardPosition,
         out (int dy, int dx) newGuardDirection,
-        bool markVisit = true)
+        bool populateLoopBoulder = false)
     {
         newGuardPosition = guardPosition;
         newGuardDirection = guardDirection;
 
         var nextSquare = Peek(guardPosition, guardDirection);
-        if (IsOutOfBound(nextSquare))
-        {
-            return false;
-        }
+        if (IsOutOfBound(nextSquare)) return false;
 
         if (IsMovable(nextSquare))
         {
+            if (populateLoopBoulder)
+                LoopBolderPositions.Add(nextSquare);
+
+            if (LoopDirectionsAtPlace[nextSquare.y, nextSquare.x].Contains(guardDirection))
+            {
+                DidLoop = true;
+                return false;
+            }
+
             newGuardPosition = nextSquare;
-            if (markVisit)
-            {
-                Field[newGuardPosition.y, newGuardPosition.x] = Place.Visited;
-            }
-            else
-            {
-                // LoopDirectionsAtPlace[guardPosition.y,guardPosition.x].Add(guardDirection);
-            }
-            DirectionsAtPlace[newGuardPosition.y,newGuardPosition.x].Add(guardDirection);
+            Field[newGuardPosition.y, newGuardPosition.x] = Place.Visited;
+            LoopDirectionsAtPlace[newGuardPosition.y, newGuardPosition.x].Add(guardDirection);
 
             return true;
         }
-        else
+
+        newGuardDirection = RotateRight(guardDirection);
+        if (LoopDirectionsAtPlace[guardPosition.y, guardPosition.x].Contains(newGuardDirection))
         {
-            newGuardDirection = RotateRight(guardDirection);
-            if(markVisit)
-            {
-                DirectionsAtPlace[guardPosition.y, guardPosition.x].Add(newGuardDirection);
-            }
-            else
-            {
-                // LoopDirectionsAtPlace[guardPosition.y, guardPosition.x].Add(guardDirection);
-            }
-            DirectionsAtPlace[guardPosition.y, guardPosition.x].Add(newGuardDirection);
-
-            return true;
+            DidLoop = true;
+            return false;
         }
+
+
+        LoopDirectionsAtPlace[guardPosition.y, guardPosition.x].Add(newGuardDirection);
+
+        return true;
     }
 
     private (int newY, int newX) RotateRight((int dy, int dx) direction)
@@ -217,16 +188,19 @@ public class Day06
     {
         var (y, x) = nextSquare;
         if (Field[y, x] != Place.Visited &&
-            Field[y, x] != Place.Open ||
-            (testingLoopBoulder.HasValue
-                && testingLoopBoulder.Value == (y,x)
-                )
-            )
+            Field[y, x] != Place.Open)
             return false;
 
         return true;
     }
 
-    private (int y, int x) Peek((int y, int x)guardPosition, (int dy, int dx) guardDirection ) =>
+    private (int y, int x) Peek((int y, int x) guardPosition, (int dy, int dx) guardDirection) =>
         (guardPosition.y + guardDirection.dy, guardPosition.x + guardDirection.dx);
+
+    private enum Place
+    {
+        Open,
+        Boulder,
+        Visited
+    }
 }

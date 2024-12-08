@@ -30,7 +30,6 @@ public class Day06Tests
     public void Real2()
     {
         var d6 = new Day06("Day06".ReadRealLines());
-        // TOO HIGH!!!!  Also: 1527 is to high :(
-        Assert.That(d6.NumberOfLoopBoulders(), Is.EqualTo(1525));
+        Assert.That(d6.NumberOfLoopBoulders(), Is.EqualTo(1443));
     }
 }
