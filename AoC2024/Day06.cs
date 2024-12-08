@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace AoC2024;
 
 public class Day06
@@ -19,6 +17,7 @@ public class Day06
 
     private (int y, int x) LoopGuard;
     private (int dy, int dx) LoopGuardDirection;
+    private (int y, int x)? testingLoopBoulder;
     private HashSet<(int y, int x)>[,] LoopDirectionsAtPlace;
 
     public Day06(List<string> input)
@@ -94,19 +93,11 @@ public class Day06
                     LoopDirectionsAtPlace[y, x] = [];
                 }
 
+                testingLoopBoulder = (pbY, pbX);
                 if( WillGenerateALoop(GuardPosition, RotateRight( GuardDirection)) )
                     LoopingBoulder[pbY, pbX] = true;
 
-                /*
-                 * True loop boulders:
-                 * 6,3
-                 * 7,6
-                 * 8,3
-                 * 8,1
-                 * 7,7
-                 * 9,7
-                 *
-                 */
+                testingLoopBoulder = null;
             }
         }
 
@@ -220,7 +211,11 @@ public class Day06
     {
         var (y, x) = nextSquare;
         if (Field[y, x] != Place.Visited &&
-            Field[y, x] != Place.Open)
+            Field[y, x] != Place.Open ||
+            (testingLoopBoulder.HasValue
+                && testingLoopBoulder.Value == (y,x)
+                )
+            )
             return false;
 
         return true;
