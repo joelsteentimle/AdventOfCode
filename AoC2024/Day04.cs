@@ -40,15 +40,16 @@ public class Day04
     private int CountWords((int y, int x) startPosition, List<char> letters)
     {
         var localSum = 0;
-         var (y, x) = startPosition;
-         if (Grid[y, x] == letters[0])
-         {
-             foreach (var direction in AllDirections)
-             {
-                 if (WordMatch(startPosition, direction, letters[1..]))
-                     localSum++;
-             }
-         }
+        var (y, x) = startPosition;
+        if (Grid[y, x] == letters[0])
+        {
+            foreach (var direction in AllDirections)
+            {
+                if (WordMatch(startPosition, direction, letters[1..]))
+                    localSum++;
+            }
+        }
+
         return localSum;
     }
 
@@ -69,10 +70,10 @@ public class Day04
     }
 
     private bool IsOutOfBounds((int y, int x) nextPosition)
-    => nextPosition.y <0
-       || nextPosition.y >= MaxY
-       || nextPosition.x < 0
-       || nextPosition.x >= MaxX;
+        => nextPosition.y < 0
+           || nextPosition.y >= MaxY
+           || nextPosition.x < 0
+           || nextPosition.x >= MaxX;
 
     private List<(int y, int x)> AllDirections =>
     [
@@ -86,4 +87,38 @@ public class Day04
         (-1, 1)
 
     ];
+
+    public int XCountAll()
+    {
+        var sum = 0;
+        for (int y = 0; y < Grid.GetLength(0); y++)
+        {
+            for (int x = 0; x < Grid.GetLength(1); x++)
+            {
+                if (IsXmas((y, x)))
+                    sum++;
+            }
+        }
+
+        return sum;
+    }
+
+    private bool IsXmas((int y, int x) position)
+    {
+        var (y, x) = position;
+
+        if (Grid[y, x] != 'A' ||
+            y - 1 < 0 || y + 1 >= MaxY ||
+            x - 1 < 0 || x + 1 >= MaxX)
+            return false;
+
+        var oneLeg = new HashSet<char> { Grid[y - 1, x - 1], Grid[y + 1, x + 1] };
+        var otherLeg = new HashSet<char> { Grid[y + 1, x - 1], Grid[y - 1, x + 1] };
+
+        if (oneLeg.Contains('M') && oneLeg.Contains('S') &&
+            otherLeg.Contains('M') && otherLeg.Contains('S'))
+            return true;
+
+        return false;
+    }
 }
