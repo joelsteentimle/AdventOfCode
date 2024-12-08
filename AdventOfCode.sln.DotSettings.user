@@ -2,6 +2,7 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AAssert_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fjoel_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F98514e314f1feddb3082dbe8507ecec1a81b6491c0db7dc53c2e8c13949e4360_003FAssert_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AAssert_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002Econfig_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F98514e314f1feddb3082dbe8507ecec1a81b6491c0db7dc53c2e8c13949e4360_003FAssert_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AInt32_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fjoel_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003Fa882d183338544fdbcbdfc7b6d3dcb78916630765551644a221b5be9c45a121b_003FInt32_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AMonitor_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002Econfig_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fd62eb286436a45a6a9ba2df86a4c8444e28400_003Fb0_003Fb8717d90_003FMonitor_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=8AB328D0_002D8C6A_002D4D34_002D9327_002D754B9544C0E0_002Ff_003AUnitTest1_002Ecs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">SUGGESTION</s:String>
 	
@@ -58,6 +59,11 @@
       &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day04Tests.Real1&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day04Tests.Test2&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day04Tests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day08Tests.Test1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day08Tests.Test1_1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day08Tests.Real1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day08Tests.Test2&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day08Tests.Real2&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;ProjectFile&gt;F1864535-E3BF-427F-885C-B7F7338BE7A4/f:Day06Tests.cs&lt;/ProjectFile&gt;
   &lt;/Or&gt;
