@@ -2,13 +2,13 @@ namespace AoC2024;
 
 public class Day06
 {
-    private bool DidLoop;
     private readonly Place[,] Field;
+    private readonly HashSet<(int y, int x)> LoopBolderPositions = [];
+    private readonly HashSet<(int y, int x)>[,] LoopDirectionsAtPlace;
+    private bool DidLoop;
     private (int dy, int dx) GuardDirection = (0, 0);
 
     private (int y, int x) GuardPosition = (0, 0);
-    private readonly HashSet<(int y, int x)> LoopBolderPositions = [];
-    private readonly HashSet<(int y, int x)>[,] LoopDirectionsAtPlace;
     private (int y, int x)? testingLoopBoulder;
 
     public Day06(List<string> input)

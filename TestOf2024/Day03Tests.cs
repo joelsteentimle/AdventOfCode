@@ -11,6 +11,7 @@ public class Day03Tests
         var d3 = new Day03("Day03".ReadTestLines());
         Assert.That(d3.GetProductSum(), Is.EqualTo(161));
     }
+
     [Test]
     public void Real1()
     {

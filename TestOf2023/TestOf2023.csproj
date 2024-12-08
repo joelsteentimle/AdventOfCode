@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CodeOf2023\AoC2023.csproj"/>
+    <ProjectReference Include="..\CodeOf2023\CodeOf2023.csproj" />
     <ProjectReference Include="..\SupportCode\SupportCode.csproj" />
   </ItemGroup>
 

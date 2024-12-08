@@ -32,20 +32,17 @@ public class Day03(List<string> input)
         var shuoldDo = true;
 
         foreach (Match match in matches)
-        {
-            if(match.Value == "don't()")
+            if (match.Value == "don't()")
                 shuoldDo = false;
-            else if(match.Value == "do()")
+            else if (match.Value == "do()")
                 shuoldDo = true;
-            else if(shuoldDo)
+            else if (shuoldDo)
             {
                 var numbers = NumbersForMatch(match);
                 sum += numbers[0] * numbers[1];
             }
-        }
 
         return sum;
-
     }
 
     private static List<int> NumbersForMatch(Match match) =>

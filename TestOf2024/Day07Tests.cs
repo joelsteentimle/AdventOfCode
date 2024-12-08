@@ -3,7 +3,8 @@ using SupportCode;
 
 namespace TestOf2024;
 
-public class Day07Tests{
+public class Day07Tests
+{
     [Test]
     public void Test1()
     {
@@ -22,16 +23,13 @@ public class Day07Tests{
     public void Test2()
     {
         var d3 = new Day07("Day07".ReadTestLines());
-        Assert.That(d3.SumThatCan(withConcat: true), Is.EqualTo(11387));
+        Assert.That(d3.SumThatCan(true), Is.EqualTo(11387));
     }
 
     [Test]
     public void Real2()
     {
         var d3 = new Day07("Day07".ReadRealLines());
-        Assert.That(d3.SumThatCan(withConcat: true), Is.EqualTo(4998764814652));
+        Assert.That(d3.SumThatCan(true), Is.EqualTo(37598910447546));
     }
-
-
-
 }

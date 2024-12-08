@@ -3,7 +3,8 @@ using SupportCode;
 
 namespace TestOf2024;
 
-public class Day08Tests{
+public class Day08Tests
+{
     [Test]
     public void Test1()
     {
@@ -30,13 +31,13 @@ public class Day08Tests{
     public void Test2()
     {
         var d08 = new Day08("Day08".ReadTestLines());
-        Assert.That(d08.CountAntiNodes(resoning: true), Is.EqualTo(34));
+        Assert.That(d08.CountAntiNodes(true), Is.EqualTo(34));
     }
 
     [Test]
     public void Real2()
     {
         var d08 = new Day08("Day08".ReadRealLines());
-        Assert.That(d08.CountAntiNodes(resoning: true), Is.EqualTo(4998764814652));
+        Assert.That(d08.CountAntiNodes(true), Is.EqualTo(949));
     }
 }

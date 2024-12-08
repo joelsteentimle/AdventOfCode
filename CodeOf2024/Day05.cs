@@ -2,10 +2,14 @@
 
 public class Day05
 {
+    private readonly List<List<int>> Prints = new();
+
+    private readonly Dictionary<int, List<int>> Rules = new();
+
     public Day05(List<string> input)
     {
         var rulesText = input.TakeWhile(s => !string.IsNullOrWhiteSpace(s)).ToList();
-        var printTexts = input.Skip(rulesText.Count +1).ToList();
+        var printTexts = input.Skip(rulesText.Count + 1).ToList();
 
         foreach (var rule in rulesText)
         {
@@ -33,7 +37,7 @@ public class Day05
     {
         var incorrect = Prints.Where(p => !IsPrintCorrect(p)).ToList();
 
-        int sum = 0;
+        var sum = 0;
         foreach (var print in incorrect)
         {
             while (!OrderToCorrect(print)) ;
@@ -48,18 +52,18 @@ public class Day05
     {
         var swapToPage = new Dictionary<int, int>();
 
-        for (int i = 0; i < pages.Count; i++)
+        for (var i = 0; i < pages.Count; i++)
         {
             var pageNumber = pages[i];
-            if (swapToPage.TryGetValue(pageNumber, out int indexToSwapTo))
+            if (swapToPage.TryGetValue(pageNumber, out var indexToSwapTo))
             {
                 pages[i] = pages[indexToSwapTo];
                 pages[indexToSwapTo] = pageNumber;
                 return false;
             }
 
-            if(Rules.TryGetValue(pages[i], out var newPages))
-                foreach(var notAllowedpage in newPages)
+            if (Rules.TryGetValue(pages[i], out var newPages))
+                foreach (var notAllowedpage in newPages)
                     swapToPage[notAllowedpage] = i;
         }
 
@@ -71,11 +75,11 @@ public class Day05
         var notAllowed = new HashSet<int>();
         foreach (var page in pages)
         {
-            if(notAllowed.Contains(page))
+            if (notAllowed.Contains(page))
                 return false;
 
-            if(Rules.TryGetValue(page, out var newPages))
-                foreach(var notAllowedpage in newPages)
+            if (Rules.TryGetValue(page, out var newPages))
+                foreach (var notAllowedpage in newPages)
                     notAllowed.Add(notAllowedpage);
         }
 
@@ -87,13 +91,7 @@ public class Day05
         var correctPrints = Prints.Where(IsPrintCorrect).ToList();
 
         var sum = 0;
-        foreach (var correctPrint in correctPrints)
-        {
-            sum += correctPrint[correctPrint.Count /2];
-        }
+        foreach (var correctPrint in correctPrints) sum += correctPrint[correctPrint.Count / 2];
         return sum;
     }
-
-    Dictionary<int, List<int>> Rules = new();
-    List<List<int>> Prints = new();
 }

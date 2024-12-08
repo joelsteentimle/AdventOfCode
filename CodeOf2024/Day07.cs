@@ -2,7 +2,7 @@ namespace AoC2024;
 
 public class Day07
 {
-    private List<List<long>> numberLines = [];
+    private readonly List<List<long>> numberLines = [];
 
     public Day07(List<string> input)
     {

@@ -10,18 +10,12 @@ public class Day02
 
             var isSafe = AreStrairsSafe(stairs);
 
-            if (!isSafe && allowOne)
-            {
-                isSafe = AreAlteredStraisSafe(stairs);
-            }
+            if (!isSafe && allowOne) isSafe = AreAlteredStraisSafe(stairs);
 
-            if(isSafe)
-            {
+            if (isSafe)
                 Safe.Add(stairs);
-            }else
-            {
+            else
                 Unsafe.Add(stairs);
-            }
         }
 
         bool AreAlteredStraisSafe(List<int> stairs)
@@ -29,8 +23,8 @@ public class Day02
             for (var i = 0; i < stairs.Count; i++)
             {
                 var stairsMinusOne = stairs[..i];
-                stairsMinusOne.AddRange(stairs[(i+1)..]);
-                if(AreStrairsSafe(stairsMinusOne))
+                stairsMinusOne.AddRange(stairs[(i + 1)..]);
+                if (AreStrairsSafe(stairsMinusOne))
                     return true;
             }
 
@@ -39,7 +33,7 @@ public class Day02
 
         bool AreStrairsSafe(List<int> stairs)
         {
-            var previous =stairs[0];
+            var previous = stairs[0];
             var sign = Math.Sign(stairs[1] - stairs[0]);
 
             for (var index = 1; index < stairs.Count; index++)
@@ -49,10 +43,7 @@ public class Day02
                 var abs = Math.Abs(stair - previous);
                 var localSign = Math.Sign(stair - previous);
 
-                if (abs > 3 || abs < 1 || localSign != sign)
-                {
-                    return false;
-                }
+                if (abs > 3 || abs < 1 || localSign != sign) return false;
                 previous = stair;
             }
 
@@ -60,6 +51,6 @@ public class Day02
         }
     }
 
-    public List<List<int>> Safe { get;  } = new();
+    public List<List<int>> Safe { get; } = new();
     public List<List<int>> Unsafe { get; } = new();
 }

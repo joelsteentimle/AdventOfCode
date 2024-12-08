@@ -2,10 +2,10 @@ namespace AoC2024;
 
 public class Day08
 {
-    private Dictionary<char, List<(int y, int x)>> antennas = [];
-    private HashSet<(int y, int x)> antinodes = [];
-    private int MaxY;
-    private int MaxX;
+    private readonly Dictionary<char, List<(int y, int x)>> antennas = [];
+    private readonly HashSet<(int y, int x)> antinodes = [];
+    private readonly int MaxX;
+    private readonly int MaxY;
     private bool ResFix;
 
     public Day08(List<string> input)
@@ -13,23 +13,18 @@ public class Day08
         MaxY = input.Count;
         MaxX = input[0].Length;
 
-        for (int y = 0; y < input.Count; y++)
+        for (var y = 0; y < input.Count; y++)
         {
-
             var line = input[y];
-            for (int x = 0; x < line.Length; x++)
+            for (var x = 0; x < line.Length; x++)
             {
                 var maybeeAntenna = line[x];
                 if (maybeeAntenna != '.')
                 {
                     if (antennas.TryGetValue(maybeeAntenna, out var locations))
-                    {
                         locations.Add((y, x));
-                    }
                     else
-                    {
                         antennas[maybeeAntenna] = [(y, x)];
-                    }
                 }
             }
         }
@@ -38,25 +33,18 @@ public class Day08
     public int CountAntiNodes(bool resoning = false)
     {
         ResFix = resoning;
-        foreach (var  antennaPositions in antennas.Values.Where(a => a.Count > 1))
-        {
-            for (int i = 0; i < antennaPositions.Count; i++)
-            {
-                foreach (var otherPosition in antennaPositions[(i+1)..])
+        foreach (var antennaPositions in antennas.Values.Where(a => a.Count > 1))
+            for (var i = 0; i < antennaPositions.Count; i++)
+                foreach (var otherPosition in antennaPositions[(i + 1)..])
                 {
-                  var antiPositions =   GetAntiNodes(antennaPositions[i], otherPosition);
-                  foreach (var antiPosition in antiPositions)
-                  {
-                      antinodes.Add(antiPosition);
-                  }
+                    var antiPositions = GetAntiNodes(antennaPositions[i], otherPosition);
+                    foreach (var antiPosition in antiPositions) antinodes.Add(antiPosition);
                 }
-            }
-        }
 
         return antinodes.Count;
     }
 
-    private List<(int y , int x)> GetAntiNodes((int y, int x) position, (int y, int x) otherPosition)
+    private List<(int y, int x)> GetAntiNodes((int y, int x) position, (int y, int x) otherPosition)
     {
         List<(int y, int x)> ret = [];
         (int y, int x) diff = (position.y - otherPosition.y, position.x - otherPosition.x);
@@ -74,7 +62,7 @@ public class Day08
         else
         {
             var repeats = 1;
-             (int y,int x) testPos = (position.y, position.x);
+            var testPos = (position.y, position.x);
             while (!IsOutOfBound(testPos))
             {
                 ret.Add(testPos);
