@@ -18,20 +18,20 @@ public class Day06
     private (int y, int x) LoopGuard;
     private (int dy, int dx) LoopGuardDirection;
     private (int y, int x)? testingLoopBoulder;
-    private HashSet<(int y, int x)>[,] LoopDirectionsAtPlace;
+    // private HashSet<(int y, int x)>[,] LoopDirectionsAtPlace;
 
     public Day06(List<string> input)
     {
         Field = new Place[input.Count, input[0].Length];
         DirectionsAtPlace = new HashSet<(int y, int x)>[input.Count, input[0].Length];
-        LoopDirectionsAtPlace = new HashSet<(int y, int x)>[input.Count, input[0].Length];
+        // LoopDirectionsAtPlace = new HashSet<(int y, int x)>[input.Count, input[0].Length];
         LoopingBoulder = new bool[input.Count, input[0].Length];
 
         for (var y = 0; y < Field.GetLength(0); y++)
         for (var x = 0; x < Field.GetLength(1); x++)
         {
             DirectionsAtPlace[y, x] = [];
-            LoopDirectionsAtPlace[y, x] = [];
+            // LoopDirectionsAtPlace[y, x] = [];
         }
 
         for (var y = 0; y < input.Count; y++)
@@ -90,8 +90,11 @@ public class Day06
                 for (var y = 0; y < Field.GetLength(0); y++)
                 for (var x = 0; x < Field.GetLength(1); x++)
                 {
-                    LoopDirectionsAtPlace[y, x] = [];
+                    // LoopDirectionsAtPlace[y, x] = [];
+                    DirectionsAtPlace[y, x] = [];
+
                 }
+
 
                 testingLoopBoulder = (pbY, pbX);
                 if( WillGenerateALoop(GuardPosition, RotateRight( GuardDirection)) )
@@ -114,8 +117,8 @@ public class Day06
     {
         do
         {
-            if (DirectionsAtPlace[guardPosition.y,guardPosition.x].Contains(guardDirection)
-                || LoopDirectionsAtPlace[guardPosition.y,guardPosition.x].Contains(guardDirection))
+            if (DirectionsAtPlace[guardPosition.y,guardPosition.x].Contains(guardDirection))
+                // || LoopDirectionsAtPlace[guardPosition.y,guardPosition.x].Contains(guardDirection))
                 return true;
         } while (TryMoveGuard(guardPosition, guardDirection, out guardPosition, out guardDirection, markVisit: false));
         return false;
@@ -157,12 +160,13 @@ public class Day06
             if (markVisit)
             {
                 Field[newGuardPosition.y, newGuardPosition.x] = Place.Visited;
-                DirectionsAtPlace[newGuardPosition.y,newGuardPosition.x].Add(guardDirection);
             }
             else
             {
-                LoopDirectionsAtPlace[guardPosition.y,guardPosition.x].Add(guardDirection);
+                // LoopDirectionsAtPlace[guardPosition.y,guardPosition.x].Add(guardDirection);
             }
+            DirectionsAtPlace[newGuardPosition.y,newGuardPosition.x].Add(guardDirection);
+
             return true;
         }
         else
@@ -174,8 +178,10 @@ public class Day06
             }
             else
             {
-                LoopDirectionsAtPlace[guardPosition.y, guardPosition.x].Add(guardDirection);
+                // LoopDirectionsAtPlace[guardPosition.y, guardPosition.x].Add(guardDirection);
             }
+            DirectionsAtPlace[guardPosition.y, guardPosition.x].Add(newGuardDirection);
+
             return true;
         }
     }
