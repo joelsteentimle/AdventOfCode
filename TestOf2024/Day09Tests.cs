@@ -31,6 +31,6 @@ public class Day09Tests
     public void Real2()
     {
         var d09 = new Day09("Day09".ReadRealLines());
-        Assert.That(d09.OtherUncompress(), Is.EqualTo(4998764814652));
+        Assert.That(d09.OtherUncompress(), Is.EqualTo(6469636832766));
     }
 }
