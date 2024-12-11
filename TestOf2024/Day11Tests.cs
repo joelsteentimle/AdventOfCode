@@ -9,28 +9,35 @@ public class Day11Tests
     public void Test1()
     {
         var d11 = new Day11("Day11".ReadTestLines());
-        Assert.That(d11.Part1(25), Is.EqualTo(55312));
+        Assert.That(d11.Part2(25), Is.EqualTo(55312));
     }
 
     [Test]
     public void Real1()
     {
         var d11 = new Day11("Day11".ReadRealLines());
-        Assert.That(d11.Part1(25), Is.EqualTo(9918828));
+        Assert.That(d11.Part2(25), Is.EqualTo(217443));
     }
 
-    //
-    // [Test]
-    // public void Test2()
-    // {
-    //     var d11 = new Day11("Day11".ReadTestLines());
-    //     Assert.That(d11.Part2(), Is.EqualTo(81));
-    // }
+
+    [Test]
+    public void Test2_smallBlink()
+    {
+        var d11 = new Day11("Day11".ReadTestLines());
+        Assert.That(d11.Part2(6), Is.EqualTo(22));
+    }
+
+    [Test]
+    public void Test2_MidBlink()
+    {
+        var d11 = new Day11("Day11".ReadTestLines());
+        Assert.That(d11.Part2(1), Is.EqualTo(3));
+    }
 
     [Test]
     public void Real2()
     {
         var d11 = new Day11("Day11".ReadRealLines());
-        Assert.That(d11.Part1(75), Is.EqualTo(1942));
+        Assert.That(d11.Part2(75), Is.EqualTo(257246536026785));
     }
 }
