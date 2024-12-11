@@ -32,29 +32,26 @@ public class Day06
                     case '#':
                         Field[y, x] = Place.Boulder;
                         break;
-                    case 'X':
-                        Field[y, x] = Place.Visited;
-                        break;
                     case '^':
                         GuardPosition = (y, x);
                         GuardDirection = (-1, 0);
                         Field[y, x] = Place.Visited;
                         break;
-                    case '>':
-                        GuardPosition = (y, x);
-                        GuardDirection = (0, 1);
-                        Field[y, x] = Place.Visited;
-                        break;
-                    case 'v':
-                        GuardPosition = (y, x);
-                        GuardDirection = (1, 0);
-                        Field[y, x] = Place.Visited;
-                        break;
-                    case '<':
-                        GuardPosition = (y, x);
-                        GuardDirection = (0, -1);
-                        Field[y, x] = Place.Visited;
-                        break;
+                    // case '>':
+                    //     GuardPosition = (y, x);
+                    //     GuardDirection = (0, 1);
+                    //     Field[y, x] = Place.Visited;
+                    //     break;
+                    // case 'v':
+                    //     GuardPosition = (y, x);
+                    //     GuardDirection = (1, 0);
+                    //     Field[y, x] = Place.Visited;
+                    //     break;
+                    // case '<':
+                    //     GuardPosition = (y, x);
+                    //     GuardDirection = (0, -1);
+                    //     Field[y, x] = Place.Visited;
+                    //     break;
                 }
         }
 

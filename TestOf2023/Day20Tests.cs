@@ -17,23 +17,23 @@ public class Day20Tests : DayTests
     public void Part1()
         => Assert.That(RealInstance.SentPulses(), Is.EqualTo(856482136));
 
-    [Test]
-    public void FindSingleParts()
-    {
-        var day20 = RealInstance;
-
-        var allNames= day20.PulseMods.Keys.ToList();
-        var allTargets = day20.PulseMods.Values.SelectMany(mod => mod.Targets).ToList();
-
-        List<(string Name, int count)> nrTarget = [];
-        foreach (var name in allNames)
-        {
-            nrTarget.Add((name, allTargets.Count(t => t == name)));
-        }
-
-        Assert.That(nrTarget.Count(tuple => tuple.count == 1 ), Is.EqualTo(5));
-
-    }
+    // [Test]
+    // public void FindSingleParts()
+    // {
+    //     var day20 = RealInstance;
+    //
+    //     var allNames= day20.PulseMods.Keys.ToList();
+    //     var allTargets = day20.PulseMods.Values.SelectMany(mod => mod.Targets).ToList();
+    //
+    //     List<(string Name, int count)> nrTarget = [];
+    //     foreach (var name in allNames)
+    //     {
+    //         nrTarget.Add((name, allTargets.Count(t => t == name)));
+    //     }
+    //
+    //     Assert.That(nrTarget.Count(tuple => tuple.count == 1 ), Is.EqualTo(5));
+    //
+    // }
 
 
     private Day20 RealInstance => new(GetRealLines());

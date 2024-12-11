@@ -3,41 +3,34 @@ using SupportCode;
 
 namespace TestOf2024;
 
-public class Day10Tests
+public class Day11Tests
 {
     [Test]
     public void Test1()
     {
-        var d10 = new Day10("Day10".ReadTestLines());
-        Assert.That(d10.Part1(), Is.EqualTo(36));
-    }
-
-    [Test]
-    public void Test1_1()
-    {
-        var d10 = new Day10("Day10".ReadTestLines("1"));
-        Assert.That(d10.Part1(), Is.EqualTo(1));
+        var d11 = new Day11("Day11".ReadTestLines());
+        Assert.That(d11.Part1(25), Is.EqualTo(55312));
     }
 
     [Test]
     public void Real1()
     {
-        var d10 = new Day10("Day10".ReadRealLines());
-        Assert.That(d10.Part1(), Is.EqualTo(796));
+        var d11 = new Day11("Day11".ReadRealLines());
+        Assert.That(d11.Part1(25), Is.EqualTo(9918828));
     }
 
-
-    [Test]
-    public void Test2()
-    {
-        var d10 = new Day10("Day10".ReadTestLines());
-        Assert.That(d10.Part2(), Is.EqualTo(81));
-    }
+    //
+    // [Test]
+    // public void Test2()
+    // {
+    //     var d11 = new Day11("Day11".ReadTestLines());
+    //     Assert.That(d11.Part2(), Is.EqualTo(81));
+    // }
 
     [Test]
     public void Real2()
     {
-        var d10 = new Day10("Day10".ReadRealLines());
-        Assert.That(d10.Part2(), Is.EqualTo(1942));
+        var d11 = new Day11("Day11".ReadRealLines());
+        Assert.That(d11.Part1(75), Is.EqualTo(1942));
     }
 }

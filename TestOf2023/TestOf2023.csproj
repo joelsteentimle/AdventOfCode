@@ -180,7 +180,7 @@
     <None Update="DataFiles\Day01\Test2.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DataFiles\Day01\test.txt">
+    <None Update="DataFiles\Day01\Test.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="DataFiles\Day01\Real.txt">

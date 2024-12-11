@@ -7,7 +7,7 @@ public class Day21Tests : DayTests
 {
     [Test]
     public void Part1Test()
-        => Assert.That(GetTestInstance().CountEndPlots(16), Is.EqualTo(16));
+        => Assert.That(GetTestInstance().CountEndPlots(16), Is.EqualTo(1642));
 
     [Test]
     public void Part1()

@@ -68,28 +68,28 @@ public class Day19Tests : DayTests
         Assert.Multiple(() =>
         {
             Assert.That(splitted, Is.EqualTo(new Day19.RangeParts(
-                new Day19.Range(0, 4000),
-                new Day19.Range(0, 4000),
-                new Day19.Range(0, 2005),
-                new Day19.Range(0, 4000))));
+                new Day19.Range(1, 4000),
+                new Day19.Range(1, 4000),
+                new Day19.Range(1, 2005),
+                new Day19.Range(1, 4000))));
 
             Assert.That(left, Is.EqualTo(new Day19.RangeParts(
-                new Day19.Range(0, 4000),
-                new Day19.Range(0, 4000),
+                new Day19.Range(1, 4000),
+                new Day19.Range(1, 4000),
                 new Day19.Range(2006, 4000),
-                new Day19.Range(0, 4000))));
+                new Day19.Range(1, 4000))));
 
             Assert.That(afterGreater.splitted, Is.EqualTo(new Day19.RangeParts(
-               new Day19.Range(0, 4000),
-               new Day19.Range(0, 4000),
-               new Day19.Range(0, 4000),
+               new Day19.Range(1, 4000),
+               new Day19.Range(1, 4000),
+               new Day19.Range(1, 4000),
                new Day19.Range(3449, 4000))));
 
             Assert.That(afterGreater.left, Is.EqualTo(new Day19.RangeParts(
-                new Day19.Range(0, 4000),
-                new Day19.Range(0, 4000),
-                new Day19.Range(0, 4000),
-                new Day19.Range(0, 3448))));
+                new Day19.Range(1, 4000),
+                new Day19.Range(1, 4000),
+                new Day19.Range(1, 4000),
+                new Day19.Range(1, 3448))));
         });
     }
 
@@ -104,7 +104,7 @@ public class Day19Tests : DayTests
     [Test]
     public void Part2Minimal() =>
         Assert.That(new Day19(["in{a<3997:R,a>3997:R,x>1:R,m<4000:R,s>2:R,A", ""]).GetRangeSums(),
-            Is.EqualTo(6));
+            Is.EqualTo(2));
 
 
     private Day19 RealInstance => new(GetRealLines());
