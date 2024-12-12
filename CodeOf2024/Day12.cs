@@ -1,15 +1,13 @@
-using Microsoft.Win32.SafeHandles;
-
 namespace AoC2024;
 
 public class Day12
 {
-    private char[,] Field;
-    private bool[,] HaveBeenFenced;
-    private int MaxY;
     private readonly int MaxX;
-    private bool[,] FencePositionsDy;
     private bool[,] FencePositionsDx;
+    private bool[,] FencePositionsDy;
+    private readonly char[,] Field;
+    private readonly bool[,] HaveBeenFenced;
+    private readonly int MaxY;
 
 
     public Day12(List<string> allData)
@@ -19,29 +17,26 @@ public class Day12
         Field = new char[MaxY, MaxX];
         HaveBeenFenced = new bool[MaxY, MaxX];
 
-        for (int y = 0; y < MaxY; y++)
-        {
-            for (int x = 0; x < MaxX; x++)
-            {
-                Field[y, x] = allData[y][x];
-            }
-
-
-        }
+        for (var y = 0; y < MaxY; y++)
+        for (var x = 0; x < MaxX; x++)
+            Field[y, x] = allData[y][x];
     }
+
+    private List<(int y, int x)> AllDirections =>
+    [
+        (-1, 0),
+        (0, -1),
+        (1, 0),
+        (0, 1)
+    ];
 
     public long Part1()
     {
         var sum = 0L;
 
-        for (int y = 0; y < MaxY; y++)
-        {
-            for (int x = 0; x < MaxX; x++)
-            {
-                sum += CalculateFieldCost((y, x) );
-            }
-
-        }
+        for (var y = 0; y < MaxY; y++)
+        for (var x = 0; x < MaxX; x++)
+            sum += CalculateFieldCost((y, x));
 
         return sum;
     }
@@ -73,11 +68,10 @@ public class Day12
         var dyEdges = 0;
         var continiousFence = false;
 
-        for (int y = 0; y < MaxY + 1; y++)
+        for (var y = 0; y < MaxY + 1; y++)
         {
             continiousFence = false;
-            for (int x = 0; x < MaxX; x++)
-            {
+            for (var x = 0; x < MaxX; x++)
                 if (FencePositionsDy[y, x])
                 {
                     if (!continiousFence)
@@ -87,29 +81,22 @@ public class Day12
                     {
                         if (!IsOutOfBound((y - 1, x - 1)) &&
                             !IsOutOfBound((y, x))
-                            && (Field[y - 1, x - 1] != Field[y-1, x ]
-                                && Field[y , x-1] != Field[y, x]))
-                        {
+                            && Field[y - 1, x - 1] != Field[y - 1, x]
+                            && Field[y, x - 1] != Field[y, x])
                             dyEdges++;
-                        }
-
                     }
 
 
                     continiousFence = true;
                 }
                 else
-                {
                     continiousFence = false;
-                }
-            }
         }
 
-        for (int x = 0; x < MaxX + 1; x++)
+        for (var x = 0; x < MaxX + 1; x++)
         {
             continiousFence = false;
-            for (int y = 0; y < MaxY; y++)
-            {
+            for (var y = 0; y < MaxY; y++)
                 if (FencePositionsDx[y, x])
                 {
                     if (!continiousFence)
@@ -118,23 +105,16 @@ public class Day12
                     {
                         if (!IsOutOfBound((y - 1, x - 1)) &&
                             !IsOutOfBound((y, x)) &&
-                            (Field[y - 1, x - 1] != Field[y, x - 1]
-                             && Field[y - 1, x] != Field[y, x]))
-                        {
+                            Field[y - 1, x - 1] != Field[y, x - 1]
+                            && Field[y - 1, x] != Field[y, x])
                             dxEdges++;
-                        }
-
                     }
 
                     continiousFence = true;
                 }
                 else
-                {
                     continiousFence = false;
-                }
-            }
         }
-
 
 
         return area * (dxEdges + dyEdges);
@@ -142,7 +122,7 @@ public class Day12
 
     private (int area, int fence) FloodFillApproach((int y, int x) fromPosition)
     {
-        if(HaveBeenFenced[fromPosition.y, fromPosition.x])
+        if (HaveBeenFenced[fromPosition.y, fromPosition.x])
             return (0, 0);
 
         var area = 1;
@@ -152,7 +132,6 @@ public class Day12
         var nextSteps = NextPositions(fromPosition);
 
         foreach (var nextStep in nextSteps)
-        {
             if (IsOutOfBound((nextStep.y, nextStep.x))
                 || Field[nextStep.y, nextStep.x] != Field[fromPosition.y, fromPosition.x]
                 || IsOutOfBound(nextStep))
@@ -170,13 +149,12 @@ public class Day12
                 }
             }
 
-            else if(!HaveBeenFenced[nextStep.y, nextStep.x] )
+            else if (!HaveBeenFenced[nextStep.y, nextStep.x])
             {
                 var (newArea, newFenc) = FloodFillApproach(nextStep);
                 area += newArea;
                 fence += newFenc;
             }
-        }
 
         return (area, fence);
     }
@@ -186,16 +164,13 @@ public class Day12
     {
         var sum = 0L;
 
-        for (int y = 0; y < MaxY; y++)
-        {
-            for (int x = 0; x < MaxX; x++)
-            {
-                sum += CalculateFieldWithSideCost((y, x) );
-            }
-        }
+        for (var y = 0; y < MaxY; y++)
+        for (var x = 0; x < MaxX; x++)
+            sum += CalculateFieldWithSideCost((y, x));
 
         return sum;
     }
+
     private bool IsOutOfBound((int, int ) position)
     {
         var (y, x) = position;
@@ -206,14 +181,6 @@ public class Day12
         return false;
     }
 
-    private List<(int y, int x) > NextPositions((int y, int x) position) =>
+    private List<(int y, int x)> NextPositions((int y, int x) position) =>
         AllDirections.Select(d => (position.y + d.y, position.x + d.x)).ToList();
-
-    private List<(int y, int x)> AllDirections =>
-    [
-        (-1, 0),
-        (0, -1),
-        (1, 0),
-        (0, 1),
-    ];
 }
