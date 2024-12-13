@@ -10,14 +10,17 @@ public class Day13
 
     private class ClawMachine
     {
+        // A cost 3
         public (long y, long x) ButtonADiff;
+
+        // B cost 1
         public (long y, long x) ButtonBDiff;
         public (long y, long x) PrizePosition;
 
         public long Amovement => ButtonADiff.y + ButtonADiff.x;
         public long Bmovement => ButtonBDiff.y + ButtonBDiff.x;
 
-        public ClawMachine(string fButton, string sButton, string prize)
+        public ClawMachine(string fButton, string sButton, string prize, long adding)
         {
             var fbutton = fButton[7];
             var fdx = fButton.Split("X+", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
@@ -33,26 +36,22 @@ public class Day13
             ButtonADiff = (long.Parse(fdy), long.Parse(fdx));
             ButtonBDiff = (long.Parse(sdy), long.Parse(sdx));
 
-            PrizePosition = (long.Parse(targetY), long.Parse(targetX));
+            PrizePosition = (adding + long.Parse(targetY), adding + long.Parse(targetX));
         }
-
-        private record Button(char name, long dy, long dx);
+        // private record Button(char name, long dy, long dx);
     }
 
     private List<ClawMachine> ClawMachines = [];
 
-    public Day13(List<string> allData)
+    public Day13(List<string> allData, long adding = 0)
     {
-        // MaxY = allData.Count;
-        // MaxX = allData[0].Length;
-        // Field = new char[MaxY, MaxX];
-
-        for (int r = 0; r+3 < allData.Count; r+=4)
+        for (int r = 0; r+3 <= allData.Count; r+=4)
         {
             var clawMachine = new ClawMachine(
                 allData[r],
                 allData[r + 1],
-                allData[r + 2]
+                allData[r + 2],
+                adding
             );
             ClawMachines.Add(clawMachine);
         }
@@ -66,14 +65,79 @@ public class Day13
 
         foreach (var clawMachine in ClawMachines)
         {
-            sum += WinzWithAtMostPresses(clawMachine, 100);
+            sum += WinzWithAtMostPresses(clawMachine, 100L);
         }
 
         return sum;
     }
 
-    private long WinzWithAtMostPresses(ClawMachine clawMachine, int i)
+    private long WinzWithAtMostPresses(ClawMachine clawMachine, long maxButtonPresses)
     {
+        var buttADiff = clawMachine.ButtonADiff;
+        var buttBDiff = clawMachine.ButtonBDiff;
+
+        var aMovementPerCoint = clawMachine.Amovement / 3f;
+        var bMovementPerCoint = clawMachine.Bmovement / 1f;
+
+
+        if (aMovementPerCoint > bMovementPerCoint)
+        {
+            var maxPressForY =  clawMachine.PrizePosition.y/buttADiff.y ;
+            var maxPressForX =  clawMachine.PrizePosition.x/buttADiff.x ;
+
+            var l = new List<long> { maxPressForY, maxPressForX, maxButtonPresses };
+
+            var aStartPush = l.Min();
+
+            // var aPush = aStartPush;
+
+            for (var aPush = aStartPush; aPush >=0; aPush--)
+            {
+                (long y, long x) distLeft = (clawMachine.PrizePosition.y - buttADiff.y * aPush,
+                    clawMachine.PrizePosition.x - buttADiff.x * aPush);
+
+                if (distLeft.y % buttBDiff.y == 0)
+                {
+                    var bPushes = distLeft.y / buttBDiff.y;
+                    if (bPushes <= 100 &&
+                        distLeft.x == bPushes * buttBDiff.x)
+                    {
+                        var totalCost = aPush *3 + bPushes *1;
+                        return totalCost;
+                    }
+                }
+            }
+        }
+        else
+        {
+            var maxPressForY =   clawMachine.PrizePosition.y/buttBDiff.y;
+            var maxPressForX =   clawMachine.PrizePosition.x/buttBDiff.x;
+
+            var l = new List<long> { maxPressForY, maxPressForX, maxButtonPresses };
+
+            var bStartPush = l.Min();
+
+
+            for (var bPushes = bStartPush; bPushes >=0; bPushes--)
+            {
+                (long y, long x) distLeft = (clawMachine.PrizePosition.y - buttBDiff.y * bPushes,
+                    clawMachine.PrizePosition.x - buttBDiff.x * bPushes);
+
+                if (distLeft.y % buttADiff.y == 0)
+                {
+                    var aPushes = distLeft.y / buttADiff.y;
+                    if (aPushes <= 100 &&
+                        distLeft.x == aPushes * buttADiff.x)
+                    {
+                        var totalCost = bPushes *1 + aPushes *3;
+                        return totalCost;
+                    }
+                }
+            }
+        }
+
+
+
 
         var longestMovingButton =
                 clawMachine.Amovement > clawMachine.Bmovement ?
@@ -83,10 +147,14 @@ public class Day13
             clawMachine.Amovement <= clawMachine.Bmovement ?
                 clawMachine.ButtonADiff : clawMachine.ButtonBDiff;
 
-        // Associate the longer moving button with as many steps as it overshoots a position
+        // Get the most movement per coin
+
 
         var maxMovY = longestMovingButton.y / clawMachine.PrizePosition.y;
         var maxMovx = longestMovingButton.x / clawMachine.PrizePosition.x;
+
+
+
 
         var longButtonPushMax = Math.Min(maxMovY, maxMovx);
 
@@ -114,8 +182,11 @@ public class Day13
     {
         var sum = 0L;
 
+        foreach (var clawMachine in ClawMachines)
+        {
+            sum += WinzWithAtMostPresses(clawMachine, long.MaxValue);
+        }
 
-        return sum;
-    }
+        return sum;    }
 }
 
