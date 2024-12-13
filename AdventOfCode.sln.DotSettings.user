@@ -9,6 +9,11 @@
 	
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingMode/@EntryValue">OnlyMarkers</s:String>
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/home/joelst/.cache/JetBrains/Rider2024.3/resharper-host/temp/Rider/vAny/CoverageData/_AdventOfCode.1818883548/Snapshot/snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=025ab9ad_002De6b6_002D4975_002D8381_002D84bb5487846e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day13Tests.Test1&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3352ac89_002D102b_002D48b9_002D8f96_002D44cbd0162e21/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Day06Tests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Not&gt;
@@ -48,6 +53,8 @@
       &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net9.0::TestOf2023.Day23Tests&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net9.0::TestOf2023.Day24Tests&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::8AB328D0-8C6A-4D34-9327-754B9544C0E0::net9.0::TestOf2023.Day25Tests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day11Tests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day12Tests&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
   &lt;/Not&gt;
 &lt;/SessionState&gt;</s:String>
