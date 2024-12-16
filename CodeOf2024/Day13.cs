@@ -89,9 +89,9 @@ public class Day13
 
             var aStartPush = l.Min();
 
-            // var aPush = aStartPush;
+            var aPush = aStartPush;
 
-            for (var aPush = aStartPush; aPush >=0; aPush--)
+            while(aPush >= 0)
             {
                 (long y, long x) distLeft = (clawMachine.PrizePosition.y - buttADiff.y * aPush,
                     clawMachine.PrizePosition.x - buttADiff.x * aPush);
@@ -106,7 +106,26 @@ public class Day13
                         return totalCost;
                     }
                 }
+
+
             }
+
+            // for (var aPush = aStartPush; aPush >=0; aPush--)
+            // {
+            //     (long y, long x) distLeft = (clawMachine.PrizePosition.y - buttADiff.y * aPush,
+            //         clawMachine.PrizePosition.x - buttADiff.x * aPush);
+            //
+            //     if (distLeft.y % buttBDiff.y == 0)
+            //     {
+            //         var bPushes = distLeft.y / buttBDiff.y;
+            //         if (bPushes <= 100 &&
+            //             distLeft.x == bPushes * buttBDiff.x)
+            //         {
+            //             var totalCost = aPush *3 + bPushes *1;
+            //             return totalCost;
+            //         }
+            //     }
+            // }
         }
         else
         {
