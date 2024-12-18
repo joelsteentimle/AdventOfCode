@@ -62,12 +62,40 @@ public class Day14
     }
 
 
+    public bool IsChristmasTree()
+    {
+        var robotCountPerLine = new int[MaxY];
+
+        foreach (var robot in Robots)
+        {
+            robotCountPerLine[robot.Position.y]++;
+        }
+
+        for (int i = 1; i < MaxY; i++)
+        {
+            if (
+                robotCountPerLine[i] > 0 &&
+                robotCountPerLine[i] < robotCountPerLine[i - 1])
+                return false;
+        }
+        return true;
+    }
 
 
     public long Part2()
     {
-        var sum = 0L;
-        return sum;
+        int timWentBy = 0;
+
+        while (timWentBy < 4000000)
+        {
+            WaitSeconds(1);
+            timWentBy++;
+
+            if(IsChristmasTree())
+                return timWentBy;
+        }
+
+        return -100;
     }
 
     public void WaitSeconds(int seconds)
