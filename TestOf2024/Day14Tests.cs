@@ -60,6 +60,7 @@ public class Day14Tests
     {
         Debug.WriteLine("Hello??");
         var d14 = new Day14("Day14".ReadRealLines());
-        Assert.That(d14.Part2(), Is.EqualTo(830566));
+        var d2Value = d14.Part2();
+        Assert.That(d2Value, Is.EqualTo(7753));
     }
 }

@@ -31,6 +31,7 @@ public class Day14
 
     private void ResetBoard(List<string> allData)
     {
+        Robots.Clear();
         foreach (var robot in allData)
         {
             var input  = robot.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -80,111 +81,82 @@ public class Day14
 
     public void PrintTreeRobots()
     {
-        // var field = new char[MaxY, MaxX];
         var charField = new char[MaxY][];
-
-        var textPrint = new List<string>();
 
         for (int y = 0; y < MaxY; y++)
         {
             charField[y]  = Enumerable.Repeat('.', MaxX).ToArray();
-            // textPrint.Add(Enumerable.Repeat('.', MaxX));
         }
 
-        // for(var y=0; y< field.GetLength(0); y++)
-        // for(var x=0;  x < field.GetLength(1) ;x++)
-        // {
-        //     field[y, x] = '.';
-        // }
 
         foreach (var ro in Robots)
         {
             charField[ro.Position.y][ro.Position.x] = 'X';
-            // textPrint[ro.Position.y]. [ro.Position.x] = 'R';
-            // field[ro.Position.y, ro.Position.x] = 'X';
         }
 
         foreach (var line in charField)
         {
-            Debug.WriteLine(line.ToString());
+            Debug.WriteLine(string.Join("", line));
         }
 
     }
 
-    public bool IsChristmasTree()
+    public int CloseRobots()
     {
-        var robotCountPerLine = new int[MaxY];
+        var whereIsRobot = new bool[MaxY,MaxX];
+
+        foreach (var ro in Robots)
+        {
+            whereIsRobot[ro.Position.y,ro.Position.x] = true;
+        }
+
+        var robotsNeighbor = 0;
 
         foreach (var robot in Robots)
         {
-            var y = robot.Position.y;
-            var x = robot.Position.x;
+            if(robot.Position.x >0
+               && whereIsRobot[robot.Position.y,robot.Position.x-1])
+                robotsNeighbor++;
+            if(robot.Position.x < MaxX-1
+                && whereIsRobot[robot.Position.y,robot.Position.x+1])
+                robotsNeighbor++;
 
-            var distanceFromMiddle = Math.Abs(x - MaxX / 2);
-            var distanceFromTop = y;
-
-            if(distanceFromMiddle > distanceFromTop)
-                return false;
-
+            if(robot.Position.y >0
+               && whereIsRobot[robot.Position.y-1,robot.Position.x])
+                robotsNeighbor++;
+            if(robot.Position.y < MaxY-1
+               && whereIsRobot[robot.Position.y+1,robot.Position.x])
+                robotsNeighbor++;
         }
 
-        return true;
-
-        foreach (var robot in Robots)
-        {
-            if (robot.Position.x != MaxX/2)
-                robotCountPerLine[robot.Position.y]++;
-        }
-
-        for (int i = 1; i < MaxY; i++)
-        {
-            if (
-                robotCountPerLine[i] > 0 &&
-                robotCountPerLine[i] < robotCountPerLine[i - 1])
-                return false;
-        }
-        return true;
+        return robotsNeighbor;
     }
-
 
     public long Part2()
     {
-        int timWentBy = 0;
         List<(int value, int second)> timeScores = [];
 
         for (int i = 0; i < MaxY * MaxX; i++)
         {
-            WaitSeconds(1);
-            var value = PartOneCalculate();
-
+            var value = CloseRobots();
             timeScores.Add((value, i));
+            WaitSeconds(1);
+
         }
 
         var bestTimes =
-            timeScores.OrderBy(t => t.value)
-                .Take(50);
+            timeScores.OrderBy(t => -t.value)
+                .Take(400);
 
-        foreach (var time in bestTimes)
-        {
-            ResetBoard(inData);
-            WaitSeconds(time.second);
-            Debug.WriteLine("");
-            Debug.WriteLine("");
-            Debug.WriteLine("");
-            Debug.WriteLine($"This is for second{time.second}");
-            PrintTreeRobots();
-        }
-
-
-        // while (timWentBy < 400000)
-        // while (timWentBy < 10000)
+        // foreach (var time in bestTimes)
         // {
-        //
-        //     WaitSeconds(1);
-        //     timWentBy++;
-        //
-        //     if(IsChristmasTree())
-        //         return timWentBy;
+        //     ResetBoard(inData);
+        //     WaitSeconds(time.second);
+        //     Debug.WriteLine("");
+        //     Debug.WriteLine("");
+        //     Debug.WriteLine("");
+        //     Debug.WriteLine($"This is for second{time.second}");
+        //     PrintTreeRobots();
         // }
 
         return bestTimes.First().second;
