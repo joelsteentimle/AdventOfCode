@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace AoC2024;
 
 public class Day14
@@ -6,6 +8,7 @@ public class Day14
     private int MaxY;
     private readonly int MaxX;
     public List<Robot> Robots =[];
+    private List<string> inData;
 
     public class Robot(
         (int y, int x) Position,
@@ -21,6 +24,13 @@ public class Day14
         MaxY = fieldSize.y;
         MaxX = fieldSize.x;
 
+        inData = allData;
+
+        ResetBoard(inData);
+    }
+
+    private void ResetBoard(List<string> allData)
+    {
         foreach (var robot in allData)
         {
             var input  = robot.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -43,6 +53,13 @@ public class Day14
         // var sum = 0L;
 
         //ymin xmin quad
+        var sum = PartOneCalculate();
+
+        return sum;
+    }
+
+    private int PartOneCalculate()
+    {
         var tlQuad = Robots.Count(r => r.Position.y < MaxY / 2 && r.Position.x < MaxX / 2);
         var sum = tlQuad;
 
@@ -57,10 +74,42 @@ public class Day14
         //ymax xmax quad
         var brQuad = Robots.Count(r => r.Position.y > (MaxY / 2) && r.Position.x >  (MaxX / 2));
         sum *= brQuad;
-
         return sum;
     }
 
+
+    public void PrintTreeRobots()
+    {
+        // var field = new char[MaxY, MaxX];
+        var charField = new char[MaxY][];
+
+        var textPrint = new List<string>();
+
+        for (int y = 0; y < MaxY; y++)
+        {
+            charField[y]  = Enumerable.Repeat('.', MaxX).ToArray();
+            // textPrint.Add(Enumerable.Repeat('.', MaxX));
+        }
+
+        // for(var y=0; y< field.GetLength(0); y++)
+        // for(var x=0;  x < field.GetLength(1) ;x++)
+        // {
+        //     field[y, x] = '.';
+        // }
+
+        foreach (var ro in Robots)
+        {
+            charField[ro.Position.y][ro.Position.x] = 'X';
+            // textPrint[ro.Position.y]. [ro.Position.x] = 'R';
+            // field[ro.Position.y, ro.Position.x] = 'X';
+        }
+
+        foreach (var line in charField)
+        {
+            Debug.WriteLine(line.ToString());
+        }
+
+    }
 
     public bool IsChristmasTree()
     {
@@ -68,7 +117,23 @@ public class Day14
 
         foreach (var robot in Robots)
         {
-            robotCountPerLine[robot.Position.y]++;
+            var y = robot.Position.y;
+            var x = robot.Position.x;
+
+            var distanceFromMiddle = Math.Abs(x - MaxX / 2);
+            var distanceFromTop = y;
+
+            if(distanceFromMiddle > distanceFromTop)
+                return false;
+
+        }
+
+        return true;
+
+        foreach (var robot in Robots)
+        {
+            if (robot.Position.x != MaxX/2)
+                robotCountPerLine[robot.Position.y]++;
         }
 
         for (int i = 1; i < MaxY; i++)
@@ -85,17 +150,44 @@ public class Day14
     public long Part2()
     {
         int timWentBy = 0;
+        List<(int value, int second)> timeScores = [];
 
-        while (timWentBy < 4000000)
+        for (int i = 0; i < MaxY * MaxX; i++)
         {
             WaitSeconds(1);
-            timWentBy++;
+            var value = PartOneCalculate();
 
-            if(IsChristmasTree())
-                return timWentBy;
+            timeScores.Add((value, i));
         }
 
-        return -100;
+        var bestTimes =
+            timeScores.OrderBy(t => t.value)
+                .Take(50);
+
+        foreach (var time in bestTimes)
+        {
+            ResetBoard(inData);
+            WaitSeconds(time.second);
+            Debug.WriteLine("");
+            Debug.WriteLine("");
+            Debug.WriteLine("");
+            Debug.WriteLine($"This is for second{time.second}");
+            PrintTreeRobots();
+        }
+
+
+        // while (timWentBy < 400000)
+        // while (timWentBy < 10000)
+        // {
+        //
+        //     WaitSeconds(1);
+        //     timWentBy++;
+        //
+        //     if(IsChristmasTree())
+        //         return timWentBy;
+        // }
+
+        return bestTimes.First().second;
     }
 
     public void WaitSeconds(int seconds)

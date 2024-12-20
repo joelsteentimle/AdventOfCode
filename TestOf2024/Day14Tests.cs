@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using AoC2024;
 using SupportCode;
 
@@ -57,6 +58,7 @@ public class Day14Tests
     [Test]
     public void Real2()
     {
+        Debug.WriteLine("Hello??");
         var d14 = new Day14("Day14".ReadRealLines());
         Assert.That(d14.Part2(), Is.EqualTo(830566));
     }
