@@ -31,13 +31,20 @@ public class Day16Tests
     public void Test2()
     {
         var d16 = new Day16("Day16".ReadTestLines());
-        Assert.That(d16.Part2(), Is.EqualTo(1606));
+        Assert.That(d16.Part2(), Is.EqualTo(45));
+    }
+
+    [Test]
+    public void Test2_1()
+    {
+        var d16 = new Day16("Day16".ReadTestLines("1"));
+        Assert.That(d16.Part2(), Is.EqualTo(64));
     }
 
     [Test]
     public void Real2()
     {
         var d16 = new Day16("Day16".ReadRealLines());
-        Assert.That(d16.Part2(), Is.EqualTo(830566));
+        Assert.That(d16.Part2(), Is.EqualTo(471));
     }
 }

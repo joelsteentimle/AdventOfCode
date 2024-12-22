@@ -11,15 +11,14 @@ public class Day16
         Wall,
     }
 
-    private record Raindeer((int y, int x) Pos, (int dy, int dx) Dir, int Points, Raindeer? Parent)
+    private record Raindeer((int y, int x) Pos, (int dy, int dx) Dir, int Points, List<Raindeer> Parents)
     {
         public Raindeer Move() =>
-            new Raindeer((Pos.y + Dir.dy, Pos.x +Dir. dx), (Dir.dy, Dir.dx), Points + 1, this);
+            new Raindeer((Pos.y + Dir.dy, Pos.x +Dir. dx), (Dir.dy, Dir.dx), Points + 1, [this]);
         public Raindeer TurnLeft() =>
-            new Raindeer((Pos.y, Pos.x), (-Dir.dx, Dir.dy), Points + 1000, this);
+            new Raindeer((Pos.y, Pos.x), (-Dir.dx, Dir.dy), Points + 1000, [this]);
         public Raindeer TurnRight() =>
-            new Raindeer((Pos.y, Pos.x), (Dir.dx, -Dir.dy), Points + 1000, this);
-
+            new Raindeer((Pos.y, Pos.x), (Dir.dx, -Dir.dy), Points + 1000, [this]);
     }
 
     private class RaindeerComparer : IComparer<Raindeer>
@@ -34,7 +33,7 @@ public class Day16
     }
 
     private FieldEntry[,] Field;
-    private bool[,,,] VisitedField;
+    private Raindeer[,,,] VisitedField;
     private int[,] TimesVisitedField;
     private int MaxY;
     private readonly int MaxX;
@@ -49,7 +48,7 @@ public class Day16
         MaxX = allData.Count;
 
         Field = new FieldEntry[MaxY, MaxX];
-        VisitedField = new bool[MaxY, MaxX,3,3];
+        VisitedField = new Raindeer[MaxY, MaxX,3,3];
         TimesVisitedField = new int[MaxY, MaxX];
 
         for (var y = 0; y < MaxY; y++)
@@ -59,7 +58,7 @@ public class Day16
                 if (allData[y][x] == 'S')
                 {
                     Field[y, x] = FieldEntry.Floor;
-                    StartRaindeer = new Raindeer((y, x), (0, 1), 0, null);
+                    StartRaindeer = new Raindeer((y, x), (0, 1), 0, []);
                 }else if (allData[y][x] == 'E')
                 {
                     Field[y, x] = FieldEntry.Floor;
@@ -83,14 +82,21 @@ public class Day16
                 raindeer.Pos.y,
                 raindeer.Pos.x,
                 raindeer.Dir.dy + 1,
-                raindeer.Dir.dx + 1])
+                raindeer.Dir.dx + 1] is {} allReadyHere)
+        {
+            if (allReadyHere.Points == raindeer.Points)
+            {
+                allReadyHere.Parents.AddRange(raindeer.Parents);
+            }
+
             return;
+        }
 
         VisitedField[
             raindeer.Pos.y,
             raindeer.Pos.x,
             raindeer.Dir.dy+1,
-            raindeer.Dir.dx+1] = true;
+            raindeer.Dir.dx+1] = raindeer;
 
         TimesVisitedField[
             raindeer.Pos.y,
@@ -99,50 +105,29 @@ public class Day16
         var forwardRaindeer = raindeer.Move();
 
         if (!IsOutOfBound(forwardRaindeer.Pos)
-            && Field[forwardRaindeer.Pos.y, forwardRaindeer.Pos.x] == FieldEntry.Floor
-            && !VisitedField[
-                forwardRaindeer.Pos.y,
-                forwardRaindeer.Pos.x,
-                forwardRaindeer.Dir.dy+1,
-                forwardRaindeer.Dir.dx+1])
-
+            && Field[forwardRaindeer.Pos.y, forwardRaindeer.Pos.x] == FieldEntry.Floor)
         {
             Raindeers.Add(forwardRaindeer);
         }
 
         var rightRaindeer = raindeer.TurnRight();
-        if (!VisitedField[
-                rightRaindeer.Pos.y,
-                rightRaindeer.Pos.x,
-                rightRaindeer.Dir.dy+1,
-                rightRaindeer.Dir.dx+1
-            ])
-
-        {
-            Raindeers.Add(rightRaindeer);
-        }
+        Raindeers.Add(rightRaindeer);
 
         var leftReindeer = raindeer.TurnLeft();
-        if (!VisitedField[
-                leftReindeer.Pos.y,
-                leftReindeer.Pos.x,
-                leftReindeer.Dir.dy+1,
-                leftReindeer.Dir.dx+1])
-        {
-            Raindeers.Add(leftReindeer);
-        }
+        Raindeers.Add(leftReindeer);
 
         Raindeers.Sort(PointComparer);
     }
 
-    public long Part1()
+    public long Part1() => GetWinningRaindeers().First().Points;
+
+    private List<Raindeer> GetWinningRaindeers()
     {
         Raindeers.Add(StartRaindeer);
+        List<Raindeer> winningRaindeers = [];
 
         long foundGoalCost = long.MaxValue;
         var cheepestRainder = Raindeers.First();
-
-        List<Raindeer> winningRaindeers = [];
 
         do
         {
@@ -159,49 +144,63 @@ public class Day16
 
         } while (Raindeers.First().Points <= foundGoalCost);
 
-        PrintVisited();
-
-        return foundGoalCost;
-    }
-
-    private void PrintVisited()
-    {
-        for (var y = 0; y < MaxY; y++)
-        {
-            var row = new StringBuilder();
-            for (var x = 0; x < MaxX; x++)
-            {
-                if(Field[y, x] == FieldEntry.Wall)
-                    row.Append('#');
-                else
-                {
-                    if (TimesVisitedField[y, x] > 0)
-                    {
-                        row.Append(TimesVisitedField[y, x] %10);
-                    }
-                    else if( VisitedField[y,x, 1,2]
-                        ||VisitedField[y,x, 1,0]
-                        ||VisitedField[y,x, 2,1]
-                        ||VisitedField[y,x, 0,1]
-                        )
-                        row.Append('X');
-                    else
-                    {
-                        row.Append('.');
-                    }
-                }
-            }
-            Console.WriteLine(row.ToString());
-        }
+        return winningRaindeers;
     }
 
     public long Part2()
     {
-        var sum = 0L;
+        var winners = GetWinningRaindeers();
+        var posi = GetAllParentPositions(winners);
+        HashSet<(int y, int x)> passingPositions = [];
 
 
-        return -100;
+        return posi.Count;
     }
+
+    private HashSet<(int y, int x)> GetAllParentPositions(List<Raindeer> raindeers)
+    {
+        HashSet<(int y, int x)> allParents = [];
+
+        foreach (var raindeer in raindeers)
+        {
+            allParents.Add(raindeer.Pos);
+            allParents.UnionWith(GetAllParentPositions(raindeer.Parents));
+        }
+        return allParents;
+    }
+
+    // private void PrintVisited()
+    // {
+    //     for (var y = 0; y < MaxY; y++)
+    //     {
+    //         var row = new StringBuilder();
+    //         for (var x = 0; x < MaxX; x++)
+    //         {
+    //             if(Field[y, x] == FieldEntry.Wall)
+    //                 row.Append('#');
+    //             else
+    //             {
+    //                 if (TimesVisitedField[y, x] > 0)
+    //                 {
+    //                     row.Append(TimesVisitedField[y, x] %10);
+    //                 }
+    //                 else if( VisitedField[y,x, 1,2]
+    //                     ||VisitedField[y,x, 1,0]
+    //                     ||VisitedField[y,x, 2,1]
+    //                     ||VisitedField[y,x, 0,1]
+    //                     )
+    //                     row.Append('X');
+    //                 else
+    //                 {
+    //                     row.Append('.');
+    //                 }
+    //             }
+    //         }
+    //         Console.WriteLine(row.ToString());
+    //     }
+    // }
+
+
 
     private bool IsOutOfBound((int, int ) position)
     {
