@@ -8,33 +8,43 @@ public class Day13
     private int MaxY;
     private readonly int MaxX;
 
+    private record Button(long y, long x, int cost)
+    {
+        public float MovePerCoint => ((float)y + (float)x) / cost;
+        public long TotalMovement => y + x;
+    }
+
     private class ClawMachine
     {
         // A cost 3
-        public (long y, long x) ButtonADiff;
+        // public (long y, long x, int cost) ButtonADiff;
+        public Button ButtonADiff;
 
         // B cost 1
-        public (long y, long x) ButtonBDiff;
+        // public (long y, long x, int cost) ButtonBDiff;
+        public Button ButtonBDiff;
+
         public (long y, long x) PrizePosition;
 
-        public long Amovement => ButtonADiff.y + ButtonADiff.x;
-        public long Bmovement => ButtonBDiff.y + ButtonBDiff.x;
+        // public long Amovement => ButtonADiff.y + ButtonADiff.x;
+        // public long Bmovement => ButtonBDiff.y + ButtonBDiff.x;
+
 
         public ClawMachine(string fButton, string sButton, string prize, long adding)
         {
-            var fbutton = fButton[7];
-            var fdx = fButton.Split("X+", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
-            var fdy = fButton.Split("Y+", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
+            // var fbutton = fButton[7];
+            var adx = fButton.Split("X+", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
+            var ady = fButton.Split("Y+", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
 
-            var sbutton = sButton[7];
-            var sdx = sButton.Split("X+", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
-            var sdy = sButton.Split("Y+", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
+            // var sbutton = sButton[7];
+            var bdx = sButton.Split("X+", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
+            var bdy = sButton.Split("Y+", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
 
             var targetX = prize.Split("X=", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
             var targetY = prize.Split("Y=", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
 
-            ButtonADiff = (long.Parse(fdy), long.Parse(fdx));
-            ButtonBDiff = (long.Parse(sdy), long.Parse(sdx));
+            ButtonADiff = new Button(long.Parse(ady), long.Parse(adx), 3);
+            ButtonBDiff = new Button(long.Parse(bdy), long.Parse(bdx), 1);
 
             PrizePosition = (adding + long.Parse(targetY), adding + long.Parse(targetX));
         }
@@ -76,9 +86,8 @@ public class Day13
         var buttADiff = clawMachine.ButtonADiff;
         var buttBDiff = clawMachine.ButtonBDiff;
 
-        var aMovementPerCoint = clawMachine.Amovement / 3f;
-        var bMovementPerCoint = clawMachine.Bmovement / 1f;
-
+        var aMovementPerCoint = clawMachine.ButtonADiff.MovePerCoint;
+        var bMovementPerCoint = clawMachine.ButtonBDiff.MovePerCoint;
 
         if (aMovementPerCoint > bMovementPerCoint)
         {
@@ -89,28 +98,9 @@ public class Day13
 
             var aStartPush = l.Min();
 
-            var aPush = aStartPush;
-
-            while(aPush >= 0)
-            {
-                (long y, long x) distLeft = (clawMachine.PrizePosition.y - buttADiff.y * aPush,
-                    clawMachine.PrizePosition.x - buttADiff.x * aPush);
-
-                if (distLeft.y % buttBDiff.y == 0)
-                {
-                    var bPushes = distLeft.y / buttBDiff.y;
-                    if (bPushes <= 100 &&
-                        distLeft.x == bPushes * buttBDiff.x)
-                    {
-                        var totalCost = aPush *3 + bPushes *1;
-                        return totalCost;
-                    }
-                }
-
-
-            }
-
-            // for (var aPush = aStartPush; aPush >=0; aPush--)
+            // var aPush = aStartPush;
+            //
+            // while(aPush >= 0)
             // {
             //     (long y, long x) distLeft = (clawMachine.PrizePosition.y - buttADiff.y * aPush,
             //         clawMachine.PrizePosition.x - buttADiff.x * aPush);
@@ -126,6 +116,23 @@ public class Day13
             //         }
             //     }
             // }
+
+            for (var aPush = aStartPush; aPush >=0; aPush--)
+            {
+                (long y, long x) distLeft = (clawMachine.PrizePosition.y - buttADiff.y * aPush,
+                    clawMachine.PrizePosition.x - buttADiff.x * aPush);
+
+                if (distLeft.y % buttBDiff.y == 0)
+                {
+                    var bPushes = distLeft.y / buttBDiff.y;
+                    if (bPushes <= 100 &&
+                        distLeft.x == bPushes * buttBDiff.x)
+                    {
+                        var totalCost = aPush *3 + bPushes *1;
+                        return totalCost;
+                    }
+                }
+            }
         }
         else
         {
@@ -135,7 +142,6 @@ public class Day13
             var l = new List<long> { maxPressForY, maxPressForX, maxButtonPresses };
 
             var bStartPush = l.Min();
-
 
             for (var bPushes = bStartPush; bPushes >=0; bPushes--)
             {
@@ -155,28 +161,20 @@ public class Day13
             }
         }
 
-
-
-
         var longestMovingButton =
-                clawMachine.Amovement > clawMachine.Bmovement ?
+                clawMachine.ButtonADiff.TotalMovement > clawMachine.ButtonBDiff.TotalMovement ?
                     clawMachine.ButtonADiff : clawMachine.ButtonBDiff;
 
         var otherClamMovement =
-            clawMachine.Amovement <= clawMachine.Bmovement ?
+            clawMachine.ButtonADiff.TotalMovement <= clawMachine.ButtonBDiff.TotalMovement ?
                 clawMachine.ButtonADiff : clawMachine.ButtonBDiff;
 
         // Get the most movement per coin
-
-
         var maxMovY = longestMovingButton.y / clawMachine.PrizePosition.y;
         var maxMovx = longestMovingButton.x / clawMachine.PrizePosition.x;
 
 
-
-
         var longButtonPushMax = Math.Min(maxMovY, maxMovx);
-
         for (var lPush = longButtonPushMax; lPush >=0; lPush--)
         {
              (long y, long x) distLeft = (clawMachine.PrizePosition.y - longestMovingButton.y * lPush,
@@ -206,6 +204,12 @@ public class Day13
             sum += WinzWithAtMostPresses(clawMachine, long.MaxValue);
         }
 
-        return sum;    }
+        return sum;
+    }
+
+    private long MoveForPart2(ClawMachine clawMachine)
+    {
+        return 5;
+    }
 }
 
