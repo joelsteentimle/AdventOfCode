@@ -10,17 +10,23 @@ public class Day15Tests
     [Test]
     public void Test1()
     {
-        var d15 = new Day15("Day15".ReadTestLines(), (7,11));
-        Assert.That(d15.Part1(100), Is.EqualTo(12));
+        var d15 = new Day15("Day15".ReadTestLines());
+        Assert.That(d15.Part1(100), Is.EqualTo(10092));
     }
+
+    [Test]
+    public void Test1_Small()
+    {
+        var d15 = new Day15("Day15".ReadTestLines("Small"));
+        Assert.That(d15.Part1(100), Is.EqualTo(2028));
+    }
+
 
     [Test]
     public void Real1()
     {
         var d15 = new Day15("Day15".ReadRealLines());
-
-        // This is too low: 218618400
-        Assert.That(d15.Part1(100), Is.EqualTo(226548000));
+        Assert.That(d15.Part1(100), Is.EqualTo(1475249));
     }
 
     [Test]

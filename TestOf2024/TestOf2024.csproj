@@ -140,7 +140,7 @@
     <None Update="DataFiles\Day15\Test.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DataFiles\Day15\Test1.txt">
+    <None Update="DataFiles\Day15\TestSmall.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="DataFiles\Day16\Real.txt">
