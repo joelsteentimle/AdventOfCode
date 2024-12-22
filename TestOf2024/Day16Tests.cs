@@ -16,7 +16,7 @@ public class Day16Tests
     [Test]
     public void Test1_1()
     {
-        var d16 = new Day16("Day16".ReadTestLines());
+        var d16 = new Day16("Day16".ReadTestLines("1"));
         Assert.That(d16.Part1(), Is.EqualTo(11048));
     }
 
@@ -24,8 +24,6 @@ public class Day16Tests
     public void Real1()
     {
         var d16 = new Day16("Day16".ReadRealLines());
-
-        // This is too low: 218618400
         Assert.That(d16.Part1(), Is.EqualTo(226548000));
     }
 

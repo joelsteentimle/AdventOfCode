@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace AoC2024;
 
 public class Day16
@@ -30,19 +32,21 @@ public class Day16
     }
 
     private FieldEntry[,] Field;
+    private bool[,,,] VisitedField;
     private int MaxY;
     private readonly int MaxX;
     private Raindeer StartRaindeer;
-    private SortedSet<Raindeer> Raindeers;
+    private List<Raindeer> Raindeers=[];
     private readonly (int y, int x) End;
-
+    private IComparer<Raindeer> PointComparer = new RaindeerComparer();
 
     public Day16(List<string> allData)
     {
         MaxY = allData[0].Length;
         MaxX = allData.Count;
-        Field = new FieldEntry[MaxX, MaxY];
-        Raindeers = new SortedSet<Raindeer>(new RaindeerComparer());
+
+        Field = new FieldEntry[MaxY, MaxX];
+        VisitedField = new bool[MaxY, MaxX,3,3];
 
         for (var y = 0; y < MaxY; y++)
         {
@@ -50,16 +54,16 @@ public class Day16
             {
                 if (allData[y][x] == 'S')
                 {
-                    Field[x, y] = FieldEntry.Floor;
-                    StartRaindeer = new Raindeer((x, y), (1, 0), 0);
+                    Field[y, x] = FieldEntry.Floor;
+                    StartRaindeer = new Raindeer((y, x), (0, 1), 0);
                 }else if (allData[y][x] == 'E')
                 {
-                    Field[x, y] = FieldEntry.Floor;
+                    Field[y, x] = FieldEntry.Floor;
                     End = (y, x);
                 }
                 else
                 {
-                    Field[x, y] = allData[y][x] switch
+                    Field[y,x] = allData[y][x] switch
                     {
                         '.' => FieldEntry.Floor,
                         '#' => FieldEntry.Wall,
@@ -71,38 +75,80 @@ public class Day16
 
     private void MoveRaindeer(Raindeer raindeer)
     {
-        (int py, int px) = raindeer.pos;
-        (int dy, int dx) = raindeer.dir;
-        Raindeers.Remove(raindeer);
+        VisitedField[
+            raindeer.pos.y,
+            raindeer.pos.x,
+            raindeer.dir.dy+1,
+            raindeer.dir.dx+1] = true;
 
-        var forwardRaindeer = StartRaindeer.Move();
+        var forwardRaindeer = raindeer.Move();
 
-        if (!IsOutOfBound(forwardRaindeer.pos))
+        if (!IsOutOfBound(forwardRaindeer.pos)
+            && Field[forwardRaindeer.pos.y, forwardRaindeer.pos.x] == FieldEntry.Floor
+            && !VisitedField[
+                forwardRaindeer.pos.y,
+                forwardRaindeer.pos.x,
+                forwardRaindeer.dir.dy+1,
+                forwardRaindeer.dir.dx+1])
+
         {
             Raindeers.Add(forwardRaindeer);
         }
 
-        Raindeers.Add(raindeer.TurnRight());
-        Raindeers.Add(raindeer.TurnLeft());
-    }
+        var rightRaindeer = raindeer.TurnRight();
+        if (!VisitedField[
+                rightRaindeer.pos.y,
+                rightRaindeer.pos.x,
+                rightRaindeer.dir.dy+1,
+                rightRaindeer.dir.dx+1
+            ])
 
+        {
+            Raindeers.Add(rightRaindeer);
+        }
+
+        var leftReindeer = raindeer.TurnLeft();
+        if (!VisitedField[
+                leftReindeer.pos.y,
+                leftReindeer.pos.x,
+                leftReindeer.dir.dy+1,
+                leftReindeer.dir.dx+1])
+        {
+            Raindeers.Add(leftReindeer);
+        }
+
+        Raindeers.Sort(PointComparer);
+    }
 
     public long Part1()
     {
+        Raindeers.Add(StartRaindeer);
+        var thousandTimer = Stopwatch.StartNew();
+        long positionsEvaluated = 0;
         while (true)
         {
-            var cheepestRainder = Raindeers.Min;
+            var cheepestRainder = Raindeers.First();
+            Raindeers.RemoveAt(0);
 
+            positionsEvaluated++;
             if (cheepestRainder.pos == End)
             {
                 return cheepestRainder.points;
             }
 
             MoveRaindeer(cheepestRainder);
+            if (positionsEvaluated % 1000 == 0)
+            {
+                Console.WriteLine($"Time passed to {positionsEvaluated}: {thousandTimer.ElapsedMilliseconds}ms");
+                thousandTimer.Restart();
+            }
+
+            if (positionsEvaluated > 91000)
+            {
+                return -100;
+            }
         }
     }
-
-
 
     public long Part2()
     {
@@ -111,7 +157,6 @@ public class Day16
 
         return -100;
     }
-
 
     private bool IsOutOfBound((int, int ) position)
     {
@@ -122,6 +167,4 @@ public class Day16
             return true;
         return false;
     }
-
-
 }
