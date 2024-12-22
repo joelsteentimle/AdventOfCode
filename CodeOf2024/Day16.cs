@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 
 namespace AoC2024;
 
@@ -137,6 +138,14 @@ public class Day16
             }
 
             MoveRaindeer(cheepestRainder);
+
+            if (cheepestRainder.pos.y < 50 && cheepestRainder.pos.x > 100)
+            {
+
+                break;
+                return -500;
+            }
+
             if (positionsEvaluated % 1000 == 0)
             {
                 Console.WriteLine($"Time passed to {positionsEvaluated}: {thousandTimer.ElapsedMilliseconds}ms");
@@ -145,8 +154,41 @@ public class Day16
 
             if (positionsEvaluated > 91000)
             {
+                break;
                 return -100;
             }
+        }
+
+        PrintVisited();
+
+        return Raindeers.First().points;
+    }
+
+    private void PrintVisited()
+    {
+        for (var y = 0; y < MaxY; y++)
+        {
+            var row = new StringBuilder();
+            for (var x = 0; x < MaxX; x++)
+            {
+                if(Field[y, x] == FieldEntry.Wall)
+                    row.Append('#');
+                else
+                {
+                    if(
+                        VisitedField[y,x, 1,2]
+                        ||VisitedField[y,x, 1,0]
+                        ||VisitedField[y,x, 2,1]
+                        ||VisitedField[y,x, 0,1]
+                        )
+                        row.Append('X');
+                    else
+                    {
+                        row.Append('.');
+                    }
+                }
+            }
+            Console.WriteLine(row.ToString());
         }
     }
 
