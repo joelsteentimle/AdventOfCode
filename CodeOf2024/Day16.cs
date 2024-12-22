@@ -11,14 +11,15 @@ public class Day16
         Wall,
     }
 
-    private record Raindeer((int y, int x) pos, (int dy, int dx) dir, int points)
+    private record Raindeer((int y, int x) Pos, (int dy, int dx) Dir, int Points, Raindeer? Parent)
     {
         public Raindeer Move() =>
-            new Raindeer((pos.y + dir.dy, pos.x +dir. dx), (dir.dy, dir.dx), points + 1);
+            new Raindeer((Pos.y + Dir.dy, Pos.x +Dir. dx), (Dir.dy, Dir.dx), Points + 1, this);
         public Raindeer TurnLeft() =>
-            new Raindeer((pos.y, pos.x), (-dir.dx, dir.dy), points + 1000);
+            new Raindeer((Pos.y, Pos.x), (-Dir.dx, Dir.dy), Points + 1000, this);
         public Raindeer TurnRight() =>
-            new Raindeer((pos.y, pos.x), (dir.dx, -dir.dy), points + 1000);
+            new Raindeer((Pos.y, Pos.x), (Dir.dx, -Dir.dy), Points + 1000, this);
+
     }
 
     private class RaindeerComparer : IComparer<Raindeer>
@@ -28,18 +29,19 @@ public class Day16
             if (ReferenceEquals(x, y)) return 0;
             if (y is null) return 1;
             if (x is null) return -1;
-            return x.points.CompareTo(y.points);
+            return x.Points.CompareTo(y.Points);
         }
     }
 
     private FieldEntry[,] Field;
     private bool[,,,] VisitedField;
+    private int[,] TimesVisitedField;
     private int MaxY;
     private readonly int MaxX;
-    private Raindeer StartRaindeer;
-    private List<Raindeer> Raindeers=[];
+    private readonly Raindeer StartRaindeer;
+    private readonly List<Raindeer> Raindeers=[];
     private readonly (int y, int x) End;
-    private IComparer<Raindeer> PointComparer = new RaindeerComparer();
+    private readonly IComparer<Raindeer> PointComparer = new RaindeerComparer();
 
     public Day16(List<string> allData)
     {
@@ -48,6 +50,7 @@ public class Day16
 
         Field = new FieldEntry[MaxY, MaxX];
         VisitedField = new bool[MaxY, MaxX,3,3];
+        TimesVisitedField = new int[MaxY, MaxX];
 
         for (var y = 0; y < MaxY; y++)
         {
@@ -56,7 +59,7 @@ public class Day16
                 if (allData[y][x] == 'S')
                 {
                     Field[y, x] = FieldEntry.Floor;
-                    StartRaindeer = new Raindeer((y, x), (0, 1), 0);
+                    StartRaindeer = new Raindeer((y, x), (0, 1), 0, null);
                 }else if (allData[y][x] == 'E')
                 {
                     Field[y, x] = FieldEntry.Floor;
@@ -76,21 +79,32 @@ public class Day16
 
     private void MoveRaindeer(Raindeer raindeer)
     {
+        if (VisitedField[
+                raindeer.Pos.y,
+                raindeer.Pos.x,
+                raindeer.Dir.dy + 1,
+                raindeer.Dir.dx + 1])
+            return;
+
         VisitedField[
-            raindeer.pos.y,
-            raindeer.pos.x,
-            raindeer.dir.dy+1,
-            raindeer.dir.dx+1] = true;
+            raindeer.Pos.y,
+            raindeer.Pos.x,
+            raindeer.Dir.dy+1,
+            raindeer.Dir.dx+1] = true;
+
+        TimesVisitedField[
+            raindeer.Pos.y,
+            raindeer.Pos.x]++;
 
         var forwardRaindeer = raindeer.Move();
 
-        if (!IsOutOfBound(forwardRaindeer.pos)
-            && Field[forwardRaindeer.pos.y, forwardRaindeer.pos.x] == FieldEntry.Floor
+        if (!IsOutOfBound(forwardRaindeer.Pos)
+            && Field[forwardRaindeer.Pos.y, forwardRaindeer.Pos.x] == FieldEntry.Floor
             && !VisitedField[
-                forwardRaindeer.pos.y,
-                forwardRaindeer.pos.x,
-                forwardRaindeer.dir.dy+1,
-                forwardRaindeer.dir.dx+1])
+                forwardRaindeer.Pos.y,
+                forwardRaindeer.Pos.x,
+                forwardRaindeer.Dir.dy+1,
+                forwardRaindeer.Dir.dx+1])
 
         {
             Raindeers.Add(forwardRaindeer);
@@ -98,10 +112,10 @@ public class Day16
 
         var rightRaindeer = raindeer.TurnRight();
         if (!VisitedField[
-                rightRaindeer.pos.y,
-                rightRaindeer.pos.x,
-                rightRaindeer.dir.dy+1,
-                rightRaindeer.dir.dx+1
+                rightRaindeer.Pos.y,
+                rightRaindeer.Pos.x,
+                rightRaindeer.Dir.dy+1,
+                rightRaindeer.Dir.dx+1
             ])
 
         {
@@ -110,10 +124,10 @@ public class Day16
 
         var leftReindeer = raindeer.TurnLeft();
         if (!VisitedField[
-                leftReindeer.pos.y,
-                leftReindeer.pos.x,
-                leftReindeer.dir.dy+1,
-                leftReindeer.dir.dx+1])
+                leftReindeer.Pos.y,
+                leftReindeer.Pos.x,
+                leftReindeer.Dir.dy+1,
+                leftReindeer.Dir.dx+1])
         {
             Raindeers.Add(leftReindeer);
         }
@@ -124,44 +138,30 @@ public class Day16
     public long Part1()
     {
         Raindeers.Add(StartRaindeer);
-        var thousandTimer = Stopwatch.StartNew();
-        long positionsEvaluated = 0;
-        while (true)
-        {
-            var cheepestRainder = Raindeers.First();
-            Raindeers.RemoveAt(0);
 
-            positionsEvaluated++;
-            if (cheepestRainder.pos == End)
+        long foundGoalCost = long.MaxValue;
+        var cheepestRainder = Raindeers.First();
+
+        List<Raindeer> winningRaindeers = [];
+
+        do
+        {
+            cheepestRainder = Raindeers.First();
+
+            if (cheepestRainder.Pos == End)
             {
-                return cheepestRainder.points;
+                foundGoalCost = cheepestRainder.Points;
+                winningRaindeers.Add(cheepestRainder);
             }
 
+            Raindeers.RemoveAt(0);
             MoveRaindeer(cheepestRainder);
 
-            if (cheepestRainder.pos.y < 50 && cheepestRainder.pos.x > 100)
-            {
-
-                break;
-                return -500;
-            }
-
-            if (positionsEvaluated % 1000 == 0)
-            {
-                Console.WriteLine($"Time passed to {positionsEvaluated}: {thousandTimer.ElapsedMilliseconds}ms");
-                thousandTimer.Restart();
-            }
-
-            if (positionsEvaluated > 91000)
-            {
-                break;
-                return -100;
-            }
-        }
+        } while (Raindeers.First().Points <= foundGoalCost);
 
         PrintVisited();
 
-        return Raindeers.First().points;
+        return foundGoalCost;
     }
 
     private void PrintVisited()
@@ -175,8 +175,11 @@ public class Day16
                     row.Append('#');
                 else
                 {
-                    if(
-                        VisitedField[y,x, 1,2]
+                    if (TimesVisitedField[y, x] > 0)
+                    {
+                        row.Append(TimesVisitedField[y, x] %10);
+                    }
+                    else if( VisitedField[y,x, 1,2]
                         ||VisitedField[y,x, 1,0]
                         ||VisitedField[y,x, 2,1]
                         ||VisitedField[y,x, 0,1]

@@ -24,7 +24,7 @@ public class Day16Tests
     public void Real1()
     {
         var d16 = new Day16("Day16".ReadRealLines());
-        Assert.That(d16.Part1(), Is.EqualTo(226548000));
+        Assert.That(d16.Part1(), Is.EqualTo(98416));
     }
 
     [Test]

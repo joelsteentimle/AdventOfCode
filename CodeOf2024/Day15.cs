@@ -112,7 +112,10 @@ public class Day15
     private bool TryToMoveBoxInX((int y, int) valueTuple, (int dy, int dx) direction)
     {
         var thingsToMoveTo = Field[RobotPosition.y, RobotPosition.x + widthMultiplier * direction.dx];
-        if(thingsToMoveTo is FindEntry.floor)
+        // if(thingsToMoveTo is FindEntry.floor)
+
+            //TODO: Fix this
+            return false;
     }
 
 
