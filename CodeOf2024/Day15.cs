@@ -1,3 +1,5 @@
+using System.Threading.Tasks.Dataflow;
+
 namespace AoC2024;
 
 public class Day15
@@ -109,14 +111,30 @@ public class Day15
 
     }
 
-    private bool TryToMoveBoxInX((int y, int) valueTuple, (int dy, int dx) direction)
+    private bool TryToMoveBoxInX((int y, int) box, (int dy, int dx) direction)
     {
+
+        if(CanMoveAllBoxes(box,direction))
+
         var thingsToMoveTo = Field[RobotPosition.y, RobotPosition.x + widthMultiplier * direction.dx];
         // if(thingsToMoveTo is FindEntry.floor)
 
             //TODO: Fix this
             return false;
     }
+
+    private bool CanMoveAllBoxes((int y, int x) box, (int y, int x) direction)
+    {
+        (int nbY, int nbX) newBoxPosition = (box.y + direction.y, box.x + direction.x);
+
+        List<(int y ,int x)> stonesToMove = [];
+
+        // var boxToLeft = (nby, nb
+        // if()
+
+        return false;
+    }
+
 
 
     private (int y, int x)? NextFloorAfterStones((int y, int x) posiiton, (int dy, int dx) directionDy)

@@ -12,19 +12,23 @@ public class Day13
     {
         public float MovePerCoint => ((float)y + (float)x) / cost;
         public long TotalMovement => y + x;
+
+        public float DyDx = (float)y / x;
     }
 
     private class ClawMachine
     {
         // A cost 3
         // public (long y, long x, int cost) ButtonADiff;
-        public Button ButtonADiff;
+        public Button ButtonA;
 
         // B cost 1
         // public (long y, long x, int cost) ButtonBDiff;
-        public Button ButtonBDiff;
+        public Button ButtonB;
 
         public (long y, long x) PrizePosition;
+
+        public float PrizeDyDx => (float)PrizePosition.y /PrizePosition.x;
 
         // public long Amovement => ButtonADiff.y + ButtonADiff.x;
         // public long Bmovement => ButtonBDiff.y + ButtonBDiff.x;
@@ -43,8 +47,8 @@ public class Day13
             var targetX = prize.Split("X=", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
             var targetY = prize.Split("Y=", StringSplitOptions.RemoveEmptyEntries)[1].Split(",")[0];
 
-            ButtonADiff = new Button(long.Parse(ady), long.Parse(adx), 3);
-            ButtonBDiff = new Button(long.Parse(bdy), long.Parse(bdx), 1);
+            ButtonA = new Button(long.Parse(ady), long.Parse(adx), 3);
+            ButtonB = new Button(long.Parse(bdy), long.Parse(bdx), 1);
 
             PrizePosition = (adding + long.Parse(targetY), adding + long.Parse(targetX));
         }
@@ -81,13 +85,37 @@ public class Day13
         return sum;
     }
 
+    private long Part2Presses(ClawMachine clawMachine)
+    {
+        if ((clawMachine.PrizeDyDx > clawMachine.ButtonB.DyDx
+             && clawMachine.PrizeDyDx > clawMachine.ButtonA.DyDx)
+            || (clawMachine.PrizeDyDx < clawMachine.ButtonB.DyDx
+                && clawMachine.PrizeDyDx < clawMachine.ButtonA.DyDx))
+            return 0;
+
+        if (clawMachine.PrizeDyDx == clawMachine.ButtonA.DyDx
+            && clawMachine.PrizeDyDx == clawMachine.ButtonB.DyDx)
+        {
+
+        }
+
+        // Nepp
+        return 0;
+    }
+
     private long WinzWithAtMostPresses(ClawMachine clawMachine, long maxButtonPresses)
     {
-        var buttADiff = clawMachine.ButtonADiff;
-        var buttBDiff = clawMachine.ButtonBDiff;
+        if ((clawMachine.PrizeDyDx > clawMachine.ButtonB.DyDx
+             && clawMachine.PrizeDyDx > clawMachine.ButtonA.DyDx)
+            || (clawMachine.PrizeDyDx < clawMachine.ButtonB.DyDx
+                && clawMachine.PrizeDyDx < clawMachine.ButtonA.DyDx))
+            return 0;
 
-        var aMovementPerCoint = clawMachine.ButtonADiff.MovePerCoint;
-        var bMovementPerCoint = clawMachine.ButtonBDiff.MovePerCoint;
+        var buttADiff = clawMachine.ButtonA;
+        var buttBDiff = clawMachine.ButtonB;
+
+        var aMovementPerCoint = clawMachine.ButtonA.MovePerCoint;
+        var bMovementPerCoint = clawMachine.ButtonB.MovePerCoint;
 
         if (aMovementPerCoint > bMovementPerCoint)
         {
@@ -162,12 +190,12 @@ public class Day13
         }
 
         var longestMovingButton =
-                clawMachine.ButtonADiff.TotalMovement > clawMachine.ButtonBDiff.TotalMovement ?
-                    clawMachine.ButtonADiff : clawMachine.ButtonBDiff;
+                clawMachine.ButtonA.TotalMovement > clawMachine.ButtonB.TotalMovement ?
+                    clawMachine.ButtonA : clawMachine.ButtonB;
 
         var otherClamMovement =
-            clawMachine.ButtonADiff.TotalMovement <= clawMachine.ButtonBDiff.TotalMovement ?
-                clawMachine.ButtonADiff : clawMachine.ButtonBDiff;
+            clawMachine.ButtonA.TotalMovement <= clawMachine.ButtonB.TotalMovement ?
+                clawMachine.ButtonA : clawMachine.ButtonB;
 
         // Get the most movement per coin
         var maxMovY = longestMovingButton.y / clawMachine.PrizePosition.y;
