@@ -32,14 +32,14 @@ public class Day15Tests
     [Test]
     public void Test2()
     {
-        var d15 = new Day15("Day15".ReadTestLines());
+        var d15 = new Day15("Day15".ReadTestLines(), widthMultiplier: 2);
         Assert.That(d15.Part2(), Is.EqualTo(1506));
     }
 
     [Test]
     public void Real2()
     {
-        var d15 = new Day15("Day15".ReadRealLines());
+        var d15 = new Day15("Day15".ReadRealLines(), widthMultiplier: 2);
         Assert.That(d15.Part2(), Is.EqualTo(830566));
     }
 }

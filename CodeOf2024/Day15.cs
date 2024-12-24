@@ -1,14 +1,15 @@
-using System.Threading.Tasks.Dataflow;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 
 namespace AoC2024;
 
 public class Day15
 {
-    private enum FindEntry
+    private enum FieldEntry
     {
         floor =0,
         box,
-        wall,
+        Wall,
     }
 
     private (int y, int x) RobotPosition = (-1, -1);
@@ -21,40 +22,82 @@ public class Day15
         '>' => (0, 1),
     };
 
-    private FindEntry[,] Field;
+    private FieldEntry[,] Field;
     private int MaxY;
     private readonly int MaxX;
     private readonly IEnumerable<string> InstructionList;
     private int widthMultiplier = 1;
 
-    public Day15(List<string> allData, int width = 1)
+    public Day15(List<string> allData, int widthMultiplier = 1)
     {
         var inputField = allData.TakeWhile(l => !string.IsNullOrWhiteSpace(l)).ToArray();
         InstructionList = allData.SkipWhile(l => !string.IsNullOrWhiteSpace(l)).Skip(1);
-        widthMultiplier = width;
+        this.widthMultiplier = widthMultiplier;
 
         MaxY = inputField.Length;
-        MaxX = inputField[0].Length * widthMultiplier;
+        MaxX = inputField[0].Length * this.widthMultiplier;
 
-        Field = new FindEntry[MaxY, MaxX];
+        Field = new FieldEntry[MaxY, MaxX];
 
         for (var y = 0; y < MaxY; y++)
         {
-            for (var x = 0; x < MaxX / widthMultiplier; x++)
+            for (var x = 0; x < MaxX / this.widthMultiplier; x++)
             {
                 if (inputField[y][x] == '@')
                 {
-                    RobotPosition = (y, x * widthMultiplier);
+                    RobotPosition = (y, x * this.widthMultiplier);
                 }
                 else
                 {
 
-                    Field[y, x * widthMultiplier] = inputField[y][x] switch
+                    if (widthMultiplier == 1)
                     {
-                        '#' => FindEntry.wall,
-                        '.' => FindEntry.floor,
-                        'O' => FindEntry.box
-                    };
+                        switch (inputField[y][x])
+                        {
+                            case '.':
+                                Field[y, x * this.widthMultiplier] = FieldEntry.floor;
+                                break;
+                            case '#':
+                                Field[y, x * this.widthMultiplier] = FieldEntry.Wall;
+                                break;
+                            case 'O':
+                                Field[y, x * this.widthMultiplier] = FieldEntry.box;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (inputField[y][x])
+                        {
+                            case '.':
+                                Field[y, x * this.widthMultiplier] = FieldEntry.floor;
+                                break;
+                            case '#':
+                                Field[y, x * this.widthMultiplier] = FieldEntry.Wall;
+                                Field[y, x * this.widthMultiplier+1] = FieldEntry.Wall;
+                                break;
+                            case 'O':
+                                Field[y, x * this.widthMultiplier] = FieldEntry.box;
+                                break;
+                        }
+
+                    }
+
+                    // Field[y, x * this.widthMultiplier] = inputField[y][x] switch
+                    // {
+                    //     '#' => FieldEntry.Wall,
+                    //     '.' => FieldEntry.floor,
+                    //     'O' => FieldEntry.box
+                    // };
+                    //
+                    // {
+                    //     Field[y, x * this.widthMultiplier+1] = inputField[y][x] switch
+                    //     {
+                    //         '#' => FieldEntry.Wall,
+                    //         '.' => FieldEntry.floor,
+                    //         'O' => FieldEntry.box
+                    //     };
+                    // }
                 }
             }
         }
@@ -65,19 +108,19 @@ public class Day15
 
         switch (Field[RobotPosition.y + direction.dy, RobotPosition.x + direction.dx])
         {
-            case FindEntry.wall:
+            case FieldEntry.Wall:
                 break;
-            case FindEntry.floor:
+            case FieldEntry.floor:
                 RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x + direction.dx);
                 break;
-            case FindEntry.box:
+            case FieldEntry.box:
                 var newPossibleStonePosition =
-                    NextFloorAfterStones((RobotPosition.y + direction.dy, RobotPosition.x + direction.dx),
+                    NextFloorAfterBoxes((RobotPosition.y + direction.dy, RobotPosition.x + direction.dx),
                         direction);
                 if (newPossibleStonePosition is { } floor)
                 {
-                    Field[floor.y, floor.x] = FindEntry.box;
-                    Field[RobotPosition.y + direction.dy, RobotPosition.x + direction.dx] = FindEntry.floor;
+                    Field[floor.y, floor.x] = FieldEntry.box;
+                    Field[RobotPosition.y + direction.dy, RobotPosition.x + direction.dx] = FieldEntry.floor;
                     RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x + direction.dx);
                 }
 
@@ -87,68 +130,127 @@ public class Day15
 
     public void RobotMovePart2((int dy, int dx) direction)
     {
+        // Moves in X
         if (direction.dy == 0)
         {
+            var willHitWall = Field[RobotPosition.y + direction.dy, RobotPosition.x + direction.dx] == FieldEntry.Wall;
+
+            (int checkBoxY, int checBoxX) = direction.dx == -1
+                ? (RobotPosition.y, RobotPosition.x - 2)
+                : (RobotPosition.y, RobotPosition.x + 1);
+
+            if (willHitWall)
+                return;
+
+            if (Field[checkBoxY, checBoxX] == FieldEntry.box)
+            {
+                if (NextFloorAfterBoxes((checkBoxY, checBoxX), direction) is (int ny, int nx))
+                {
+                    Field[ny, nx] = FieldEntry.box;
+                    Field[checkBoxY, checBoxX] = FieldEntry.floor;
+                    RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x + direction.dx);
+                }
+            }
+            else
+            {
+                RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x + direction.dx);
+            }
+        }
+        else {
             var thingsToMoveTo = Field[RobotPosition.y, RobotPosition.x + widthMultiplier * direction.dx];
-            if (thingsToMoveTo is FindEntry.floor)
+
+            if (thingsToMoveTo is FieldEntry.floor)
             {
                 RobotPosition = (RobotPosition.y, RobotPosition.x + direction.dx);
             }
-            else if (thingsToMoveTo is FindEntry.box)
+            else if (thingsToMoveTo is FieldEntry.box)
             {
-                if (TryToMoveBoxInX((RobotPosition.y, RobotPosition.x + widthMultiplier * direction.dx), direction))
+                if (direction.dx == 0)
+                {
+                    if (NextFloorAfterBoxes((RobotPosition.y + direction.dy, RobotPosition.x), direction) is
+                        { } floor)
+                    {
+                        Field[floor.y, floor.x] = FieldEntry.box;
+                        Field[RobotPosition.y + direction.dy, RobotPosition.x + direction.dx] = FieldEntry.floor;
+                        RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x + direction.dx);
+                    }
+                }
+
+                if (TryToMoveBoxInY((RobotPosition.y, RobotPosition.x + widthMultiplier * direction.dx), direction))
                 {
                     RobotPosition = (RobotPosition.y, RobotPosition.x + direction.dx);
                 }
             }
-            else if (thingsToMoveTo is FindEntry.wall
-                     && Field[RobotPosition.y, RobotPosition.x + direction.dx] == FindEntry.floor)
+            else if (thingsToMoveTo is FieldEntry.Wall
+                     && Field[RobotPosition.y, RobotPosition.x + direction.dx] == FieldEntry.floor)
             {
                 RobotPosition = (RobotPosition.y, RobotPosition.x + direction.dx);
             }
         }
-        else { }
-
     }
 
-    private bool TryToMoveBoxInX((int y, int) box, (int dy, int dx) direction)
+    private bool TryToMoveBoxInY((int y, int) box, (int dy, int dx) direction)
     {
+        var boxesToMove = BoxesToMoveInY(box, direction);
 
-        if(CanMoveAllBoxes(box,direction))
+        if(boxesToMove is null)
+            return false;
 
-        var thingsToMoveTo = Field[RobotPosition.y, RobotPosition.x + widthMultiplier * direction.dx];
+        foreach (var moveBox in boxesToMove)
+            Field[moveBox.y, moveBox.x] = FieldEntry.floor;
+
+        foreach (var moveBox in boxesToMove)
+            Field[moveBox.y, moveBox.x] = FieldEntry.floor;
+
+        // var thingsToMoveTo = Field[RobotPosition.y, RobotPosition.x + widthMultiplier * direction.dx];
         // if(thingsToMoveTo is FindEntry.floor)
 
             //TODO: Fix this
             return false;
     }
 
-    private bool CanMoveAllBoxes((int y, int x) box, (int y, int x) direction)
+    private List<(int y, int x)>?  BoxesToMoveInY((int y, int x) box, (int y, int x) direction)
     {
-        (int nbY, int nbX) newBoxPosition = (box.y + direction.y, box.x + direction.x);
+        (var nbY, var nbX) = (box.y + direction.y, box.x + direction.x);
 
-        List<(int y ,int x)> stonesToMove = [];
+        List<(int y, int x)> collidingPositions = [(nbY, nbX), (nbY, nbX + 1), (nbY, nbX - 1)];
+
+        // All is floor
+        if ( collidingPositions.All(cp => Field[cp.y, cp.x] == FieldEntry.floor))
+            return [box];
+
+        if (Field[nbY, nbX] == FieldEntry.Wall ||
+            Field[nbY, nbX + 1] == FieldEntry.Wall)
+            return null;
+
+        return collidingPositions
+            .Where(cp => Field[cp.y, cp.x] == FieldEntry.box)
+            .Aggregate<(int y, int x), List<(int y, int x)>?>(seed: [], func: (prevList, aggBox) =>
+            {
+                var boxList = BoxesToMoveInY(box, direction);
+                return prevList is null || boxList is null ? null : boxList.Append(aggBox).ToList();
+            });
+
 
         // var boxToLeft = (nby, nb
         // if()
 
-        return false;
+        // return false;
     }
 
 
 
-    private (int y, int x)? NextFloorAfterStones((int y, int x) posiiton, (int dy, int dx) directionDy)
+    private (int y, int x)? NextFloorAfterBoxes((int y, int x) position, (int dy, int dx) direction)
     {
-        while (!IsOutOfBound(posiiton))
+        while (!IsOutOfBound(position))
         {
-            if (Field[posiiton.y, posiiton.x] == FindEntry.floor)
-                return posiiton;
-            if (Field[posiiton.y, posiiton.x] == FindEntry.wall)
+            if (Field[position.y, position.x] == FieldEntry.floor)
+                return position;
+            if (Field[position.y, position.x] == FieldEntry.Wall)
                 return null;
 
             // stone
-            posiiton = (posiiton.y + directionDy.dy, posiiton.x + directionDy.dx);
-
+            position = (position.y + direction.dy, position.x + direction.dx * widthMultiplier);
         }
 
         return null;
@@ -169,7 +271,7 @@ public class Day15
 
         for (var y = 0; y < MaxY; y++)
         for (var x = 0; x < MaxX; x++)
-            if (Field[y, x] == FindEntry.box)
+            if (Field[y, x] == FieldEntry.box)
                 sum += y * 100 + x;
 
 
@@ -186,13 +288,33 @@ public class Day15
         return false;
     }
 
+    private void PrintField()
+    {
+        for (var y = 0; y < MaxY; y++)
+        {
+            var row = new StringBuilder();
+            for (var x = 0; x < MaxX; x++)
+            {
+                if (RobotPosition.x == x && RobotPosition.y == y)
+                    row.Append('@');
+                else
+                    row.Append(Field[y, x] switch
+                    {
+                        FieldEntry.Wall => "#",
+                        FieldEntry.floor => ".",
+                        FieldEntry.box => "O",
+                    });
+            }
+            Console.WriteLine(row.ToString());
+        }
+    }
 
     public long Part2()
     {
         var sum = 0L;
 
+        PrintField();
 
         return -100;
     }
-
 }
