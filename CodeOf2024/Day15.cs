@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 
 namespace AoC2024;
@@ -152,7 +153,7 @@ public class Day15
                 return;
 
             if (blocking1 is FieldEntry.floor
-                && blocking2 is FieldEntry.floor)
+                && blocking2 is FieldEntry.floor or FieldEntry.Wall)
             {
                 RobotPosition = (RobotPosition.y +direction.dy, RobotPosition.x );
                 return;
@@ -168,29 +169,10 @@ public class Day15
                 ? (RobotPosition.y + direction.dy, RobotPosition.x)
                 : (RobotPosition.y + direction.dy, RobotPosition.x - 1);
 
-            // if (blocking1 is FieldEntry.box)
-            // {
-                // if (direction.dx == 0)
-                // {
-                //     if (NextFloorAfterBoxes((RobotPosition.y + direction.dy, RobotPosition.x), direction) is
-                //         { } floor)
-                //     {
-                //         Field[floor.y, floor.x] = FieldEntry.box;
-                //         Field[RobotPosition.y + direction.dy, RobotPosition.x + direction.dx] = FieldEntry.floor;
-                //         RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x + direction.dx);
-                //     }
-                // }
-
                 if (TryToMoveBoxInY((boxY,boxX), direction))
                 {
                     RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x);
                 }
-            // }
-            // else if (blocking1 is FieldEntry.Wall
-            //          && Field[RobotPosition.y, RobotPosition.x + direction.dx] == FieldEntry.floor)
-            // {
-            //     RobotPosition = (RobotPosition.y, RobotPosition.x + direction.dx);
-            // }
         }
     }
 
@@ -206,9 +188,6 @@ public class Day15
 
         foreach (var moveBox in boxesToMove)
             Field[moveBox.y + direction.dy, moveBox.x] = FieldEntry.box;
-
-        // var thingsToMoveTo = Field[RobotPosition.y, RobotPosition.x + widthMultiplier * direction.dx];
-        // if(thingsToMoveTo is FindEntry.floor)
 
         //TODO: Fix this
         return true;
@@ -243,14 +222,6 @@ public class Day15
         }
 
         return resultBoxes;
-
-        // return collidingPositions
-        //     .Where(cp => Field[cp.y, cp.x] == FieldEntry.box)
-        //     .Aggregate<(int y, int x), List<(int y, int x)>?>(seed: [], func: (prevList, aggBox) =>
-        //     {
-        //         var boxList = BoxesToMoveInY(aggBox, direction);
-        //         return prevList is null || boxList is null ? null : boxList.Append(aggBox).ToList();
-        //     });
     }
 
     private (int y, int x)? NextFloorAfterBoxes((int y, int x) position, (int dy, int dx) direction)
@@ -314,10 +285,11 @@ public class Day15
                     });
             }
             Console.WriteLine(row.ToString());
+            Debug.WriteLine(row.ToString());
         }
     }
 
-    public long Part1(int seconds)
+    public long Part1()
     {
         foreach (var row in InstructionList)
         {
@@ -346,12 +318,19 @@ public class Day15
             foreach (var instruction in row)
             {
                 PrintField();
+                Console.WriteLine(instruction);
+                Debug.WriteLine(instruction);
                 RobotMovePart2(ToDirection(instruction));
             }
         }
 
         PrintField();
 
-        return -100;
+        for (var y = 0; y < MaxY; y++)
+        for (var x = 0; x < MaxX; x++)
+            if (Field[y, x] == FieldEntry.box)
+                sum += y * 100 + x;
+
+        return sum;
     }
 }

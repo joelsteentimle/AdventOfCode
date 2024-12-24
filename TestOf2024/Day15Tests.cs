@@ -11,14 +11,14 @@ public class Day15Tests
     public void Test1()
     {
         var d15 = new Day15("Day15".ReadTestLines());
-        Assert.That(d15.Part1(100), Is.EqualTo(10092));
+        Assert.That(d15.Part1(), Is.EqualTo(10092));
     }
 
     [Test]
     public void Test1_Small()
     {
         var d15 = new Day15("Day15".ReadTestLines("Small"));
-        Assert.That(d15.Part1(100), Is.EqualTo(2028));
+        Assert.That(d15.Part1(), Is.EqualTo(2028));
     }
 
 
@@ -26,14 +26,14 @@ public class Day15Tests
     public void Real1()
     {
         var d15 = new Day15("Day15".ReadRealLines());
-        Assert.That(d15.Part1(100), Is.EqualTo(1475249));
+        Assert.That(d15.Part1(), Is.EqualTo(1475249));
     }
 
     [Test]
     public void Test2()
     {
         var d15 = new Day15("Day15".ReadTestLines(), widthMultiplier: 2);
-        Assert.That(d15.Part2(), Is.EqualTo(1506));
+        Assert.That(d15.Part2(), Is.EqualTo(9021));
     }
 
     [Test]
