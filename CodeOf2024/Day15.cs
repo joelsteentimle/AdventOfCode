@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace AoC2024;
@@ -82,22 +81,6 @@ public class Day15
                         }
 
                     }
-
-                    // Field[y, x * this.widthMultiplier] = inputField[y][x] switch
-                    // {
-                    //     '#' => FieldEntry.Wall,
-                    //     '.' => FieldEntry.floor,
-                    //     'O' => FieldEntry.box
-                    // };
-                    //
-                    // {
-                    //     Field[y, x * this.widthMultiplier+1] = inputField[y][x] switch
-                    //     {
-                    //         '#' => FieldEntry.Wall,
-                    //         '.' => FieldEntry.floor,
-                    //         'O' => FieldEntry.box
-                    //     };
-                    // }
                 }
             }
         }
@@ -133,7 +116,7 @@ public class Day15
         // Moves in X
         if (direction.dy == 0)
         {
-            var willHitWall = Field[RobotPosition.y + direction.dy, RobotPosition.x + direction.dx] == FieldEntry.Wall;
+            var willHitWall = Field[RobotPosition.y, RobotPosition.x + direction.dx] == FieldEntry.Wall;
 
             (int checkBoxY, int checBoxX) = direction.dx == -1
                 ? (RobotPosition.y, RobotPosition.x - 2)
@@ -144,48 +127,70 @@ public class Day15
 
             if (Field[checkBoxY, checBoxX] == FieldEntry.box)
             {
-                if (NextFloorAfterBoxes((checkBoxY, checBoxX), direction) is (int ny, int nx))
+                if (NextFloorAfterBoxes2((checkBoxY, checBoxX), direction)
+                    is { } boxesToMove)
                 {
-                    Field[ny, nx] = FieldEntry.box;
-                    Field[checkBoxY, checBoxX] = FieldEntry.floor;
-                    RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x + direction.dx);
+                    foreach (var box in boxesToMove)
+                    {
+                        Field[box.y, box.x] = FieldEntry.floor;
+                        Field[box.y, box.x + direction.dx] = FieldEntry.box;
+                    }
+
+                    RobotPosition = (RobotPosition.y, RobotPosition.x + direction.dx);
                 }
             }
             else
             {
-                RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x + direction.dx);
-            }
-        }
-        else {
-            var thingsToMoveTo = Field[RobotPosition.y, RobotPosition.x + widthMultiplier * direction.dx];
-
-            if (thingsToMoveTo is FieldEntry.floor)
-            {
                 RobotPosition = (RobotPosition.y, RobotPosition.x + direction.dx);
             }
-            else if (thingsToMoveTo is FieldEntry.box)
-            {
-                if (direction.dx == 0)
-                {
-                    if (NextFloorAfterBoxes((RobotPosition.y + direction.dy, RobotPosition.x), direction) is
-                        { } floor)
-                    {
-                        Field[floor.y, floor.x] = FieldEntry.box;
-                        Field[RobotPosition.y + direction.dy, RobotPosition.x + direction.dx] = FieldEntry.floor;
-                        RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x + direction.dx);
-                    }
-                }
+            // moves in y
+        } else {
+            var blocking1 = Field[RobotPosition.y +direction.dy , RobotPosition.x];
+            var blocking2 = Field[RobotPosition.y +direction.dy , RobotPosition.x-1];
 
-                if (TryToMoveBoxInY((RobotPosition.y, RobotPosition.x + widthMultiplier * direction.dx), direction))
-                {
-                    RobotPosition = (RobotPosition.y, RobotPosition.x + direction.dx);
-                }
-            }
-            else if (thingsToMoveTo is FieldEntry.Wall
-                     && Field[RobotPosition.y, RobotPosition.x + direction.dx] == FieldEntry.floor)
+            if(blocking1 is FieldEntry.Wall)
+                return;
+
+            if (blocking1 is FieldEntry.floor
+                && blocking2 is FieldEntry.floor)
             {
-                RobotPosition = (RobotPosition.y, RobotPosition.x + direction.dx);
+                RobotPosition = (RobotPosition.y +direction.dy, RobotPosition.x );
+                return;
             }
+
+            if ((blocking2 is not FieldEntry.box
+                 && blocking1 is not FieldEntry.box)
+                || (blocking2 is FieldEntry.box
+                    && blocking1 is FieldEntry.box))
+                throw new InvalidOperationException("Should not happen");
+
+            (var boxY, var boxX) = Field[RobotPosition.y + direction.dy, RobotPosition.x] == FieldEntry.box
+                ? (RobotPosition.y + direction.dy, RobotPosition.x)
+                : (RobotPosition.y + direction.dy, RobotPosition.x - 1);
+
+            // if (blocking1 is FieldEntry.box)
+            // {
+                // if (direction.dx == 0)
+                // {
+                //     if (NextFloorAfterBoxes((RobotPosition.y + direction.dy, RobotPosition.x), direction) is
+                //         { } floor)
+                //     {
+                //         Field[floor.y, floor.x] = FieldEntry.box;
+                //         Field[RobotPosition.y + direction.dy, RobotPosition.x + direction.dx] = FieldEntry.floor;
+                //         RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x + direction.dx);
+                //     }
+                // }
+
+                if (TryToMoveBoxInY((boxY,boxX), direction))
+                {
+                    RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x);
+                }
+            // }
+            // else if (blocking1 is FieldEntry.Wall
+            //          && Field[RobotPosition.y, RobotPosition.x + direction.dx] == FieldEntry.floor)
+            // {
+            //     RobotPosition = (RobotPosition.y, RobotPosition.x + direction.dx);
+            // }
         }
     }
 
@@ -193,20 +198,20 @@ public class Day15
     {
         var boxesToMove = BoxesToMoveInY(box, direction);
 
-        if(boxesToMove is null)
+        if (boxesToMove is null)
             return false;
 
         foreach (var moveBox in boxesToMove)
             Field[moveBox.y, moveBox.x] = FieldEntry.floor;
 
         foreach (var moveBox in boxesToMove)
-            Field[moveBox.y, moveBox.x] = FieldEntry.floor;
+            Field[moveBox.y + direction.dy, moveBox.x] = FieldEntry.box;
 
         // var thingsToMoveTo = Field[RobotPosition.y, RobotPosition.x + widthMultiplier * direction.dx];
         // if(thingsToMoveTo is FindEntry.floor)
 
-            //TODO: Fix this
-            return false;
+        //TODO: Fix this
+        return true;
     }
 
     private List<(int y, int x)>?  BoxesToMoveInY((int y, int x) box, (int y, int x) direction)
@@ -215,30 +220,38 @@ public class Day15
 
         List<(int y, int x)> collidingPositions = [(nbY, nbX), (nbY, nbX + 1), (nbY, nbX - 1)];
 
+        List<(int y, int x)> resultBoxes = [box];
+
+
         // All is floor
         if ( collidingPositions.All(cp => Field[cp.y, cp.x] == FieldEntry.floor))
-            return [box];
+            return resultBoxes;
 
         if (Field[nbY, nbX] == FieldEntry.Wall ||
             Field[nbY, nbX + 1] == FieldEntry.Wall)
             return null;
 
-        return collidingPositions
-            .Where(cp => Field[cp.y, cp.x] == FieldEntry.box)
-            .Aggregate<(int y, int x), List<(int y, int x)>?>(seed: [], func: (prevList, aggBox) =>
-            {
-                var boxList = BoxesToMoveInY(box, direction);
-                return prevList is null || boxList is null ? null : boxList.Append(aggBox).ToList();
-            });
+        var boxesMustBeMoved = collidingPositions
+            .Where(cp => Field[cp.y, cp.x] == FieldEntry.box);
 
+        foreach (var newBox in boxesMustBeMoved)
+        {
+            var moreMove = BoxesToMoveInY(newBox, direction);
+            if (moreMove is null)
+                return null;
+            resultBoxes.AddRange(moreMove);
+        }
 
-        // var boxToLeft = (nby, nb
-        // if()
+        return resultBoxes;
 
-        // return false;
+        // return collidingPositions
+        //     .Where(cp => Field[cp.y, cp.x] == FieldEntry.box)
+        //     .Aggregate<(int y, int x), List<(int y, int x)>?>(seed: [], func: (prevList, aggBox) =>
+        //     {
+        //         var boxList = BoxesToMoveInY(aggBox, direction);
+        //         return prevList is null || boxList is null ? null : boxList.Append(aggBox).ToList();
+        //     });
     }
-
-
 
     private (int y, int x)? NextFloorAfterBoxes((int y, int x) position, (int dy, int dx) direction)
     {
@@ -250,32 +263,27 @@ public class Day15
                 return null;
 
             // stone
-            position = (position.y + direction.dy, position.x + direction.dx * widthMultiplier);
+            position = (position.y + direction.dy, position.x + (direction.dx * widthMultiplier));
         }
-
         return null;
     }
 
-
-    public long Part1(int seconds)
+    private List<(int y, int x)>? NextFloorAfterBoxes2((int y, int x) position, (int dy, int dx) direction)
     {
-        foreach (var row in InstructionList)
+        List<(int y, int x)> boxesToMove = [];
+
+        while (!IsOutOfBound(position))
         {
-            foreach (var instruction in row)
-            {
-                RobotMovePart1(ToDirection(instruction));
-            }
+            if (Field[position.y, position.x] == FieldEntry.floor)
+                return boxesToMove;
+            if (Field[position.y, position.x] == FieldEntry.Wall)
+                return null;
+
+            boxesToMove.Add(position);
+            // box
+            position = (position.y + direction.dy, position.x + (direction.dx * widthMultiplier));
         }
-
-        var sum = 0L;
-
-        for (var y = 0; y < MaxY; y++)
-        for (var x = 0; x < MaxX; x++)
-            if (Field[y, x] == FieldEntry.box)
-                sum += y * 100 + x;
-
-
-        return sum;
+        return null;
     }
 
     private bool IsOutOfBound((int, int ) position)
@@ -309,9 +317,38 @@ public class Day15
         }
     }
 
+    public long Part1(int seconds)
+    {
+        foreach (var row in InstructionList)
+        {
+            foreach (var instruction in row)
+            {
+                RobotMovePart1(ToDirection(instruction));
+            }
+        }
+
+        var sum = 0L;
+
+        for (var y = 0; y < MaxY; y++)
+        for (var x = 0; x < MaxX; x++)
+            if (Field[y, x] == FieldEntry.box)
+                sum += y * 100 + x;
+
+        return sum;
+    }
+
     public long Part2()
     {
         var sum = 0L;
+
+        foreach (var row in InstructionList)
+        {
+            foreach (var instruction in row)
+            {
+                PrintField();
+                RobotMovePart2(ToDirection(instruction));
+            }
+        }
 
         PrintField();
 
