@@ -73,51 +73,62 @@ public class Day20
         }
     }
 
-    public List<int> Part1()
+    public List<int> Part1(int withMaxLength = 2)
     {
         NumberTheTrack();
-        return FindAllShortCuts();
-        // return TimeFromStart[End.Y, End.X]!.Value;
+        return FindAllShortCuts(withMaxLength);
     }
 
-    private List<int> FindAllShortCuts()
+    private List<int> FindAllShortCuts(int withMaxLength)
     {
-
         List<int> shortCuts = [];
         for (int Y = 0; Y < MaxY; Y++)
         for (int X = 0; X < MaxX; X++)
         {
             if (TimeFromStart[Y, X] is { } time)
             {
-                var cheatPositions = FindPositions2StepsAway(new Position(Y, X));
+                var cheatPositions = FindPositionsStepsAway(new Position(Y, X), withMaxLength);
 
                 var timeSavingCheats = cheatPositions
-                    .Where(IsInbound)
-                    .Select(cp => TimeFromStart[cp.Y, cp.X] is {} aheadOfCurve
-                    ?  aheadOfCurve - time -2
-                    : -100)
+                    .Where(cp => IsInbound(cp.p))
+                    .Select(cp => TimeFromStart[cp.p.Y, cp.p.X] is { } aheadOfCurve
+                        ? aheadOfCurve - time - cp.time
+                        : -100)
                     .Where(saved => saved > 0);
+
                 shortCuts.AddRange(timeSavingCheats);
 
-                Debug.Assert(cheatPositions.Count == 8);
             }
         }
 
         return shortCuts;
     }
 
-    private List<Position> FindPositions2StepsAway(Position position)
-        =>
-        [
-            position.Move(Direction.Left).Move(Direction.Left),
-            position.Move(Direction.Left).Move(Direction.Up),
-            position.Move(Direction.Up).Move(Direction.Up),
-            position.Move(Direction.Up).Move(Direction.Right),
-            position.Move(Direction.Right).Move(Direction.Right),
-            position.Move(Direction.Right).Move(Direction.Down),
-            position.Move(Direction.Down).Move(Direction.Down),
-            position.Move(Direction.Down).Move(Direction.Left)
-        ];
+    private static List<(Position p, int time)> FindPositionsStepsAway(Position position, int steps)
+    {
+        // HashSet< (Position, int steps)> positions = [(position, 0)];
+        HashSet< Position> positions = [(position)];
+        HashSet<(Position p, int time)> positionsWithTmie = [(position, 0)];
+
+        for (var i = 1; i <= steps; i++)
+        {
+            var i1 = i;
+            var newPositions = positions.SelectMany(cp => Direction.allDirections.Select(cp.Move));
+            var validPositions = newPositions.Where(p => !positions.Contains(p)).ToList();
+
+            positions.UnionWith(validPositions);
+            positionsWithTmie.UnionWith(validPositions.Select(vp => (vp, i1)));
+
+            // positionsWithTmie.SelectMany(cp => Direction.allDirections.Select(d => (cp.p.Move(d), i1)));
+            // var validPosition =
+
+
+            // var currentPositions = positions.ToList();
+            // positions.UnionWith(currentPositions.SelectMany(cp => Direction.allDirections.Select(cp.Move)));
+        }
+        return positionsWithTmie.ToList();
+    }
+
 
 
     public long Part2()

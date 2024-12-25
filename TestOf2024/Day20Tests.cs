@@ -27,13 +27,21 @@ public class Day20Tests
     public void Test2()
     {
         var d20 = new Day20("Day20".ReadTestLines());
-        Assert.That(d20.Part2(), Is.EqualTo(45));
+        var shortCuts = d20.Part1(20);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(shortCuts.Count(sc => sc == 50), Is.EqualTo(32));
+            Assert.That(shortCuts.Count(sc => sc == 52), Is.EqualTo(31));
+            Assert.That(shortCuts.Count(sc => sc == 64), Is.EqualTo(19));
+            Assert.That(shortCuts.Count(sc => sc == 74), Is.EqualTo(4));
+        });
     }
 
     [Test]
     public void Real2()
     {
         var d20 = new Day20("Day20".ReadRealLines());
-        Assert.That(d20.Part2(), Is.EqualTo(471));
+        Assert.That(d20.Part1(20).Count(ts => ts >= 100), Is.EqualTo(471));
     }
 }
