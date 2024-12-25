@@ -144,6 +144,7 @@ public class Day15
             {
                 RobotPosition = (RobotPosition.y, RobotPosition.x + direction.dx);
             }
+
             // moves in y
         } else {
             var blocking1 = Field[RobotPosition.y +direction.dy , RobotPosition.x];
@@ -284,8 +285,12 @@ public class Day15
                         FieldEntry.box => "O",
                     });
             }
-            Console.WriteLine(row.ToString());
-            Debug.WriteLine(row.ToString());
+
+
+            var pRow = row.ToString();
+            pRow = pRow.Replace("O.", "[]");
+            Console.WriteLine(pRow);
+            Debug.WriteLine(pRow);
         }
     }
 

@@ -5,8 +5,6 @@ namespace TestOf2024;
 
 public class Day15Tests
 {
-
-
     [Test]
     public void Test1()
     {
@@ -40,6 +38,13 @@ public class Day15Tests
     public void Test2_mini()
     {
         var d15 = new Day15("Day15".ReadTestLines("2"), widthMultiplier: 2);
+        Assert.That(d15.Part2(), Is.EqualTo(1506));
+    }
+
+    [Test]
+    public void Test2_play()
+    {
+        var d15 = new Day15("Day15".ReadTestLines("play"), widthMultiplier: 2);
         Assert.That(d15.Part2(), Is.EqualTo(1506));
     }
 
