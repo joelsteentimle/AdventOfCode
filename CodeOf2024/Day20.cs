@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using AdventLibrary;
 
 namespace AoC2024;
@@ -15,14 +14,10 @@ public class Day20
     private int?[,] TimeFromStart;
 
     private Position ProgramPosition;
-    // private int[,] TimesVisitedField;
     private int MaxY;
     private readonly int MaxX;
-    // private readonly Raindeer StartRaindeer;
-    // private readonly List<Raindeer> Raindeers=[];
     private readonly Position Start;
     private readonly Position End;
-    // private readonly IComparer<Raindeer> PointComparer = new RaindeerComparer();
 
     public Day20(List<string> allData)
     {
@@ -106,7 +101,6 @@ public class Day20
 
     private static List<(Position p, int time)> FindPositionsStepsAway(Position position, int steps)
     {
-        // HashSet< (Position, int steps)> positions = [(position, 0)];
         HashSet< Position> positions = [(position)];
         HashSet<(Position p, int time)> positionsWithTmie = [(position, 0)];
 
@@ -119,17 +113,9 @@ public class Day20
             positions.UnionWith(validPositions);
             positionsWithTmie.UnionWith(validPositions.Select(vp => (vp, i1)));
 
-            // positionsWithTmie.SelectMany(cp => Direction.allDirections.Select(d => (cp.p.Move(d), i1)));
-            // var validPosition =
-
-
-            // var currentPositions = positions.ToList();
-            // positions.UnionWith(currentPositions.SelectMany(cp => Direction.allDirections.Select(cp.Move)));
         }
         return positionsWithTmie.ToList();
     }
-
-
 
     public long Part2()
     {
