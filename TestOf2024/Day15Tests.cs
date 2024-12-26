@@ -35,6 +35,13 @@ public class Day15Tests
     }
 
     [Test]
+    public void Test2With2()
+    {
+        var d15 = new Day15Scale("Day15".ReadTestLines());
+        Assert.That(d15.Part2(), Is.EqualTo(9021));
+    }
+
+    [Test]
     public void Test2_mini()
     {
         var d15 = new Day15("Day15".ReadTestLines("2"), widthMultiplier: 2);

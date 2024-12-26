@@ -8,6 +8,7 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AList_00601_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002Econfig_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fd62eb286436a45a6a9ba2df86a4c8444e28400_003Fb0_003F203b1727_003FList_00601_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AMonitor_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002Econfig_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fd62eb286436a45a6a9ba2df86a4c8444e28400_003Fb0_003Fb8717d90_003FMonitor_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AThrowHelpers_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fjoel_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003Fbb2a94dce7ca55a596694df58d3ca91c6d9c9c9c9813775e4d1abd0f91dc59_003FThrowHelpers_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValueTuple_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fjoel_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F39cb14863af59eed60d689c68e4b3aedc7eaa1e544187bc5a84933d314b719_003FValueTuple_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=8AB328D0_002D8C6A_002D4D34_002D9327_002D754B9544C0E0_002Ff_003AUnitTest1_002Ecs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">SUGGESTION</s:String>
 	
@@ -75,35 +76,54 @@
     &lt;And&gt;&#xD;
       &lt;Or&gt;&#xD;
         &lt;And&gt;&#xD;
-          &lt;TestAncestor&gt;&#xD;
-            &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day18Tests&lt;/TestId&gt;&#xD;
-            &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day19Tests.Test1&lt;/TestId&gt;&#xD;
-          &lt;/TestAncestor&gt;&#xD;
+          &lt;Or&gt;&#xD;
+            &lt;And&gt;&#xD;
+              &lt;TestAncestor&gt;&#xD;
+                &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day18Tests&lt;/TestId&gt;&#xD;
+                &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day19Tests.Test1&lt;/TestId&gt;&#xD;
+              &lt;/TestAncestor&gt;&#xD;
+              &lt;Not&gt;&#xD;
+                &lt;TestAncestor&gt;&#xD;
+                  &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day18Tests&lt;/TestId&gt;&#xD;
+                &lt;/TestAncestor&gt;&#xD;
+              &lt;/Not&gt;&#xD;
+            &lt;/And&gt;&#xD;
+            &lt;TestAncestor&gt;&#xD;
+              &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day19Tests.Real1&lt;/TestId&gt;&#xD;
+              &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day19Tests.Test2&lt;/TestId&gt;&#xD;
+              &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day19Tests.Real2&lt;/TestId&gt;&#xD;
+              &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day15Tests.Test2&lt;/TestId&gt;&#xD;
+              &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day15Tests.Test2_play&lt;/TestId&gt;&#xD;
+              &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Test1&lt;/TestId&gt;&#xD;
+            &lt;/TestAncestor&gt;&#xD;
+          &lt;/Or&gt;&#xD;
           &lt;Not&gt;&#xD;
             &lt;TestAncestor&gt;&#xD;
-              &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day18Tests&lt;/TestId&gt;&#xD;
+              &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day19Tests&lt;/TestId&gt;&#xD;
+              &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day15Tests&lt;/TestId&gt;&#xD;
             &lt;/TestAncestor&gt;&#xD;
           &lt;/Not&gt;&#xD;
         &lt;/And&gt;&#xD;
         &lt;TestAncestor&gt;&#xD;
-          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day19Tests.Real1&lt;/TestId&gt;&#xD;
-          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day19Tests.Test2&lt;/TestId&gt;&#xD;
-          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day19Tests.Real2&lt;/TestId&gt;&#xD;
-          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day15Tests.Test2&lt;/TestId&gt;&#xD;
-          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day15Tests.Test2_play&lt;/TestId&gt;&#xD;
-          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Test1&lt;/TestId&gt;&#xD;
+          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Test1_micro&lt;/TestId&gt;&#xD;
+          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Real1&lt;/TestId&gt;&#xD;
+          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Test2&lt;/TestId&gt;&#xD;
+          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Real2&lt;/TestId&gt;&#xD;
         &lt;/TestAncestor&gt;&#xD;
       &lt;/Or&gt;&#xD;
       &lt;Not&gt;&#xD;
         &lt;TestAncestor&gt;&#xD;
-          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day19Tests&lt;/TestId&gt;&#xD;
-          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day15Tests&lt;/TestId&gt;&#xD;
+          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Real1&lt;/TestId&gt;&#xD;
+          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Test1&lt;/TestId&gt;&#xD;
+          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Test1_micro&lt;/TestId&gt;&#xD;
+          &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Test2&lt;/TestId&gt;&#xD;
         &lt;/TestAncestor&gt;&#xD;
       &lt;/Not&gt;&#xD;
     &lt;/And&gt;&#xD;
     &lt;TestAncestor&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Test1_micro&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day17Tests.Real1&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day15Tests.Test2_mini&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day15Tests.Test2&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::F1864535-E3BF-427F-885C-B7F7338BE7A4::net9.0::TestOf2024.Day15Tests.Test2With2&lt;/TestId&gt;&#xD;
     &lt;/TestAncestor&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>

@@ -49,7 +49,6 @@ public class Day15
                 }
                 else
                 {
-
                     if (widthMultiplier == 1)
                     {
                         switch (inputField[y][x])
@@ -74,13 +73,12 @@ public class Day15
                                 break;
                             case '#':
                                 Field[y, x * this.widthMultiplier] = FieldEntry.Wall;
-                                Field[y, x * this.widthMultiplier+1] = FieldEntry.Wall;
+                                Field[y, (x * this.widthMultiplier)+1] = FieldEntry.Wall;
                                 break;
                             case 'O':
                                 Field[y, x * this.widthMultiplier] = FieldEntry.box;
                                 break;
                         }
-
                     }
                 }
             }
@@ -134,6 +132,10 @@ public class Day15
                     foreach (var box in boxesToMove)
                     {
                         Field[box.y, box.x] = FieldEntry.floor;
+                    }
+
+                    foreach (var box in boxesToMove)
+                    {
                         Field[box.y, box.x + direction.dx] = FieldEntry.box;
                     }
 
@@ -196,14 +198,6 @@ public class Day15
 
     private List<(int y, int x)>? IteratingBoxesToMoveInY((int y, int x) startBox, (int y, int x) direction)
     {
-        // (var nbY, var nbX) = (box.y + direction.y, box.x + direction.x);
-        // List<(int y, int x)> collidingPositions =
-        // [
-        //     (box.y + direction.y, box.x + direction.x),
-        //     (box.y + direction.y, box.x + direction.x + 1),
-        //     (box.y + direction.y, box.x + direction.x - 1)
-        // ];
-
         (var dy, _) = direction;
 
         var findingBoxes = new Queue<(int y, int x)>([startBox]);

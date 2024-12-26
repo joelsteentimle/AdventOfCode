@@ -9,6 +9,6 @@ public static class FileHelper
         Path.Combine( "DataFiles",$"{day}",$"Test{suffix}.txt").ReadFileAsLines().ToList();
        // @$"DataFiles\{day}\Test{suffix}.txt".ReadFileAsLines().ToList();
 
-    public static List<string> ReadRealLines(this string day) =>
-        Path.Combine( "DataFiles",$"{day}","Real.txt").ReadFileAsLines().ToList();
+    public static List<string> ReadRealLines(this string day, string suffix = "") =>
+        Path.Combine( "DataFiles",$"{day}",$"Real{suffix}.txt").ReadFileAsLines().ToList();
 }
