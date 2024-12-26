@@ -58,7 +58,7 @@ public class Day15Tests
     [Test]
     public void Real2()
     {
-        var d15 = new Day15("Day15".ReadRealLines(), widthMultiplier: 2);
-        Assert.That(d15.Part2(), Is.EqualTo(830566));
+        var d15 = new Day15Scale ("Day15".ReadRealLines());
+        Assert.That(d15.Part2(), Is.EqualTo(1509724));
     }
 }

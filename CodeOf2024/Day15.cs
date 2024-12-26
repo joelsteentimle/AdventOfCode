@@ -155,27 +155,43 @@ public class Day15
             if(blocking1 is FieldEntry.Wall)
                 return;
 
-            if (blocking1 is FieldEntry.floor
-                && blocking2 is FieldEntry.floor or FieldEntry.Wall)
+            // if (blocking1 is FieldEntry.floor
+            //     && blocking2 is FieldEntry.floor or FieldEntry.Wall)
+            // {
+            //     RobotPosition = (RobotPosition.y +direction.dy, RobotPosition.x );
+            //     return;
+            // }
+
+            // if ((blocking2 is not FieldEntry.box
+            //      && blocking1 is not FieldEntry.box)
+            //     || (blocking2 is FieldEntry.box
+            //         && blocking1 is FieldEntry.box))
+            //     throw new InvalidOperationException("Should not happen");
+
+            if (blocking1 is FieldEntry.box)
             {
-                RobotPosition = (RobotPosition.y +direction.dy, RobotPosition.x );
-                return;
-            }
-
-            if ((blocking2 is not FieldEntry.box
-                 && blocking1 is not FieldEntry.box)
-                || (blocking2 is FieldEntry.box
-                    && blocking1 is FieldEntry.box))
-                throw new InvalidOperationException("Should not happen");
-
-            (var boxY, var boxX) = Field[RobotPosition.y + direction.dy, RobotPosition.x] == FieldEntry.box
-                ? (RobotPosition.y + direction.dy, RobotPosition.x)
-                : (RobotPosition.y + direction.dy, RobotPosition.x - 1);
-
-                if (TryToMoveBoxInY((boxY,boxX), direction))
-                {
+                (var boxY, var boxX) = (RobotPosition.y + direction.dy, RobotPosition.x);
+                if (TryToMoveBoxInY((boxY, boxX), direction))
                     RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x);
-                }
+            }
+            else if (blocking2 is FieldEntry.box)
+            {
+                (var boxY, var boxX) = (RobotPosition.y + direction.dy, RobotPosition.x - 1);
+                if (TryToMoveBoxInY((boxY, boxX), direction))
+                    RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x);
+            }
+            else
+            {
+                RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x);
+            }
+            // (var boxY, var boxX) = Field[RobotPosition.y + direction.dy, RobotPosition.x] == FieldEntry.box
+            //     ? (RobotPosition.y + direction.dy, RobotPosition.x)
+            //     : (RobotPosition.y + direction.dy, RobotPosition.x - 1);
+
+                // if (TryToMoveBoxInY((boxY,boxX), direction))
+                // {
+                //     RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x);
+                // }
         }
     }
 

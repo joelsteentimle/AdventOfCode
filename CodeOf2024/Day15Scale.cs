@@ -27,7 +27,6 @@ public class Day15Scale
     private int MaxY;
     private readonly int MaxX;
     private readonly IEnumerable<string> InstructionList;
-    // private int widthMultiplier = 1;
 
     public Day15Scale(List<string> allData)
     {
@@ -80,8 +79,8 @@ public class Day15Scale
         if (Field[nextY, nextX] == FieldEntry.Wall)
             return;
 
-        if (Field[nextY, nextX] == FieldEntry.floor)
-            RobotPosition = (nextY, nextX);
+        // if (Field[nextY, nextX] == FieldEntry.floor)
+        //     RobotPosition = (nextY, nextX);
 
         var boxesToMove = IteratingBoxesToMoveInY(RobotPosition, direction);
 
@@ -133,16 +132,6 @@ public class Day15Scale
         }
     }
 
-    private bool IsOutOfBound((int, int ) position)
-    {
-        var (y, x) = position;
-        if (y < 0 || y >= MaxY)
-            return true;
-        if (x < 0 || x >= MaxX)
-            return true;
-        return false;
-    }
-
     private void PrintField()
     {
         for (var y = 0; y < MaxY; y++)
@@ -174,9 +163,6 @@ public class Day15Scale
         {
             foreach (var instruction in row)
             {
-                PrintField();
-                Console.WriteLine(instruction);
-                Debug.WriteLine(instruction);
                 RobotMovePart2(ToDirection(instruction));
             }
         }
