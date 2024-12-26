@@ -179,7 +179,8 @@ public class Day15
 
     private bool TryToMoveBoxInY((int y, int) box, (int dy, int dx) direction)
     {
-        var boxesToMove = BoxesToMoveInY(box, direction);
+        // var boxesToMove = BoxesToMoveInY(box, direction);
+        var boxesToMove = IteratingBoxesToMoveInY(box, direction);
 
         if (boxesToMove is null)
             return false;
@@ -190,29 +191,69 @@ public class Day15
         foreach (var moveBox in boxesToMove)
             Field[moveBox.y + direction.dy, moveBox.x] = FieldEntry.box;
 
-        //TODO: Fix this
         return true;
+    }
+
+    private List<(int y, int x)>? IteratingBoxesToMoveInY((int y, int x) startBox, (int y, int x) direction)
+    {
+        // (var nbY, var nbX) = (box.y + direction.y, box.x + direction.x);
+        // List<(int y, int x)> collidingPositions =
+        // [
+        //     (box.y + direction.y, box.x + direction.x),
+        //     (box.y + direction.y, box.x + direction.x + 1),
+        //     (box.y + direction.y, box.x + direction.x - 1)
+        // ];
+
+        (var dy, _) = direction;
+
+        var findingBoxes = new Queue<(int y, int x)>([startBox]);
+        List<(int y, int x)> resultBoxes = [startBox];
+
+        while (findingBoxes.TryDequeue(out var box))
+        {
+            (var nbY, var nbX) = (box.y + dy, box.x);
+            List<(int y, int x)> collidingPositions = [(nbY, nbX), (nbY, nbX + 1), (nbY, nbX - 1)];
+
+            if (Field[nbY, nbX] == FieldEntry.Wall ||
+                Field[nbY, nbX + 1] == FieldEntry.Wall)
+                return null;
+
+            var newBexes = collidingPositions.Where(cp => Field[cp.y, cp.x] == FieldEntry.box);
+            foreach (var be in newBexes)
+            {
+                findingBoxes.Enqueue(be);
+                resultBoxes.Add(be);
+            }
+
+        }
+        return resultBoxes;
     }
 
     private List<(int y, int x)>?  BoxesToMoveInY((int y, int x) box, (int y, int x) direction)
     {
         (var nbY, var nbX) = (box.y + direction.y, box.x + direction.x);
-
         List<(int y, int x)> collidingPositions = [(nbY, nbX), (nbY, nbX + 1), (nbY, nbX - 1)];
-
         List<(int y, int x)> resultBoxes = [box];
 
 
         // All is floor
-        if ( collidingPositions.All(cp => Field[cp.y, cp.x] == FieldEntry.floor))
-            return resultBoxes;
-
         if (Field[nbY, nbX] == FieldEntry.Wall ||
             Field[nbY, nbX + 1] == FieldEntry.Wall)
             return null;
 
         var boxesMustBeMoved = collidingPositions
             .Where(cp => Field[cp.y, cp.x] == FieldEntry.box);
+
+
+        // if(!boxesMustBeMoved.Any() !=
+        //    collidingPositions.All(cp => Field[cp.y, cp.x] == FieldEntry.floor))
+        //     Console.WriteLine("Here we failed!!!");
+
+        if(!boxesMustBeMoved.Any())
+            return resultBoxes;
+
+        if ( collidingPositions.All(cp => Field[cp.y, cp.x] == FieldEntry.floor))
+            return resultBoxes;
 
         foreach (var newBox in boxesMustBeMoved)
         {
@@ -221,6 +262,8 @@ public class Day15
                 return null;
             resultBoxes.AddRange(moreMove);
         }
+
+
 
         return resultBoxes;
     }
