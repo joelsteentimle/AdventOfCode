@@ -295,19 +295,40 @@ public class Day15
 
     private List<(int y, int x)>? NextFloorAfterBoxes2((int y, int x) position, (int dy, int dx) direction)
     {
-        List<(int y, int x)> boxesToMove = [];
+        List<(int y, int x)> boxesToMove = [position];
 
-        while (!IsOutOfBound(position))
+        do
         {
-            if (Field[position.y, position.x] == FieldEntry.floor)
-                return boxesToMove;
+            position = (position.y + direction.dy, position.x + (direction.dx * widthMultiplier));
+
             if (Field[position.y, position.x] == FieldEntry.Wall)
                 return null;
 
+            if (direction.dx == -1)
+            {
+                if (Field[position.y, position.x + 1] == FieldEntry.floor)
+                    return boxesToMove;
+            }
+            else
+            {
+                if (Field[position.y, position.x] == FieldEntry.floor)
+                    return boxesToMove;
+            }
+
+            //
+            //
+            //     while (!IsOutOfBound(position))
+            //     {
+            // if (Field[position.y, position.x] == FieldEntry.floor)
+            //     return boxesToMove;
+            // if (Field[position.y, position.x] == FieldEntry.Wall)
+            //     return null;
+
             boxesToMove.Add(position);
             // box
-            position = (position.y + direction.dy, position.x + (direction.dx * widthMultiplier));
-        }
+            // position = (position.y + direction.dy, position.x + (direction.dx * widthMultiplier));
+        } while (!IsOutOfBound(position));
+
         return null;
     }
 
