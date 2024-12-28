@@ -5,7 +5,7 @@ namespace AoC2024;
 
 public class Day15Scale
 {
-    private enum FieldEntry
+    public enum FieldEntry
     {
         floor =0,
         Lbox,
@@ -13,9 +13,9 @@ public class Day15Scale
         Wall,
     }
 
-    private (int y, int x) RobotPosition = (-1, -1);
+    public (int y, int x) RobotPosition = (-1, -1);
 
-    private (int dy, int dx) ToDirection(char i) => i switch
+    public (int dy, int dx) ToDirection(char i) => i switch
     {
         '^' => (-1, 0),
         'v' => (1, 0),
@@ -23,7 +23,7 @@ public class Day15Scale
         '>' => (0, 1),
     };
 
-    private FieldEntry[,] Field;
+    public FieldEntry[,] Field;
     private int MaxY;
     private readonly int MaxX;
     private readonly IEnumerable<string> InstructionList;
@@ -132,7 +132,7 @@ public class Day15Scale
         }
     }
 
-    private void PrintField()
+    public void PrintField()
     {
         for (var y = 0; y < MaxY; y++)
         {
@@ -163,6 +163,7 @@ public class Day15Scale
         {
             foreach (var instruction in row)
             {
+                // PrintField();
                 RobotMovePart2(ToDirection(instruction));
             }
         }

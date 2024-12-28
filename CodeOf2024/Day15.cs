@@ -5,16 +5,16 @@ namespace AoC2024;
 
 public class Day15
 {
-    private enum FieldEntry
+    public enum FieldEntry
     {
         floor =0,
         box,
         Wall,
     }
 
-    private (int y, int x) RobotPosition = (-1, -1);
+    public (int y, int x) RobotPosition = (-1, -1);
 
-    private (int dy, int dx) ToDirection(char i) => i switch
+    public (int dy, int dx) ToDirection(char i) => i switch
     {
         '^' => (-1, 0),
         'v' => (1, 0),
@@ -22,10 +22,10 @@ public class Day15
         '>' => (0, 1),
     };
 
-    private FieldEntry[,] Field;
-    private int MaxY;
-    private readonly int MaxX;
-    private readonly IEnumerable<string> InstructionList;
+    public FieldEntry[,] Field;
+    public int MaxY;
+    public readonly int MaxX;
+    public readonly IEnumerable<string> InstructionList;
     private int widthMultiplier = 1;
 
     public Day15(List<string> allData, int widthMultiplier = 1)
@@ -49,6 +49,7 @@ public class Day15
                 }
                 else
                 {
+
                     if (widthMultiplier == 1)
                     {
                         switch (inputField[y][x])
@@ -73,12 +74,13 @@ public class Day15
                                 break;
                             case '#':
                                 Field[y, x * this.widthMultiplier] = FieldEntry.Wall;
-                                Field[y, (x * this.widthMultiplier)+1] = FieldEntry.Wall;
+                                Field[y, x * this.widthMultiplier+1] = FieldEntry.Wall;
                                 break;
                             case 'O':
                                 Field[y, x * this.widthMultiplier] = FieldEntry.box;
                                 break;
                         }
+
                     }
                 }
             }
@@ -133,7 +135,6 @@ public class Day15
                     {
                         Field[box.y, box.x] = FieldEntry.floor;
                     }
-
                     foreach (var box in boxesToMove)
                     {
                         Field[box.y, box.x + direction.dx] = FieldEntry.box;
@@ -155,43 +156,27 @@ public class Day15
             if(blocking1 is FieldEntry.Wall)
                 return;
 
-            // if (blocking1 is FieldEntry.floor
-            //     && blocking2 is FieldEntry.floor or FieldEntry.Wall)
-            // {
-            //     RobotPosition = (RobotPosition.y +direction.dy, RobotPosition.x );
-            //     return;
-            // }
-
-            // if ((blocking2 is not FieldEntry.box
-            //      && blocking1 is not FieldEntry.box)
-            //     || (blocking2 is FieldEntry.box
-            //         && blocking1 is FieldEntry.box))
-            //     throw new InvalidOperationException("Should not happen");
-
-            if (blocking1 is FieldEntry.box)
+            if (blocking1 is FieldEntry.floor
+                && blocking2 is FieldEntry.floor or FieldEntry.Wall)
             {
-                (var boxY, var boxX) = (RobotPosition.y + direction.dy, RobotPosition.x);
-                if (TryToMoveBoxInY((boxY, boxX), direction))
+                RobotPosition = (RobotPosition.y +direction.dy, RobotPosition.x );
+                return;
+            }
+
+            if ((blocking2 is not FieldEntry.box
+                 && blocking1 is not FieldEntry.box)
+                || (blocking2 is FieldEntry.box
+                    && blocking1 is FieldEntry.box))
+                throw new InvalidOperationException("Should not happen");
+
+            (var boxY, var boxX) = Field[RobotPosition.y + direction.dy, RobotPosition.x] == FieldEntry.box
+                ? (RobotPosition.y + direction.dy, RobotPosition.x)
+                : (RobotPosition.y + direction.dy, RobotPosition.x - 1);
+
+                if (TryToMoveBoxInY((boxY,boxX), direction))
+                {
                     RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x);
-            }
-            else if (blocking2 is FieldEntry.box)
-            {
-                (var boxY, var boxX) = (RobotPosition.y + direction.dy, RobotPosition.x - 1);
-                if (TryToMoveBoxInY((boxY, boxX), direction))
-                    RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x);
-            }
-            else
-            {
-                RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x);
-            }
-            // (var boxY, var boxX) = Field[RobotPosition.y + direction.dy, RobotPosition.x] == FieldEntry.box
-            //     ? (RobotPosition.y + direction.dy, RobotPosition.x)
-            //     : (RobotPosition.y + direction.dy, RobotPosition.x - 1);
-
-                // if (TryToMoveBoxInY((boxY,boxX), direction))
-                // {
-                //     RobotPosition = (RobotPosition.y + direction.dy, RobotPosition.x);
-                // }
+                }
         }
     }
 
@@ -214,6 +199,14 @@ public class Day15
 
     private List<(int y, int x)>? IteratingBoxesToMoveInY((int y, int x) startBox, (int y, int x) direction)
     {
+        // (var nbY, var nbX) = (box.y + direction.y, box.x + direction.x);
+        // List<(int y, int x)> collidingPositions =
+        // [
+        //     (box.y + direction.y, box.x + direction.x),
+        //     (box.y + direction.y, box.x + direction.x + 1),
+        //     (box.y + direction.y, box.x + direction.x - 1)
+        // ];
+
         (var dy, _) = direction;
 
         var findingBoxes = new Queue<(int y, int x)>([startBox]);
@@ -295,40 +288,29 @@ public class Day15
 
     private List<(int y, int x)>? NextFloorAfterBoxes2((int y, int x) position, (int dy, int dx) direction)
     {
-        List<(int y, int x)> boxesToMove = [position];
+        List<(int y, int x)> boxesToMove = [];
 
-        do
+        while (!IsOutOfBound(position))
         {
-            position = (position.y + direction.dy, position.x + (direction.dx * widthMultiplier));
+
+            // if (Field[position.y, position.x] == FieldEntry.floor)
+            //     return boxesToMove;
+
+            if (direction.dx <0 && Field[position.y, position.x+1] == FieldEntry.floor ||
+                Field[position.y, position.x] == FieldEntry.floor)
+            {
+                boxesToMove.Add(position);
+                return boxesToMove;
+            }
 
             if (Field[position.y, position.x] == FieldEntry.Wall)
                 return null;
 
-            if (direction.dx == -1)
-            {
-                if (Field[position.y, position.x + 1] == FieldEntry.floor)
-                    return boxesToMove;
-            }
-            else
-            {
-                if (Field[position.y, position.x] == FieldEntry.floor)
-                    return boxesToMove;
-            }
-
-            //
-            //
-            //     while (!IsOutOfBound(position))
-            //     {
-            // if (Field[position.y, position.x] == FieldEntry.floor)
-            //     return boxesToMove;
-            // if (Field[position.y, position.x] == FieldEntry.Wall)
-            //     return null;
-
             boxesToMove.Add(position);
-            // box
-            // position = (position.y + direction.dy, position.x + (direction.dx * widthMultiplier));
-        } while (!IsOutOfBound(position));
 
+            // box
+            position = (position.y + direction.dy, position.x + (direction.dx * widthMultiplier));
+        }
         return null;
     }
 
@@ -342,7 +324,7 @@ public class Day15
         return false;
     }
 
-    private void PrintField()
+    public void PrintField()
     {
         for (var y = 0; y < MaxY; y++)
         {
@@ -396,9 +378,9 @@ public class Day15
         {
             foreach (var instruction in row)
             {
-                PrintField();
-                Console.WriteLine(instruction);
-                Debug.WriteLine(instruction);
+                // PrintField();
+                // Console.WriteLine(instruction);
+                // Debug.WriteLine(instruction);
                 RobotMovePart2(ToDirection(instruction));
             }
         }
