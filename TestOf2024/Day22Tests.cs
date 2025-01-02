@@ -30,14 +30,21 @@ public class Day22Tests
     [Test]
     public void Test2()
     {
-        var d22 = new Day22("Day22".ReadTestLines());
-        Assert.That(d22.Part2(), Is.EqualTo(37327623));
+        var d22 = new Day22("Day22".ReadTestLines("P2"));
+        Assert.That(d22.Part2(), Is.EqualTo(23));
+    }
+
+    [Test]
+    public void Test2Steps()
+    {
+        var d22 = new Day22("Day22".ReadTestLines("Steps"));
+        Assert.That(d22.Part2(), Is.EqualTo(9));
     }
 
     [Test]
     public void Real2()
     {
         var d22 = new Day22("Day22".ReadRealLines());
-        Assert.That(d22.Part2(), Is.EqualTo(37327623));
+        Assert.That(d22.Part2(), Is.EqualTo(1717));
     }
 }
