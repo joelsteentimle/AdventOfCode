@@ -24,13 +24,13 @@ public class Day24Tests
     public void Test2()
     {
         var d24 = new Day24("Day24".ReadTestLines());
-        Assert.That(d24.Part2(), Is.EqualTo("co,de,ka,ta"));
+        Assert.That(d24.Part2(), Is.EqualTo(5555));
     }
 
     [Test]
     public void Real2()
     {
         var d24 = new Day24("Day24".ReadRealLines());
-        Assert.That(d24.Part2(), Is.EqualTo("am,au,be,cm,fo,ha,hh,im,nt,os,qz,rr,so"));
+        Assert.That(d24.Part2(), Is.EqualTo(5555));
     }
 }
