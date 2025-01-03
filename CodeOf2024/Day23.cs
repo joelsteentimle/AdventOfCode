@@ -10,6 +10,8 @@ public class Day23
 
     private readonly HashSet<(string, string, string)> CalculatingSets = [];
 
+    private HashSet<string> LargestLan = [];
+
     private static (string frst, string snd, string trd) GetLink(params string[] computers)
     {
         var sorted = computers.Order().ToArray();
@@ -32,21 +34,18 @@ public class Day23
 
     public long Part1()
     {
-        foreach (var link in connectionFromComputer)
+        foreach (var link in connectionFromComputer.Where(l => l.Key.StartsWith('t')))
         {
-            if (link.Key.StartsWith('t'))
+            var connectedTo = link.Value.ToArray();
+            for (var i = 0; i < connectedTo.Length; i++)
             {
-                var connectedTo = link.Value.ToArray();
-                for (var i = 0; i < connectedTo.Length; i++)
+                var fst = connectedTo[i];
+                for (var j = i + 1; j < connectedTo.Length; j++)
                 {
-                    var fst = connectedTo[i];
-                    for (var j = i + 1; j < connectedTo.Length; j++)
-                    {
-                        var snd = connectedTo[j];
-                        if (connectionFromComputer[fst]
-                            .Contains(snd))
-                            CalculatingSets.Add(GetLink(link.Key, fst, snd));
-                    }
+                    var snd = connectedTo[j];
+                    if (connectionFromComputer[fst]
+                        .Contains(snd))
+                        CalculatingSets.Add(GetLink(link.Key, fst, snd));
                 }
             }
 
@@ -57,26 +56,39 @@ public class Day23
 
     public string Part2()
     {
-        HashSet<string> largestLan = [];
-
-        foreach (var computer in allComputers)
+        var comupterList = allComputers.ToList();
+        foreach (var computer in comupterList)
         {
-            var setStart = new HashSet<string>();
-            setStart.Add(computer);
-            setStart.UnionWith(connectionFromComputer[computer]);
-
-             var longestForThis = GetLongest(setStart);
-
-             if(longestForThis.Count > largestLan.Count)
-                 largestLan = longestForThis;
+            var setStart = new HashSet<string> { computer };
+             PopulateLongest(setStart, connectionFromComputer[computer] );
         }
-        return string.Join(',', largestLan.Order());
+
+        return string.Join(',', LargestLan.Order());
     }
 
-    private HashSet<string> GetLongest(HashSet<string> setStart)
+    private void PopulateLongest(HashSet<string> nowSet, HashSet<string> candidates)
     {
-        
+        if (candidates.Count == 0)
+        {
+            if (nowSet.Count > LargestLan.Count)
+                LargestLan = nowSet;
+            return;
+        }
 
+        if (nowSet.Count + candidates.Count <= LargestLan.Count)
+            return;
+
+        var candidateList = candidates.ToList();
+
+        foreach (var candidate in candidateList )
+        {
+            var extCand = new HashSet<string>(nowSet);
+            extCand.Add(candidate);
+
+            var limitedCandidates = new HashSet<string>(candidates);
+            limitedCandidates.IntersectWith(connectionFromComputer[candidate]);
+            PopulateLongest( extCand , limitedCandidates );
+        }
     }
 }
 
