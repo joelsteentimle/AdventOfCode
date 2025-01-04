@@ -10,14 +10,21 @@ public class Day24Tests
     public void Test1()
     {
         var d24 = new Day24("Day24".ReadTestLines());
-        Assert.That(d24.Part1(), Is.EqualTo(7));
+        Assert.That(d24.Part1(), Is.EqualTo(2024));
+    }
+
+    [Test]
+    public void Test1SmallTest()
+    {
+        var d24 = new Day24("Day24".ReadTestLines("Small"));
+        Assert.That(d24.Part1(), Is.EqualTo(4));
     }
 
     [Test]
     public void Real1()
     {
         var d24 = new Day24("Day24".ReadRealLines());
-        Assert.That(d24.Part1(), Is.EqualTo(1370));
+        Assert.That(d24.Part1(), Is.EqualTo(53755311654662));
     }
 
     [Test]

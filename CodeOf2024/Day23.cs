@@ -92,18 +92,4 @@ public class Day23
     }
 }
 
-public static class DictionaryExtension
-{
-    public static void AddOrCreate(this Dictionary<string, HashSet<string>> dictionary, string key, string value)
-    {
-        if (dictionary.TryGetValue(key, out var collection))
-        {
-            collection.Add(value);
-        }
-        else
-        {
-            dictionary.Add(key, [value]);
-        }
-    }
-}
 
