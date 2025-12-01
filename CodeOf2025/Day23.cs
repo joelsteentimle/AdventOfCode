@@ -1,6 +1,6 @@
 using AdventLibrary;
 
-namespace AoC2024;
+namespace AoC2025;
 
 public class Day23
 {
