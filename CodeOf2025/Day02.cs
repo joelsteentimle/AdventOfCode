@@ -1,12 +1,8 @@
-﻿using System.Security.Cryptography;
+﻿namespace AoC2025;
 
-namespace AoC2025;
-
-public class Day02
+public class Day02(List<string> lines)
 {
-    private readonly string[] pairs;
-
-    public Day02(List<string> lines) => pairs = lines[0].Split(',');
+    private readonly string[] pairs = lines[0].Split(',');
 
     public long Part1 => Iterate(D1Test);
     public long Part2 => Iterate(D2Test);
@@ -35,7 +31,7 @@ public class Day02
         }
         var h = s.Length / 2;
 
-        return s.Substring(0, h) == s.Substring(h);
+        return s[..h] == s[h..];
     }
 
     private static bool D2Test(long i)
