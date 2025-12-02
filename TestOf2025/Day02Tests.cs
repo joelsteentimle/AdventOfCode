@@ -9,27 +9,27 @@ public class Day02Tests
     public void Test1()
     {
         var d2 = new Day02("Day02".ReadTestLines());
-        Assert.That(d2.Safe, Has.Count.EqualTo(2));
+        Assert.That(d2.Part1, Is.EqualTo(1227775554));
     }
 
     [Test]
     public void Real1()
     {
         var d2 = new Day02("Day02".ReadRealLines());
-        Assert.That(d2.Safe, Has.Count.EqualTo(306));
+        Assert.That(d2.Part1, Is.EqualTo(29818212493));
     }
 
     [Test]
     public void Test2()
     {
-        var d2 = new Day02("Day02".ReadTestLines(), true);
-        Assert.That(d2.Safe, Has.Count.EqualTo(4));
+        var d2 = new Day02("Day02".ReadTestLines());
+        Assert.That(d2.Part2, Is.EqualTo(4174379265));
     }
 
     [Test]
     public void Real2()
     {
-        var d2 = new Day02("Day02".ReadRealLines(), true);
-        Assert.That(d2.Safe, Has.Count.EqualTo(366));
+        var d2 = new Day02("Day02".ReadRealLines());
+        Assert.That(d2.Part2, Is.EqualTo(37432260594));
     }
 }

@@ -1,56 +1,60 @@
-﻿namespace AoC2025;
+﻿using System.Security.Cryptography;
+
+namespace AoC2025;
 
 public class Day02
 {
-    public Day02(List<string> lines, bool allowOne = false)
+    private readonly string[] pairs;
+
+    public Day02(List<string> lines) => pairs = lines[0].Split(',');
+
+    public long Part1 => Iterate(D1Test);
+    public long Part2 => Iterate(D2Test);
+
+    private long Iterate(Func<long, bool> shouldCount)
     {
-        foreach (var line in lines)
+        var PairSum = 0L;
+        foreach (var pair in pairs)
         {
-            var stairs = line.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+            var f = long.Parse(pair.Split('-')[0]);
+            var l = long.Parse(pair.Split('-')[1]);
 
-            var isSafe = AreStrairsSafe(stairs);
-
-            if (!isSafe && allowOne) isSafe = AreAlteredStraisSafe(stairs);
-
-            if (isSafe)
-                Safe.Add(stairs);
-            else
-                Unsafe.Add(stairs);
+            for (var i = f; i <= l; i++)
+                if (shouldCount(i))
+                    PairSum += i;
         }
-
-        bool AreAlteredStraisSafe(List<int> stairs)
-        {
-            for (var i = 0; i < stairs.Count; i++)
-            {
-                var stairsMinusOne = stairs[..i];
-                stairsMinusOne.AddRange(stairs[(i + 1)..]);
-                if (AreStrairsSafe(stairsMinusOne))
-                    return true;
-            }
-
-            return false;
-        }
-
-        bool AreStrairsSafe(List<int> stairs)
-        {
-            var previous = stairs[0];
-            var sign = Math.Sign(stairs[1] - stairs[0]);
-
-            for (var index = 1; index < stairs.Count; index++)
-            {
-                var stair = stairs[index];
-
-                var abs = Math.Abs(stair - previous);
-                var localSign = Math.Sign(stair - previous);
-
-                if (abs > 3 || abs < 1 || localSign != sign) return false;
-                previous = stair;
-            }
-
-            return true;
-        }
+        return PairSum;
     }
 
-    public List<List<int>> Safe { get; } = new();
-    public List<List<int>> Unsafe { get; } = new();
+    private static bool D1Test(long i)
+    {
+        var s = i.ToString();
+        if (s.Length % 2 != 0)
+        {
+            return false;
+        }
+        var h = s.Length / 2;
+
+        return s.Substring(0, h) == s.Substring(h);
+    }
+
+    private static bool D2Test(long i)
+    {
+        var s = i.ToString();
+
+        for (var l = 1; l <= s.Length / 2; l++)
+        {
+            if(s.Length % l != 0)
+                continue;
+
+            var h = s.Chunk(l).ToArray();
+
+            if (h.Length >1
+                && h.All(chunk =>
+                    chunk.Select((c,i) => c == h[0][i]).All(b => b)))
+                return true;
+        }
+
+        return false;
+    }
 }

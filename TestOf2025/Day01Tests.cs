@@ -38,6 +38,6 @@ public class Day01Tests
     public void Real2()
     {
         var d1 = new Day01("Day01".ReadRealLines());
-        Assert.That(d1.Part2(), Is.EqualTo(1929));
+        Assert.That(d1.Part2(), Is.EqualTo(6616));
     }
 }
