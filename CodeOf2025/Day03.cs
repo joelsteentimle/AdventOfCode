@@ -4,49 +4,40 @@ namespace AoC2025;
 
 public class Day03(List<string> input)
 {
-    private readonly string theLine = input.First();
+    private int[][] BatterPacks = input.Select(line => line.Select(c => int.Parse(c.ToString())).ToArray()).ToArray();
 
-    public int GetProductSum()
+    public long Part1() => Batteries(2);
+    public long Part2() => Batteries(12);
+
+    private long Batteries(int n)
     {
-        var sum = 0;
-        var pattern = @"mul\(\d{1,3},\d{1,3}\)";
-        var regex = new Regex(pattern);
-        var matches = regex.Matches(theLine);
+        var sum = 0L;
 
-        foreach (Match match in matches)
+        foreach (var batteryPack in BatterPacks)
         {
-            var numbers = NumbersForMatch(match);
+            var lastIndex = -1;
+            var packSum = 0L;
 
-            sum += numbers[0] * numbers[1];
+            for (var p = n - 1; p >= 0; p--)
+            {
+                var maxIndex = lastIndex + 1;
+                var maxBatery = batteryPack[maxIndex];
+
+                for (var i = lastIndex +1; i < batteryPack.Length - p; i++)
+                {
+                    if (batteryPack[i] > maxBatery)
+                    {
+                        maxIndex = i;
+                        maxBatery = batteryPack[i];
+                    }
+                }
+                lastIndex = maxIndex;
+                packSum += batteryPack[maxIndex] * (long)Math.Pow(10, p);
+            }
+
+            sum += packSum;
         }
 
         return sum;
     }
-
-    public int GetProducSumWhenDo()
-    {
-        var sum = 0;
-        var pattern = @"(mul\(\d{1,3},\d{1,3}\))|don't\(\)|do\(\)";
-        var regex = new Regex(pattern);
-        var matches = regex.Matches(theLine);
-        var shuoldDo = true;
-
-        foreach (Match match in matches)
-            if (match.Value == "don't()")
-                shuoldDo = false;
-            else if (match.Value == "do()")
-                shuoldDo = true;
-            else if (shuoldDo)
-            {
-                var numbers = NumbersForMatch(match);
-                sum += numbers[0] * numbers[1];
-            }
-
-        return sum;
-    }
-
-    private static List<int> NumbersForMatch(Match match) =>
-        match.Value[4..^1].Split(',', StringSplitOptions.RemoveEmptyEntries)
-            .Select(int.Parse)
-            .ToList();
 }

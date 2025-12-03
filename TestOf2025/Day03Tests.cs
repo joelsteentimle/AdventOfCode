@@ -9,27 +9,27 @@ public class Day03Tests
     public void Test1()
     {
         var d3 = new Day03("Day03".ReadTestLines());
-        Assert.That(d3.GetProductSum(), Is.EqualTo(161));
+        Assert.That(d3.Part1(), Is.EqualTo(357));
     }
 
     [Test]
     public void Real1()
     {
         var d3 = new Day03("Day03".ReadRealLines());
-        Assert.That(d3.GetProductSum(), Is.EqualTo(173785482));
+        Assert.That(d3.Part1(), Is.EqualTo(17155));
     }
 
     [Test]
     public void Test2()
     {
-        var d3 = new Day03("Day03".ReadTestLines("2"));
-        Assert.That(d3.GetProducSumWhenDo(), Is.EqualTo(48));
+        var d3 = new Day03("Day03".ReadTestLines());
+        Assert.That(d3.Part2(), Is.EqualTo(3121910778619));
     }
 
     [Test]
     public void Real2()
     {
         var d3 = new Day03("Day03".ReadRealLines());
-        Assert.That(d3.GetProducSumWhenDo(), Is.EqualTo(83158140));
+        Assert.That(d3.Part2(), Is.EqualTo(83158140));
     }
 }
