@@ -30,6 +30,6 @@ public class Day03Tests
     public void Real2()
     {
         var d3 = new Day03("Day03".ReadRealLines());
-        Assert.That(d3.Part2(), Is.EqualTo(83158140));
+        Assert.That(d3.Part2(), Is.EqualTo(169685670469164));
     }
 }
