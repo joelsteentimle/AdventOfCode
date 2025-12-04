@@ -8,28 +8,28 @@ public class Day04Tests
     [Test]
     public void Test1()
     {
-        var d3 = new Day04("Day04".ReadTestLines());
-        Assert.That(d3.CountAll("XMAS".ToCharArray().ToList()), Is.EqualTo(18));
+        var d4 = new Day04("Day04".ReadTestLines());
+        Assert.That(d4.Part1(), Is.EqualTo(13));
     }
 
     [Test]
     public void Real1()
     {
-        var d3 = new Day04("Day04".ReadRealLines());
-        Assert.That(d3.CountAll("XMAS".ToCharArray().ToList()), Is.EqualTo(2662));
+        var d4 = new Day04("Day04".ReadRealLines());
+        Assert.That(d4.Part1(), Is.EqualTo(1569));
     }
 
     [Test]
     public void Test2()
     {
-        var d3 = new Day04("Day04".ReadTestLines());
-        Assert.That(d3.XCountAll(), Is.EqualTo(9));
+        var d4 = new Day04("Day04".ReadTestLines());
+        Assert.That(d4.Part2(), Is.EqualTo(43));
     }
 
     [Test]
     public void Real2()
     {
-        var d3 = new Day04("Day04".ReadRealLines());
-        Assert.That(d3.XCountAll(), Is.EqualTo(2034));
+        var d4 = new Day04("Day04".ReadRealLines());
+        Assert.That(d4.Part2(), Is.EqualTo(9280));
     }
 }
