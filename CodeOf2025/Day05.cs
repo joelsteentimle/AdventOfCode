@@ -4,8 +4,8 @@ public class Day05
 {
     private record Range(long First, long Second);
 
-    private readonly List<Range> FreshRanges = new();
-    private readonly List<long> Ingridience = [];
+    private readonly List<Range> FreshRanges = [];
+    private readonly List<long> Ingridience;
 
     public Day05(List<string> input)
     {
@@ -16,13 +16,13 @@ public class Day05
 
         foreach (var range in freshRanges)
         {
-            var fs  = range.Split('-', StringSplitOptions.RemoveEmptyEntries).Select(long.Parse).ToArray();
+            var fs = range.Split('-', StringSplitOptions.RemoveEmptyEntries).Select(long.Parse).ToArray();
             FreshRanges.Add(new(fs[0], fs[1]));
         }
     }
 
     public long Part1()
-        => Ingridience.Where(i => FreshRanges.Any(r => i >= r.First && i <= r.Second)).Count();
+        => Ingridience.Count(i => FreshRanges.Any(r => i >= r.First && i <= r.Second));
 
     public long Part2()
     {
@@ -58,5 +58,6 @@ public class Day05
         (s.Second >= f.First && s.Second <= f.Second) ||
         (s.First >= f.First && s.First <= f.Second);
 
-    private static Range JoinRanges(Range  f, Range s) => new (Math.Min(f.First, s.First), Math.Max(f.Second,s.Second));
+    private static Range JoinRanges(Range  f, Range s) =>
+        new (Math.Min(f.First, s.First), Math.Max(f.Second,s.Second));
 }
