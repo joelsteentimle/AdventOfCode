@@ -26,6 +26,7 @@ public class Day04Tests
         Assert.That(d4.Part2(), Is.EqualTo(43));
     }
 
+    // was 23 - 40ms
     [Test]
     public void Real2()
     {

@@ -30,6 +30,6 @@ public class Day05Tests
     public void Real2()
     {
         var d5 = new Day05("Day05".ReadRealLines());
-        Assert.That(d5.Part2(), Is.EqualTo(6336));
+        Assert.That(d5.Part2(), Is.EqualTo(347338785050515));
     }
 }

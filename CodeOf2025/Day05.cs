@@ -24,12 +24,39 @@ public class Day05
     public long Part1()
         => Ingridience.Count(i => FreshRanges.Any(r => i >= r.First && i <= r.Second));
 
+
+    // public long Part2()
+    // {
+    //     var sum = 0L;
+    //
+    //     var rangeArray = FreshRanges.OrderBy(r => r.First).ToArray();
+    //
+    //     for (var i = 0; i< rangeArray.Length; i++ )
+    //     {
+    //         var current = rangeArray[i];
+    //
+    //         for (var j = i + 1; j < rangeArray.Length; j++)
+    //         {
+    //             if (Overlaps(current, rangeArray[j]))
+    //                 current = JoinRanges(current, rangeArray[j]);
+    //             else
+    //             {
+    //                 i = j-1;
+    //                 break;
+    //             }
+    //         }
+    //         sum += current.Second - current.First + 1;
+    //     }
+    //
+    //     return sum;
+    //
+    // }
+
+
     public long Part2()
     {
         var jointRanges = FreshRanges.ToList();
-
         while (JoinAny(jointRanges)) ;
-
         return jointRanges.Sum(jr => jr.Second - jr.First + 1);
     }
 

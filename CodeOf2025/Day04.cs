@@ -37,6 +37,28 @@ public class Day04
     {
         var liftable = 0;
 
+        var toTest = new HashSet<(int y, int x)>();
+
+        for (var y = 0; y < MaxY; y++)
+        for (var x = 0; x < MaxX; x++)
+            if (Grid[y, x] == '@') toTest.Add((y, x));
+
+        // while (toTest.Count > 0)
+        // {
+        //   var testBoulder = toTest.First();
+        //   toTest.Remove(testBoulder);
+        //
+        //   if (CanLift(testBoulder.y, testBoulder.x))
+        //   {
+        //       liftable++;
+        //       Grid[testBoulder.y, testBoulder.x] = '.';
+        //       foreach (var (dy, dx) in AllDirections)
+        //           if (IsBlocked(testBoulder.y + dy,testBoulder. x + dx))
+        //               toTest.Add((testBoulder.y + dy, testBoulder.x + dx));
+        //
+        //   }
+        // }
+
         bool didLift;
         do
         {
@@ -67,16 +89,11 @@ public class Day04
         return neigbourghBlocked < 4;
     }
 
-    private bool IsBlocked(int y, int x)
-    {
-        if( y >=  MaxY || y <0)
-            return false;
+    private bool IsBlocked(int y, int x) =>
+        IsInOfBounds(y, x) && Grid[y, x] == '@';
 
-        if( x >=  MaxY || x <0)
-            return false;
-
-        return Grid[y, x] == '@';
-    }
+    private bool IsInOfBounds(int y, int x) =>
+        y < MaxY && y >= 0 && x < MaxY && x >= 0;
 
     private List<(int y, int x)> AllDirections =>
     [
@@ -89,80 +106,4 @@ public class Day04
         (0, 1),
         (-1, 1)
     ];
-
-    //
-    //
-    // public int CountAll(List<char> letters)
-    // {
-    //     var sum = 0;
-    //     for (var y = 0; y < Grid.GetLength(0); y++)
-    //     for (var x = 0; x < Grid.GetLength(1); x++)
-    //         sum += CountWords((y, x), letters);
-    //
-    //     return sum;
-    // }
-    //
-    // private int CountWords((int y, int x) startPosition, List<char> letters)
-    // {
-    //     var localSum = 0;
-    //     var (y, x) = startPosition;
-    //     if (Grid[y, x] == letters[0])
-    //         foreach (var direction in AllDirections)
-    //             if (WordMatch(startPosition, direction, letters[1..]))
-    //                 localSum++;
-    //
-    //     return localSum;
-    // }
-    //
-    // private bool WordMatch((int y, int x) position, (int dy, int dx) direction, List<char> letters)
-    // {
-    //     if (letters.Count == 0)
-    //         return true;
-    //
-    //     var (y, x) = position;
-    //     var (dy, dx) = direction;
-    //     (int y, int x) nextPosition = (y + dy, x + dx);
-    //
-    //     if (IsOutOfBounds(nextPosition) ||
-    //         Grid[nextPosition.y, nextPosition.x] != letters[0])
-    //         return false;
-    //
-    //     return WordMatch(nextPosition, direction, letters[1..]);
-    // }
-    //
-    // private bool IsOutOfBounds((int y, int x) nextPosition)
-    //     => nextPosition.y < 0
-    //        || nextPosition.y >= MaxY
-    //        || nextPosition.x < 0
-    //        || nextPosition.x >= MaxX;
-    //
-    // public int XCountAll()
-    // {
-    //     var sum = 0;
-    //     for (var y = 0; y < Grid.GetLength(0); y++)
-    //     for (var x = 0; x < Grid.GetLength(1); x++)
-    //         if (IsXmas((y, x)))
-    //             sum++;
-    //
-    //     return sum;
-    // }
-    //
-    // private bool IsXmas((int y, int x) position)
-    // {
-    //     var (y, x) = position;
-    //
-    //     if (Grid[y, x] != 'A' ||
-    //         y - 1 < 0 || y + 1 >= MaxY ||
-    //         x - 1 < 0 || x + 1 >= MaxX)
-    //         return false;
-    //
-    //     var oneLeg = new HashSet<char> { Grid[y - 1, x - 1], Grid[y + 1, x + 1] };
-    //     var otherLeg = new HashSet<char> { Grid[y + 1, x - 1], Grid[y - 1, x + 1] };
-    //
-    //     if (oneLeg.Contains('M') && oneLeg.Contains('S') &&
-    //         otherLeg.Contains('M') && otherLeg.Contains('S'))
-    //         return true;
-    //
-    //     return false;
-    // }
 }
