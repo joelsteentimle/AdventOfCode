@@ -2,96 +2,61 @@
 
 public class Day05
 {
-    private readonly List<List<int>> Prints = new();
+    private record Range(long First, long Second);
 
-    private readonly Dictionary<int, List<int>> Rules = new();
+    private readonly List<Range> FreshRanges = new();
+    private readonly List<long> Ingridience = [];
 
     public Day05(List<string> input)
     {
-        var rulesText = input.TakeWhile(s => !string.IsNullOrWhiteSpace(s)).ToList();
-        var printTexts = input.Skip(rulesText.Count + 1).ToList();
+        var freshRanges = input.TakeWhile(s => !string.IsNullOrWhiteSpace(s)).ToList();
+        Ingridience = input.Skip(freshRanges.Count + 1)
+            .Select(long.Parse)
+            .ToList();
 
-        foreach (var rule in rulesText)
+        foreach (var range in freshRanges)
         {
-            var sepRules = rule.Split('|', StringSplitOptions.RemoveEmptyEntries).ToList();
+            var fs  = range.Split('-', StringSplitOptions.RemoveEmptyEntries).Select(long.Parse).ToArray();
+            FreshRanges.Add(new(fs[0], fs[1]));
+        }
+    }
 
-            List<int> currentRule;
+    public long Part1()
+        => Ingridience.Where(i => FreshRanges.Any(r => i >= r.First && i <= r.Second)).Count();
 
-            if (!Rules.TryGetValue(int.Parse(sepRules[1]), out currentRule))
+    public long Part2()
+    {
+        var jointRanges = FreshRanges.ToList();
+
+        while (JoinAny(jointRanges)) ;
+
+        return jointRanges.Sum(jr => jr.Second - jr.First + 1);
+    }
+
+    private bool JoinAny(List<Range> jointRanges)
+    {
+        for (var i = 0; i< jointRanges.Count; i++)
+        for (var j = i+1; j < jointRanges.Count; j++)
+        {
+            var ir = jointRanges[i];
+            var jr = jointRanges[j];
+            if (Overlaps(ir, jr))
             {
-                currentRule = new List<int>();
-                Rules[int.Parse(sepRules[1])] = currentRule;
+                jointRanges.RemoveAt(j);
+                jointRanges.RemoveAt(i);
+                jointRanges.Add(JoinRanges(ir,jr ));
+                return true;
             }
-
-            currentRule.Add(int.Parse(sepRules[0]));
         }
 
-        foreach (var printText in printTexts)
-        {
-            var pages = printText.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
-            Prints.Add(pages);
-        }
+        return false;
     }
 
-    public int MidPagesAfterFixingOutOfOrder()
-    {
-        var incorrect = Prints.Where(p => !IsPrintCorrect(p)).ToList();
+    private static bool Overlaps(Range f, Range s) =>
+        (f.Second >= s.First && f.Second <= s.Second) ||
+        (f.First >= s.First && f.First <= s.Second) ||
+        (s.Second >= f.First && s.Second <= f.Second) ||
+        (s.First >= f.First && s.First <= f.Second);
 
-        var sum = 0;
-        foreach (var print in incorrect)
-        {
-            while (!OrderToCorrect(print)) ;
-
-            sum += print[print.Count / 2];
-        }
-
-        return sum;
-    }
-
-    public bool OrderToCorrect(List<int> pages)
-    {
-        var swapToPage = new Dictionary<int, int>();
-
-        for (var i = 0; i < pages.Count; i++)
-        {
-            var pageNumber = pages[i];
-            if (swapToPage.TryGetValue(pageNumber, out var indexToSwapTo))
-            {
-                pages[i] = pages[indexToSwapTo];
-                pages[indexToSwapTo] = pageNumber;
-                return false;
-            }
-
-            if (Rules.TryGetValue(pages[i], out var newPages))
-                foreach (var notAllowedpage in newPages)
-                    swapToPage[notAllowedpage] = i;
-        }
-
-        return true;
-    }
-
-    public bool IsPrintCorrect(List<int> pages)
-    {
-        var notAllowed = new HashSet<int>();
-        foreach (var page in pages)
-        {
-            if (notAllowed.Contains(page))
-                return false;
-
-            if (Rules.TryGetValue(page, out var newPages))
-                foreach (var notAllowedpage in newPages)
-                    notAllowed.Add(notAllowedpage);
-        }
-
-        return true;
-    }
-
-    public int MidPageSumOfAllowed()
-    {
-        var correctPrints = Prints.Where(IsPrintCorrect).ToList();
-
-        var sum = 0;
-        foreach (var correctPrint in correctPrints) sum += correctPrint[correctPrint.Count / 2];
-        return sum;
-    }
+    private static Range JoinRanges(Range  f, Range s) => new (Math.Min(f.First, s.First), Math.Max(f.Second,s.Second));
 }
