@@ -2,57 +2,60 @@ namespace AoC2025;
 
 public class Day07
 {
-    private readonly List<List<long>> numberLines = [];
+    private readonly char[,] Field;
+    private readonly long[,] WaysHere;
 
     public Day07(List<string> input)
     {
-        foreach (var equation in input)
+        Field = new char[input.Count, input[0].Length];
+        WaysHere = new long[input.Count, input[0].Length];
+        for (var y = 0; y < input.Count; y++)
+        for (var x = 0; x < input[y].Length; x++)
         {
-            var numbers = equation
-                .Replace(":", "")
-                .Split(' ')
-                .Select(long.Parse)
-                .ToList();
-
-            numberLines.Add(numbers);
-        }
-    }
-
-    public long SumThatCan(bool withConcat = false)
-    {
-        var sum = 0L;
-        foreach (var numbers in numberLines)
-        {
-            var targetSum = numbers[0];
-            var parts = numbers[2..];
-
-            HashSet<long> currentNums = [numbers[1]];
-
-            foreach (var num in parts)
+            WaysHere[y, x] = 0;
+            Field[y, x] = input[y][x];
+            if (Field[y, x] == 'S')
             {
-                var currentNumList = currentNums.ToList();
-                currentNums = [];
-                foreach (var prev in currentNumList)
+                Field[y, x] = '|';
+                WaysHere[y, x]++;
+            }
+        }
+
+        for (var y = 0; y < Field.GetLength(0) - 1; y++)
+        for (var x = 0; x < Field.GetLength(1); x++)
+            if (Field[y, x] == '|')
+            {
+                if (Field[y + 1, x] == '^')
                 {
-                    var adds = prev + num;
-                    if (adds <= targetSum)
-                        currentNums.Add(adds);
+                    Field[y + 1, x - 1] = '|';
+                    WaysHere[y + 1, x - 1] += WaysHere[y, x];
 
-                    var muls = prev * num;
-                    if (muls <= targetSum)
-                        currentNums.Add(muls);
-
-                    if (withConcat &&
-                        long.TryParse($"{prev}{num}", out var concat)
-                        && concat <= targetSum)
-                        currentNums.Add(concat);
+                    Field[y + 1, x + 1] = '|';
+                    WaysHere[y + 1, x + 1] += WaysHere[y, x];
+                    splits++;
+                }
+                else
+                {
+                    Field[y + 1, x] = '|';
+                    WaysHere[y + 1, x] += WaysHere[y, x];
                 }
             }
+    }
 
-            if (currentNums.Contains(targetSum))
-                sum += targetSum;
+
+    private readonly int splits;
+
+    public long Part1() => splits;
+
+
+    public long Part2()
+    {
+        long totalWays = 0;
+        for(var x=0; x< Field.GetLength(1); x++)
+        {
+           totalWays+=WaysHere[Field.GetLength(0)-1,x];
         }
 
-        return sum;
+        return totalWays;
     }
 }
