@@ -16,7 +16,7 @@ public class Day06Tests
     public void Real1()
     {
         var d6 = new Day06("Day06".ReadRealLines());
-        Assert.That(d6.Part1(), Is.EqualTo(57806013989));
+        Assert.That(d6.Part1(), Is.EqualTo(5873191732773));
     }
 
     [Test]
