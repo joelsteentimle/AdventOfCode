@@ -19,24 +19,32 @@
 	
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingMode/@EntryValue">OnlyMarkers</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7cd27f74_002D4e47_002D4c7e_002Da670_002D6aadebc08c67/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Day05Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;And&gt;
-      &lt;TestAncestor&gt;
-        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day05Tests&lt;/TestId&gt;
-        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day07Tests.Test1&lt;/TestId&gt;
-      &lt;/TestAncestor&gt;
-      &lt;Not&gt;
+  &lt;And&gt;
+    &lt;Or&gt;
+      &lt;And&gt;
         &lt;TestAncestor&gt;
           &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day05Tests&lt;/TestId&gt;
+          &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day07Tests.Test1&lt;/TestId&gt;
         &lt;/TestAncestor&gt;
-      &lt;/Not&gt;
-    &lt;/And&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day07Tests.Real1&lt;/TestId&gt;
-      &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day07Tests.Test2&lt;/TestId&gt;
-      &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day07Tests.Real2&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-  &lt;/Or&gt;
+        &lt;Not&gt;
+          &lt;TestAncestor&gt;
+            &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day05Tests&lt;/TestId&gt;
+          &lt;/TestAncestor&gt;
+        &lt;/Not&gt;
+      &lt;/And&gt;
+      &lt;TestAncestor&gt;
+        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day07Tests.Real1&lt;/TestId&gt;
+        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day07Tests.Test2&lt;/TestId&gt;
+        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day07Tests.Real2&lt;/TestId&gt;
+        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day06Tests&lt;/TestId&gt;
+      &lt;/TestAncestor&gt;
+    &lt;/Or&gt;
+    &lt;Not&gt;
+      &lt;TestAncestor&gt;
+        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day07Tests&lt;/TestId&gt;
+      &lt;/TestAncestor&gt;
+    &lt;/Not&gt;
+  &lt;/And&gt;
 &lt;/SessionState&gt;</s:String>
 	
 	
