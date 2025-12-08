@@ -48,12 +48,6 @@ public class Day06(List<string> input)
     public long Part2()
     {
         var signs = input[^1].Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-        //
-        // var flipped = new List<StringBuilder>(input.Count);
-        //
-        // for (var i = 0; i < flipped.Count; i++)
-        //     flipped[i] = new StringBuilder();
-
         var signindex = 0;
 
         var currentValue =

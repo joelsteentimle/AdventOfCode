@@ -2,92 +2,53 @@ namespace AoC2025;
 
 public class Day08
 {
-    private readonly Dictionary<char, List<(int y, int x)>> antennas = [];
-    private readonly HashSet<(int y, int x)> antinodes = [];
-    private readonly int MaxX;
-    private readonly int MaxY;
-    private bool ResFix;
+    private record P3D(int x, int y, int z)
+    {
+        public float Distance(P3D other) =>
+            MathF.Sqrt(MathF.Pow(x - other.x, 2) + MathF.Pow(y - other.y, 2) + MathF.Pow(z - other.z, 2));
+    }
+
+    private List<P3D> boxes = [];
+
 
     public Day08(List<string> input)
     {
-        MaxY = input.Count;
-        MaxX = input[0].Length;
+        boxes = input.Select(l => new
+            P3D(int.Parse(l.Split(',')[0]),
+            int.Parse(l.Split(',')[1]),
+            int.Parse(l.Split(',')[2]))).ToList();
 
-        for (var y = 0; y < input.Count; y++)
-        {
-            var line = input[y];
-            for (var x = 0; x < line.Length; x++)
-            {
-                var maybeeAntenna = line[x];
-                if (maybeeAntenna != '.')
-                {
-                    if (antennas.TryGetValue(maybeeAntenna, out var locations))
-                        locations.Add((y, x));
-                    else
-                        antennas[maybeeAntenna] = [(y, x)];
-                }
-            }
-        }
     }
 
-    public int CountAntiNodes(bool resoning = false)
+    private record NodeDistance(float distance, int n1i, int n2i);
+
+    public long NodeThreeProduct(int numberOfPairs)
     {
-        ResFix = resoning;
-        foreach (var antennaPositions in antennas.Values.Where(a => a.Count > 1))
-            for (var i = 0; i < antennaPositions.Count; i++)
-                foreach (var otherPosition in antennaPositions[(i + 1)..])
-                {
-                    var antiPositions = GetAntiNodes(antennaPositions[i], otherPosition);
-                    foreach (var antiPosition in antiPositions) antinodes.Add(antiPosition);
-                }
+        Dictionary<int, int> connectedToCluster = [];
 
-        return antinodes.Count;
-    }
+        List<NodeDistance> orderedDistances = FillDistances();
 
-    private List<(int y, int x)> GetAntiNodes((int y, int x) position, (int y, int x) otherPosition)
-    {
-        List<(int y, int x)> ret = [];
-        (int y, int x) diff = (position.y - otherPosition.y, position.x - otherPosition.x);
-
-        if (!ResFix)
+        for (var i = 0; i < numberOfPairs; i++)
         {
-            // A(1,1) - B(0,0) = B -> A
-            var oneAntinode = (otherPosition.y - diff.y, otherPosition.x - diff.x);
-            var othenAntiNode = (position.y + diff.y, position.x + diff.x);
-            if (!IsOutOfBound(oneAntinode))
-                ret.Add(oneAntinode);
-            if (!IsOutOfBound(othenAntiNode))
-                ret.Add(othenAntiNode);
-        }
-        else
-        {
-            var repeats = 1;
-            var testPos = (position.y, position.x);
-            while (!IsOutOfBound(testPos))
-            {
-                ret.Add(testPos);
-                testPos = (testPos.y - diff.y, testPos.x - diff.x);
-            }
+            var (distance, n1i, n2i) = orderedDistances[i];
 
-            testPos = (position.y, position.x);
-            while (!IsOutOfBound(testPos))
-            {
-                ret.Add(testPos);
-                testPos = (testPos.y + diff.y, testPos.x + diff.x);
-            }
+            // custerNumber
+
+            connectedToCluster[n1i] = n2i;
+
         }
 
 
-        return ret;
+        return 0;
     }
 
-    private bool IsOutOfBound((int, int ) position)
+    private List<NodeDistance> FillDistances()
     {
-        var (y, x) = position;
-        if (y < 0 || y >= MaxY)
-            return true;
-        if (x < 0 || x >= MaxX)
-            return true;
-        return false;
+        var unsorted = new List<NodeDistance>();
+        for (var i = 0; i < boxes.Count; i++)
+        for (var j = i + 1; j < boxes.Count; j++)
+            unsorted.Add(new(boxes[i].Distance(boxes[j]), i, j));
+
+        return unsorted.OrderBy(nd => nd.distance).ToList();
     }
 }
