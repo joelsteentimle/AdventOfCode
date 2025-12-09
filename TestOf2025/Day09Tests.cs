@@ -9,14 +9,14 @@ public class Day09Tests
     public void Test1()
     {
         var d09 = new Day09("Day09".ReadTestLines());
-        Assert.That(d09.UncompressAndSum(), Is.EqualTo(1928));
+        Assert.That(d09.Part1(), Is.EqualTo(50));
     }
 
     [Test]
     public void Real1()
     {
         var d09 = new Day09("Day09".ReadRealLines());
-        Assert.That(d09.UncompressAndSum(), Is.EqualTo(6435922584968));
+        Assert.That(d09.Part1(), Is.EqualTo(2147482728));
     }
 
 
@@ -24,13 +24,13 @@ public class Day09Tests
     public void Test2()
     {
         var d09 = new Day09("Day09".ReadTestLines());
-        Assert.That(d09.OtherUncompress(), Is.EqualTo(2858));
+        Assert.That(d09.Part2(), Is.EqualTo(2858));
     }
 
     [Test]
     public void Real2()
     {
         var d09 = new Day09("Day09".ReadRealLines());
-        Assert.That(d09.OtherUncompress(), Is.EqualTo(6469636832766));
+        Assert.That(d09.Part2(), Is.EqualTo(6469636832766));
     }
 }
