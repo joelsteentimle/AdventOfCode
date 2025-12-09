@@ -25,19 +25,47 @@ public class Day08
     public long NodeThreeProduct(int numberOfPairs)
     {
         Dictionary<int, int> connectedToCluster = [];
+        Dictionary<int, HashSet<int>>  clusterContains  = [];
 
-        List<NodeDistance> orderedDistances = FillDistances();
+        var orderedDistances = FillDistances();
+         var index = 0;
 
-        for (var i = 0; i < numberOfPairs; i++)
+        for (var pairs = 0; pairs < numberOfPairs; index++)
         {
-            var (distance, n1i, n2i) = orderedDistances[i];
+            var (_, n1i, n2i) = orderedDistances[index];
+            int? c1 = null;
+            int? c2 = null;
 
-            // custerNumber
+            if(connectedToCluster.TryGetValue(n1i, out var n1C))
+               c1 = n1C;
+            if (connectedToCluster.TryGetValue(n2i, out var n2C))
+                c2 = n2C;
+
+            if (c1.HasValue && c2.HasValue && c1.Value == c2.Value)
+                continue;
+
+            if (c1.HasValue)
+            {
+                if (c2.HasValue)
+                {
+                    foreach (var i in clusterContains[c2.Value])
+                    {
+                        connectedToCluster[i] = c1.Value;
+                        clusterContains[c1.Value].Add(i);
+                    }
+                }
+                connectedToCluster[n2i] = c1.Value;
+                clusterContains[c1.Value].Add(n2i);
+            }else
+            {
+                connectedToCluster[n1i] = c2.Value;
+                clusterContains[c2.Value].Add(n1i);
+            }
+            pairs++;
 
             connectedToCluster[n1i] = n2i;
 
         }
-
 
         return 0;
     }
