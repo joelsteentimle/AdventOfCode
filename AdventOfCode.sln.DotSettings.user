@@ -105,6 +105,14 @@
     &lt;/TestAncestor&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f864530b_002D650e_002D46fc_002Db46c_002D978d03f024e0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Real1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Real1&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Test1&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Test2&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Real2&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	
 	
 	
