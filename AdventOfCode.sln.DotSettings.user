@@ -46,7 +46,7 @@
     &lt;/Not&gt;&#xD;
   &lt;/And&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d37cec44_002Dc227_002D49f9_002D9594_002D4ed476d1e4d2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test2Steps" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d37cec44_002Dc227_002D49f9_002D9594_002D4ed476d1e4d2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test2Steps" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Or&gt;&#xD;
     &lt;And&gt;&#xD;
       &lt;Or&gt;&#xD;
@@ -105,13 +105,13 @@
     &lt;/TestAncestor&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f864530b_002D650e_002D46fc_002Db46c_002D978d03f024e0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Real1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Real1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Test1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Test2&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Real2&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f864530b_002D650e_002D46fc_002Db46c_002D978d03f024e0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Real1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Real1&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Test1&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Test2&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Real2&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
 	
