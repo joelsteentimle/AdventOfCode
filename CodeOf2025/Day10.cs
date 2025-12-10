@@ -1,35 +1,39 @@
 namespace AoC2025;
 
-public class Day10
+public class Day10(List<string> allData)
 {
     private int[,] terrain;
 
-    public Day10(List<string> allData)
-    {
-        terrain = new int[allData.Count, allData[0].Length];
+    private record Config(bool[] lights, int[] switches, int[] cost )
 
-        for (int y = 0; y < allData.Count; y++)
-        {
-            for (int x = 0; x < allData[0].Length; x++)
-            {
-                terrain[y,x] = int.Parse(allData[y][x].ToString());
-            }
-        }
+    private Config[] configs = allData.Select(ReadConfigRow).ToArray();
+
+    private static Config ReadConfigRow(string text)
+    {
+        var lights = text[1..].TakeWhile(c  => c!= ']')
+            .Select(c => c == '#').ToArray();
+
+        var switches = text.SkipWhile(c => c != ' ')
+            .TakeWhile(c => c != '{')
+            .ToString()
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            [1..^1]
+            .ToString()
+            .Split(',',StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(int.Parse).ToArray();
+
+        var costs = text.SkipWhile(c => c != '{')
+            .ToString()[1..^1]
+            .Split(',',StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries )
+            .Select(int.Parse).ToArray();
+        return new(lights, switches, costs);
     }
+
 
     public int Part1()
     {
-        var sum = 0;
-        for (int startY = 0; startY < terrain.GetLength(0); startY++)
-        {
-            for (int startX = 0; startX < terrain.GetLength(1); startX++)
-            {
-                if (terrain[startY, startX] == 0)
-                    sum += new TrainHead(startY, startX, terrain).ReachableNines();
-            }
-        }
 
-        return sum;
+        
     }
 
     private class TrainHead

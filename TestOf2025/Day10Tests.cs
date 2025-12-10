@@ -9,7 +9,7 @@ public class Day10Tests
     public void Test1()
     {
         var d10 = new Day10("Day10".ReadTestLines());
-        Assert.That(d10.Part1(), Is.EqualTo(36));
+        Assert.That(d10.Part1(), Is.EqualTo(7));
     }
 
     [Test]
