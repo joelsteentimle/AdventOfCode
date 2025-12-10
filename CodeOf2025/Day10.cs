@@ -4,60 +4,183 @@ namespace AoC2025;
 
 public class Day10(List<string> allData)
 {
-    // private int[,] terrain;
 
-    private record Flipper(int pattern, int cost);
-
-    private record Config(int lights, Flipper[] flips);
+    private record Config(int targetLights, int numberOfLights, int[] bitFlips, int[][]positionFlips, int[] targetJolt);
 
     private Config[] configs = allData.Select(ReadConfigRow).ToArray();
 
     private static Config ReadConfigRow(string text)
     {
         var lights = text[1..].TakeWhile(c => c != ']').ToArray();
-        int targetLight = 0;
-        List<Flipper> flipps = [];
+        var targetLight = 0;
+        List<int> bitFlipps = [];
+        List<int[]> posFlips = [];
 
-        for (var i = 0; 0 < lights.Length; i++)
+        for (var i = 0; i < lights.Length; i++)
             if (lights[i] == '#')
-                targetLight |= 2 ^ i;
+                targetLight |= ((int)Math.Pow(2, i));
 
-        var switchStrings = text.SkipWhile(c => c != ' ')
+        var switchStrings =
+            new string(text.SkipWhile(c => c != ' ')
             .TakeWhile(c => c != '{')
-            .ToString()
+            .ToArray())
             .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-        var costs = text.SkipWhile(c => c != '{')
-            .TakeWhile(c => c != '}')
-            .ToString()
-            ?.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .Select(int.Parse).ToArray();
-        
+
+
         for(var i =0; i< switchStrings.Length; i++)
         {
-            var sw = 0;
+            var bitFlip = 0;
             var switchPositions = switchStrings[i][1..^1]
                 .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                 .Select(int.Parse).ToArray();
 
             foreach (var switchPosition in switchPositions)
-                sw |= 2 ^ switchPosition;
+            {
+                bitFlip |= ((int)Math.Pow(2, switchPosition));
+            }
 
-            flipps.Add(new(sw, costs[i]));
+            posFlips.Add(switchPositions);
+            bitFlipps.Add(bitFlip);
         }
 
+        var costs =
+            new string(
+                    text.SkipWhile(c => c != '{')
+                        .TakeWhile(c => c != '}')
+                        .ToArray()
+                )[1..]
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(int.Parse).ToArray();
 
-        return new(targetLight, flipps.ToArray());
+        return new(targetLight, lights.Length, bitFlipps.ToArray(), posFlips.ToArray(), costs);
     }
 
 
     public int Part1()
     {
-        return 10;
+        var totalCost = 0;
+        foreach (var config in configs)
+        {
+            totalCost += CostFlipToTarget(config);
+        }
+
+        return totalCost;
+    }
+
+    private int CostFlipToTarget(Config config)
+    {
+        var costDict =  new Dictionary<int, HashSet<int>>();
+        var visitedPatterns = new HashSet<int>();
+        costDict[0] = [0 ];
+
+        for(var cost = 0; cost < 10000; cost++)
+        {
+            if (costDict.TryGetValue(cost, out var set))
+            {
+                if (set.Contains(config.targetLights))
+                    return cost;
+
+                foreach (var pattern in set)
+                {
+                    if(!costDict.TryGetValue(cost+1, out var nextCosts))
+                    {
+                        nextCosts = [];
+                        costDict[cost+1] = nextCosts;
+                    }
+
+                    if (!visitedPatterns.Contains(pattern)  )
+                    {
+                        visitedPatterns.Add(pattern);
+
+                        foreach (var newPattern in GetMutations(pattern, config))
+                        {
+                            nextCosts.Add(newPattern);
+                        }
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+
+
+    private IEnumerable<int> GetMutations(int pattern, Config config)
+    {
+        foreach (var flip in config.bitFlips)
+            yield return pattern ^ flip;
     }
 
     public int Part2()
     {
-        return 10;
+        var totalCost = 0;
+        foreach (var config in configs)
+        {
+            totalCost += CostAddToTarget(config);
+        }
+
+        return totalCost;
+    }
+
+
+    private int CostAddToTarget(Config config)
+    {
+        var costDict =  new Dictionary<int, HashSet<int[]>>();
+        var visitedPatterns = new HashSet<int[]>();
+
+        costDict[0] = [];
+
+        for(var cost = 0; cost < 10000; cost++)
+        {
+            if (costDict.TryGetValue(cost, out var set))
+            {
+                if (set.Contains(config.targetJolt))
+                    return cost;
+
+                foreach (var pattern in set)
+                {
+                    if(!costDict.TryGetValue(cost+1, out var nextCosts))
+                    {
+                        nextCosts = [];
+                        costDict[cost+1] = nextCosts;
+                    }
+
+                    var noOverCost = true;
+                    for (int i = 0; i < config.numberOfLights && noOverCost; i++)
+                        if(pattern[i] > config.targetJolt[i])
+                            noOverCost = false;
+
+                    if (!visitedPatterns.Contains(pattern) && noOverCost)
+                    {
+                        visitedPatterns.Add(pattern);
+
+                        foreach (var newPattern in GetMutationsCosts(pattern, config))
+                        {
+
+
+                            nextCosts.Add(newPattern);
+                        }
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+
+
+    private IEnumerable<int[]> GetMutationsCosts(int[] pattern, Config config)
+    {
+        foreach (var positions in config.positionFlips)
+        {
+            var newPattern = new int[pattern.Length];
+
+            for (int i = 0; i< newPattern.Length ; i++)
+            {
+                newPattern[i] = pattern[i] + (positions.Contains(i) ? 1 : 0);
+            }
+            yield return newPattern;
+        }
     }
 }

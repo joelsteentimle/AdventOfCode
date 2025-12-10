@@ -10,7 +10,9 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AList_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fjoel_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F1b81cb3be224213a6a73519b6e340a628d9a1fb8629c351a186a26f6376669_003FList_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AList_00601_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002Econfig_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fd62eb286436a45a6a9ba2df86a4c8444e28400_003Fb0_003F203b1727_003FList_00601_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AMonitor_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002Econfig_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fd62eb286436a45a6a9ba2df86a4c8444e28400_003Fb0_003Fb8717d90_003FMonitor_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ANumber_002EParsing_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fjoel_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003Fde8a243f75215d958afa80cf80a41b4981a44efea7db93bffcdaf7bd6ba378c0_003FNumber_002EParsing_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AThrowHelpers_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fjoel_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003Fbb2a94dce7ca55a596694df58d3ca91c6d9c9c9c9813775e4d1abd0f91dc59_003FThrowHelpers_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AThrowHelpers_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fjoel_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003F499997d4b5f06d22ed69e314f59ff5407f822562b6922c66cd6453405bb0229c_003FThrowHelpers_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValueTuple_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fjoel_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F39cb14863af59eed60d689c68e4b3aedc7eaa1e544187bc5a84933d314b719_003FValueTuple_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=8AB328D0_002D8C6A_002D4D34_002D9327_002D754B9544C0E0_002Ff_003AUnitTest1_002Ecs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">SUGGESTION</s:String>
@@ -106,12 +108,27 @@
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f864530b_002D650e_002D46fc_002Db46c_002D978d03f024e0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Real1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Real1&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Test1&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Test2&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Real2&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;And&gt;&#xD;
+      &lt;TestAncestor&gt;&#xD;
+        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Real1&lt;/TestId&gt;&#xD;
+        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Test1&lt;/TestId&gt;&#xD;
+        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Test2&lt;/TestId&gt;&#xD;
+        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests.Real2&lt;/TestId&gt;&#xD;
+        &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day10Tests.Test1&lt;/TestId&gt;&#xD;
+      &lt;/TestAncestor&gt;&#xD;
+      &lt;Not&gt;&#xD;
+        &lt;TestAncestor&gt;&#xD;
+          &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day09Tests&lt;/TestId&gt;&#xD;
+        &lt;/TestAncestor&gt;&#xD;
+      &lt;/Not&gt;&#xD;
+    &lt;/And&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day10Tests.Test1_1&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day10Tests.Real1&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::0827D04F-223D-4AF6-A5FC-B8A6B2C29EE7::net10.0::TestOf2025.Day10Tests.Test2&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
 	
