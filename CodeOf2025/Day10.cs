@@ -123,13 +123,37 @@ public class Day10(List<string> allData)
         return totalCost;
     }
 
+    private class IntArrComp : IEqualityComparer<int[]>
+    {
+        public bool Equals(int[]? x, int[]? y)
+        {
+            if (x is null && y is null)
+                return true;
+            if (x is null || y is null)
+                return false;
+            if (x.Length != y.Length)
+                return false;
+            return Enumerable.SequenceEqual(x, y);
+        }
+
+        public int GetHashCode(int[] obj)
+        {
+            if (obj is null)
+                return 0;
+            return obj.Aggregate(17, (a, b) => a ^ b);
+        }
+    }
+
 
     private int CostAddToTarget(Config config)
     {
+        var arrComp = new IntArrComp();
         var costDict =  new Dictionary<int, HashSet<int[]>>();
-        var visitedPatterns = new HashSet<int[]>();
+        var visitedPatterns = new HashSet<int[]>(comparer: arrComp);
 
-        costDict[0] = [];
+        var initialPatterns = new HashSet<int[]>(comparer: arrComp);
+        initialPatterns.Add(new int[config.numberOfLights]);
+        costDict[0] = initialPatterns;
 
         for(var cost = 0; cost < 10000; cost++)
         {
@@ -138,28 +162,24 @@ public class Day10(List<string> allData)
                 if (set.Contains(config.targetJolt))
                     return cost;
 
+                HashSet<int[]> nextCosts = new(comparer: arrComp);
+                costDict[cost + 1] = nextCosts;
+
                 foreach (var pattern in set)
                 {
-                    if(!costDict.TryGetValue(cost+1, out var nextCosts))
-                    {
-                        nextCosts = [];
-                        costDict[cost+1] = nextCosts;
-                    }
-
-                    var noOverCost = true;
-                    for (int i = 0; i < config.numberOfLights && noOverCost; i++)
-                        if(pattern[i] > config.targetJolt[i])
-                            noOverCost = false;
-
-                    if (!visitedPatterns.Contains(pattern) && noOverCost)
+                    if (!visitedPatterns.Contains(pattern))
                     {
                         visitedPatterns.Add(pattern);
 
                         foreach (var newPattern in GetMutationsCosts(pattern, config))
                         {
 
-
-                            nextCosts.Add(newPattern);
+                            var noOverCost = true;
+                            for (var i = 0; i < config.numberOfLights && noOverCost; i++)
+                                if(newPattern[i] > config.targetJolt[i])
+                                    noOverCost = false;
+                            if(noOverCost)
+                                nextCosts.Add(newPattern);
                         }
                     }
                 }
