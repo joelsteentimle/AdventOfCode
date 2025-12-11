@@ -2,70 +2,52 @@ namespace AoC2025;
 
 public class Day11
 {
-    private readonly Dictionary<(long number, long nrBlinkings), long> MemoryOfNumbers = [];
-    private readonly List<long> numbers = [];
-    private readonly Dictionary<long, (long, long?)> stepping = [];
+    // private readonly Dictionary<(long number, long nrBlinkings), long> MemoryOfNumbers = [];
+    // private readonly List<long> numbers = [];
+    // private readonly Dictionary<long, (long, long?)> stepping = [];
 
-    public Day11(List<string> allData) =>
-        numbers = allData[0]
-            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-            .Select(long.Parse)
-            .ToList();
+    private int[] devices;
+    private Dictionary<string, int> deviceNamesNumbers =[];
+    private int[][] devicesConnectedTo;
+    private int youIndex;
+    private int outIndex;
 
-    public long Part2(int nrBlinkings) => NumberForListWithSteps(numbers, nrBlinkings);
-
-    private long NumberForListWithSteps(List<long> numbers, int nrBlinkingsLeft)
+    public Day11(List<string> allData)
     {
-        if (nrBlinkingsLeft == 0)
-            return numbers.Count;
+        var deviceNames = allData.Select(r => r.Split(':')[0])
+            .ToArray();
 
-        numbers.Sort();
+        devices = new int[deviceNames.Length];
+        devicesConnectedTo = new int[deviceNames.Length][];
 
-        var sum = 0L;
-        foreach (var number in numbers)
-            if (MemoryOfNumbers.TryGetValue((number, nrBlinkingsLeft), out var remembered))
-                sum += remembered;
-            else
-            {
-                var calculated = SumForNumberWithBlinkings(number, nrBlinkingsLeft);
-                MemoryOfNumbers[(number, nrBlinkingsLeft)] = calculated;
-                sum += calculated;
-            }
+        for (var i = 0; i < deviceNames.Length; i++)
+        {
+            deviceNamesNumbers[deviceNames[i]] = i;
+            if(deviceNames[i] == "you") youIndex = i;
+            if(deviceNames[i] == "output") outIndex = i;
+        }
 
-        return sum;
+        devicesConnectedTo = allData
+            .Select(r => r.Split(':')[1]
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(dn => deviceNamesNumbers[dn])
+                .ToArray()
+            )
+            .ToArray();
     }
 
-    private long SumForNumberWithBlinkings(long number, int nrBlinkings)
+    public long Part1()
     {
-        var newNumbers = new List<long>();
-        var (newNumber, maybeeNewNumber) = NewNumberStep(number);
-        newNumbers.Add(newNumber);
-        if (maybeeNewNumber.HasValue)
-            newNumbers.Add(maybeeNewNumber.Value);
+        int[] startPath = [youIndex];
+        Dictionary<int, int[]> pathsByLength = [];
+        pathsByLength[0] = startPath;
 
-        return NumberForListWithSteps(newNumbers, nrBlinkings - 1);
+        return 0;
     }
 
-    private (long, long?) NewNumberStep(long number)
+    public long Part2()
     {
-        if (stepping.TryGetValue(number, out var result))
-            return result;
-
-        return NumberStep(number);
+        return 0;
     }
 
-    private static (long, long?) NumberStep(long number)
-    {
-        var numberString = number.ToString();
-        var numberLength = numberString.Length;
-
-        if (number == 0)
-            return (1, null);
-        if (numberLength % 2 == 0)
-            return
-                (long.Parse(numberString.Substring(0, numberLength / 2)),
-                    long.Parse(numberString.Substring(numberLength / 2)));
-
-        return (number * 2025, null);
-    }
 }
